@@ -1,0 +1,90 @@
+
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indice</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffebee; /* Colore di sfondo rosso chiaro */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #c62828; /* Colore titolo rosso scuro */
+            font-size: 3.25em; /* Dimensione titolo normale */
+        }
+        .date-box {
+            display: block;
+            margin: 20px auto; /* Centra il box */
+            padding: 15px;
+            background-color: #ffcdd2; /* Rosso molto chiaro */
+            border: 1px solid #c62828; /* Colore bordo rosso scuro */
+            color: #c62828; /* Colore testo rosso scuro */
+            font-weight: bold;
+            font-size: 2.25em; /* Dimensione testo box aumentata del 100% */
+            text-align: center; /* Centra il testo */
+        }
+        .link-row {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .link {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 13px 26px; /* Padding normale */
+            background-color: #e57373; /* Rosso chiaro */
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.56em; /* Dimensione link normale */
+        }
+        .link:hover {
+            background-color: #c62828; /* Rosso scuro */
+        }
+    </style>
+</head>
+<body>
+    <h1>Indice</h1>
+
+    <div class="date-box" id="date-time-box">
+        <!-- Il testo verrà aggiornato dallo script -->
+    </div>
+
+    <div class="link-row">
+        <a href="indice.html" class="link">Indice</a>
+        <a href="lunedi.html" class="link">Lunedì</a>
+        <a href="martedi.html" class="link">Martedì</a>
+        <a href="mercoledi.html" class="link">Mercoledì</a>
+        <a href="giovedi.html" class="link">Giovedì</a>
+	    <a href="unico.html" class="link">Unico</a>
+        <a href="bus.html" class="link">Bus</a>
+        
+    </div>
+
+    <script>
+        // Funzione per ottenere la data e l'ora attuale nel formato desiderato
+        function updateDateTime() {
+            const now = new Date();
+            const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const date = now.toLocaleDateString('it-IT', optionsDate); // Formatta la data
+            const time = String(now.getHours()).padStart(2, '0') + ':' + 
+                         String(now.getMinutes()).padStart(2, '0') + ':' + 
+                         String(now.getSeconds()).padStart(2, '0');
+
+            // Imposta il testo nel formato desiderato e metti a capo l'ora
+            const formattedDateTime = `Oggi è ${date} <br> Ore ${time}`;
+
+            document.getElementById('date-time-box').innerHTML = formattedDateTime;
+        }
+
+        // Aggiorna data e ora al caricamento della pagina
+        updateDateTime();
+        // Opzionale: aggiorna ogni secondo
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
