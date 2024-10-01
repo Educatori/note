@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -58,6 +57,12 @@
             text-align: center;
             font-size: 1.5em; /* Dimensione testo aumentata */
         }
+        .italic {
+            font-style: italic;
+        }
+        .bold {
+            font-weight: bold;
+        }
         @media (max-width: 600px) {
             h1 {
                 font-size: 2.5em;
@@ -98,7 +103,8 @@
         </table>
         
         <div class="date-time-box">
-            Oggi è <span id="current-day"></span>; ore <span id="current-datetime"></span>
+            <span class="italic">.</span> .<span id="current-day" class="bold"></span>; 
+            <span class="italic">.</span> .<span id="current-datetime" class="bold"></span>
         </div>
     </main>
     <nav class="link-row">
@@ -108,7 +114,6 @@
         <a href="mercoledi.html" class="link" title="Programma di mercoledì">Mercoledì</a>
         <a href="giovedi.html" class="link" title="Programma di giovedì">Giovedì</a>
         <a href="bus.html" class="link" title="Programma dei bus">Bus</a>
-        
     </nav>
 
     <script>
