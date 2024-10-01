@@ -1,1 +1,2 @@
-https://educatori.github.io/note/indice.html
+https://educatori.github.io/note/
+jhv
