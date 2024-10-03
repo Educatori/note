@@ -29,6 +29,7 @@
             padding: 13px; /* Padding aumentato */
             text-align: left;
             font-size: 1.56em; /* Dimensione testo tabella aumentata */
+            width: 25%; /* Larghezza uniforme per tutte le colonne */
         }
         th {
             background-color: #d7ccc8; /* Marrone molto chiaro */
@@ -60,7 +61,29 @@
             border: 1px solid red;
             color: red;
             font-weight: bold;
-	}
+        }
+        /* Stile per le caselle di testo */
+        .input-number {
+            font-size: 1.5em; /* Dimensione font aumentata */
+            padding: 10px;
+            width: 50px; /* Larghezza fissa per le caselle */
+            border: 1px solid #6d4c41; /* Bordo marrone scuro */
+            border-radius: 5px;
+            text-align: center;
+            -moz-appearance: textfield; /* Rimuovi frecce in Firefox */
+        }
+        /* Rimuovi frecce di scorrimento in Chrome e Safari */
+        .input-number::-webkit-inner-spin-button,
+        .input-number::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        .plus-sign {
+            font-size: 3em; /* Dimensione grande per il simbolo "+" */
+            color: #6d4c41; /* Colore marrone scuro */
+            vertical-align: middle; /* Allinea verticalmente */
+            margin-right: 10px; /* Spazio tra il "+" e la casella */
+        }
     </style>
 </head>
 <body>
@@ -69,10 +92,19 @@
         <tr>
             <th>Ora</th>
             <th>Classi</th>
+            <th>Presenti</th>
+            <th>Educatori</th>
         </tr>
         <tr>
             <td>19:00</td>
             <td>TUTTE</td>
+            <td>
+                <input type="number" class="input-number" min="0" max="9" maxlength="1" placeholder="--" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo -->
+            </td>
+            <td>
+                <span class="plus-sign">+</span>
+                <input type="number" class="input-number" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo per educatori -->
+            </td>
         </tr>
     </table>
 
@@ -89,12 +121,6 @@
         <a href="mercoledi.html" class="link">Mercoledì</a>
         <a href="giovedi.html" class="link">Giovedì</a>
         <a href="bus.html" class="link">Bus</a>
-        
     </div>
 </body>
 </html>
-
-
-
-
-

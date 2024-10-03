@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -30,6 +29,7 @@
             padding: 13px; /* Padding aumentato */
             text-align: left;
             font-size: 1.56em; /* Dimensione testo tabella aumentata */
+            width: 25%; /* Larghezza uniforme per tutte le colonne */
         }
         th {
             background-color: #ffcc80; /* Arancione chiaro */
@@ -67,9 +67,33 @@
             font-size: 1.5em; /* Dimensione font aumentata */
             padding: 10px;
             width: 80px; /* Larghezza fissa per le caselle */
-            border: 1px solid #e65100; /* Bordo verde scuro */
+            border: 1px solid #e65100; /* Bordo arancione scuro */
             border-radius: 5px;
             text-align: center;
+            -moz-appearance: textfield; /* Rimuove il campo di testo in Firefox */
+        }
+        .input-number::-webkit-inner-spin-button, .input-number::-webkit-outer-spin-button {
+            -webkit-appearance: none; /* Rimuove i pulsanti di incremento e decremento */
+            margin: 0;
+        }
+        .input-educator {
+            font-size: 1.5em; /* Dimensione font aumentata */
+            padding: 10px;
+            width: 40px; /* Larghezza fissa per le caselle */
+            border: 1px solid #e65100; /* Bordo arancione scuro */
+            border-radius: 5px;
+            text-align: center;
+            -moz-appearance: textfield; /* Rimuove il campo di testo in Firefox */
+        }
+        .input-educator::-webkit-inner-spin-button, .input-educator::-webkit-outer-spin-button {
+            -webkit-appearance: none; /* Rimuove i pulsanti di incremento e decremento */
+            margin: 0;
+        }
+        .plus-sign {
+            font-size: 3em; /* Dimensione grande per il simbolo "+" */
+            color: #e65100; /* Colore arancione scuro */
+            vertical-align: middle; /* Allinea verticalmente */
+            margin-right: 10px; /* Spazio tra il "+" e la casella */
         }
     </style>
 </head>
@@ -81,19 +105,28 @@
             <th>Ore</th>
             <th>Classi</th>
             <th>Presenti</th> <!-- Nuova intestazione per i presenti -->
+            <th>Educatori</th> <!-- Nuova intestazione per gli educatori -->
         </tr>
         <tr>
             <td>18:30</td>
             <td>1A, 1B, 1Fp, 2A, 2B, 2C, 2Fp</td>
             <td>
-                <input type="text" class="input-number" maxlength="2" placeholder="--"> <!-- Casella di testo -->
+                <input type="number" class="input-number" min="0" max="99" maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);"> <!-- Casella di testo -->
+            </td>
+            <td>
+                <span class="plus-sign">+</span>
+                <input type="number" class="input-educator" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo per educatori -->
             </td>
         </tr>
         <tr>
             <td>19:15</td>
             <td>3Fp, 3A, 3B, 4A, 4B, 5B, 5C</td>
             <td>
-                <input type="text" class="input-number" maxlength="2" placeholder="--"> <!-- Casella di testo -->
+                <input type="number" class="input-number" min="0" max="99" maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);"> <!-- Casella di testo -->
+            </td>
+            <td>
+                <span class="plus-sign">+</span>
+                <input type="number" class="input-educator" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo per educatori -->
             </td>
         </tr>
     </table>
