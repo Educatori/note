@@ -15,10 +15,6 @@
             color: #6d4c41; /* Marrone scuro */
             font-size: 3.25em; /* Dimensione titolo aumentata */
         }
-        h2 {
-            color: #6d4c41; /* Marrone scuro */
-            font-size: 2.34em; /* Dimensione sottotitolo aumentata */
-        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -61,6 +57,39 @@
             border: 1px solid red;
             color: red;
             font-weight: bold;
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space between items */
+            align-items: center; /* Center items vertically */
+        }
+        .clock {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #6d4c41; /* Bordo marrone scuro */
+            border-radius: 50%;
+            background: white;
+            margin-left: 20px; /* Spacing between text and clock */
+        }
+        .hand {
+            position: absolute;
+            background: black;
+            transform-origin: bottom;
+            bottom: 50%;
+            left: 50%;
+            transform: rotate(90deg); /* Starting position */
+        }
+        .hand.hour {
+            width: 4px;
+            height: 25%;
+        }
+        .hand.minute {
+            width: 3px;
+            height: 40%;
+        }
+        .hand.second {
+            background: red;
+            width: 2px;
+            height: 45%;
         }
         /* Stile per le caselle di testo */
         .input-number {
@@ -99,19 +128,26 @@
             <td>19:00</td>
             <td>TUTTE</td>
             <td>
-                <input type="number" class="input-number" min="0" max="9" maxlength="1" placeholder="--" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo -->
+                <input type="number" class="input-number" min="0" max="9" maxlength="1" placeholder="--" oninput="this.value = this.value.slice(0, 1);">
             </td>
             <td>
                 <span class="plus-sign">+</span>
-                <input type="number" class="input-number" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo per educatori -->
+                <input type="number" class="input-number" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);">
             </td>
         </tr>
     </table>
 
     <div class="studio-box">
-        ORA STUDIO<br>
-        1IEPF: 18:00-18:30<br>
-        1A-1B: 18:30-19:00
+        <div>
+            ORA STUDIO<br>
+            1IEPF: 18:00-18:30<br>
+            1A-1B: 18:30-19:00
+        </div>
+        <div class="clock">
+            <div class="hand hour" id="hour"></div>
+            <div class="hand minute" id="minute"></div>
+            <div class="hand second" id="second"></div>
+        </div>
     </div>
 
     <div class="link-row">
@@ -122,5 +158,25 @@
         <a href="giovedi.html" class="link">Giovedì</a>
         <a href="bus.html" class="link">Bus</a>
     </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours() % 12; // 12-hour format
+
+            const secondHand = document.getElementById('second');
+            const minuteHand = document.getElementById('minute');
+            const hourHand = document.getElementById('hour');
+
+            secondHand.style.transform = `rotate(${seconds * 6}deg)`;
+            minuteHand.style.transform = `rotate(${minutes * 6 + seconds / 10}deg)`;
+            hourHand.style.transform = `rotate(${hours * 30 + minutes / 2}deg)`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+    </script>
 </body>
 </html>

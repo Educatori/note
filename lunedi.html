@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it"> 
 <head>
@@ -19,6 +18,47 @@
         h2 {
             color: #388e3c; /* Verde scuro */
             font-size: 2.34em; /* Dimensione sottotitolo aumentata */
+        }
+        .studio-box {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #ffebee; /* Rosso chiaro */
+            border: 1px solid red;
+            color: red;
+            font-weight: bold;
+            display: flex; /* Use flexbox for layout */
+            justify-content: space-between; /* Space between items */
+            align-items: center; /* Center items vertically */
+        }
+        .clock {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border: 3px solid #388e3c;
+            border-radius: 50%;
+            background: white;
+            display: inline-block; /* Aligns with the subtitle */
+        }
+        .hand {
+            position: absolute;
+            background: black;
+            transform-origin: bottom;
+            bottom: 50%;
+            left: 50%;
+            transform: rotate(90deg); /* Starting position */
+        }
+        .hand.hour {
+            width: 4px;
+            height: 25%;
+        }
+        .hand.minute {
+            width: 3px;
+            height: 40%;
+        }
+        .hand.second {
+            background: red;
+            width: 2px;
+            height: 45%;
         }
         table {
             width: 100%;
@@ -54,14 +94,6 @@
         }
         .link:hover {
             background-color: #a5d6a7; /* Verde scuro */
-        }
-        .studio-box {
-            margin-top: 30px;
-            padding: 15px;
-            background-color: #ffebee; /* Rosso chiaro */
-            border: 1px solid red;
-            color: red;
-            font-weight: bold;
         }
         /* Stile per le caselle di testo */
         .input-number {
@@ -101,41 +133,49 @@
 <body>
     <h1>Dinner Lunedì</h1>
     <h2>LAB 2C</h2>
+    
     <table>
         <tr>
             <th>Ore</th>
             <th>Classi</th>
-            <th>Presenti</th> <!-- Nuova intestazione per i presenti -->
-            <th>Educatori</th> <!-- Nuova intestazione per gli educatori -->
+            <th>Presenti</th>
+            <th>Educatori</th>
         </tr>
         <tr>
             <td>18:30</td>
             <td>1A, 1B, 1Fp, 2A, 2B, 2Fp</td>
             <td>
-                <input type="number" class="input-number" min="0" max="99" maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);"> <!-- Casella di testo -->
+                <input type="number" class="input-number" min="0" max="99" maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);">
             </td>
             <td>
                 <span class="plus-sign">+</span>
-                <input type="number" class="input-educator" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo per educatori -->
+                <input type="number" class="input-educator" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);">
             </td>
         </tr>
         <tr>
             <td>19:15</td>
             <td>3Fp, 3A, 3B, 4A, 4B, 5B, 5C</td>
             <td>
-                <input type="number" class="input-number" min="0" max="99" maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);"> <!-- Casella di testo -->
+                <input type="number" class="input-number" min="0" max="99" maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);">
             </td>
             <td>
                 <span class="plus-sign">+</span>
-                <input type="number" class="input-educator" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);"> <!-- Casella di testo per educatori -->
+                <input type="number" class="input-educator" min="0" max="9" maxlength="1" placeholder="-" oninput="this.value = this.value.slice(0, 1);">
             </td>
         </tr>
     </table>
 
     <div class="studio-box">
-        ORA STUDIO<br>
-        1IEPF: 18:00-18:30<br>
-        1A-1B: 19:00-20:00
+        <div>
+            ORA STUDIO<br>
+            1IEPF: 18:00-18:30<br>
+            1A-1B: 19:00-20:00
+        </div>
+        <div class="clock">
+            <div class="hand hour" id="hour"></div>
+            <div class="hand minute" id="minute"></div>
+            <div class="hand second" id="second"></div>
+        </div>
     </div>
 
     <div class="link-row">
@@ -146,5 +186,25 @@
         <a href="unico.html" class="link">Unico</a>
         <a href="bus.html" class="link">Bus</a>
     </div>
+
+    <script>
+        function updateClock() {
+            const now = new Date();
+            const seconds = now.getSeconds();
+            const minutes = now.getMinutes();
+            const hours = now.getHours() % 12; // 12-hour format
+
+            const secondHand = document.getElementById('second');
+            const minuteHand = document.getElementById('minute');
+            const hourHand = document.getElementById('hour');
+
+            secondHand.style.transform = `rotate(${seconds * 6}deg)`;
+            minuteHand.style.transform = `rotate(${minutes * 6 + seconds / 10}deg)`;
+            hourHand.style.transform = `rotate(${hours * 30 + minutes / 2}deg)`;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock(); // Initial call
+    </script>
 </body>
 </html>
