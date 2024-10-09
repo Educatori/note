@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -33,14 +32,14 @@
         }
         .box-pink {
             background-color: #ffcccb; /* Rosa */
-            font-size: 1em; /* Aumento del 25% */
+            font-size: 1.2em; /* Aumento del 25% */
             padding: 30px;
             border-radius: 100px;
             margin-bottom: 0px;
         }
         .box-blue {
             background-color: #add8e6; /* Azzurro */
-            font-size: 1em; /* Aumento del 25% */
+            font-size: 1.2em; /* Aumento del 25% */
             padding: 30px;
             border-radius: 40px;
             margin-bottom: 0px;
@@ -88,17 +87,17 @@
     
     <!-- Box rosa per i laboratori -->
     <div class="box-pink">
-        <strong>Laboratori:</strong><br>
+        <strong>Laboratori, dinner ore 18:00:</strong><br>
         Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B
     </div>
 
     <!-- Box azzurra per i permessi permanenti -->
     <div class="box-blue">
         <strong>Permessi Permanenti:</strong><br>
-        LUN: CLERIN 1Fp, CHESSA 3B, MISERENDINO 1B, PIGNATELLI 4B<br>
+        LUN: Clerin 1Fp, Chessa 3B, Miserendino 1B, Pignatelli 4B<br>
         MAR: --<br>
-        MER: CLERIN 1Fp, CHESSA 3B, MISERENDINO 1B, PIGNATELLI 4B, DUNAND 1B, TRIESTE 2A<br>
-        GIO: TRIESTE 2A
+        MER: Clerin 1Fp, Chessa 3B, Miserendino 1B, Pignatelli 4B, Dunand 1B, Trieste 2A<br>
+        GIO: Trieste 2A
     </div>
 
     <!-- schema con lista nomi inizia qui -->
@@ -106,7 +105,7 @@
     <div class="container">
         <!-- Box Giallo -->
         <div class="box box-left">
-            <h2>Dinner 1 ore 18:30 <br> Classi: 1A, 1B, 1FP, 2A, 2B, 2C, 2FP TOT 64</h2>
+            <h2>Primo Dinner  ore 18:30 <br> Classi: 1A, 1B, 1FP, 2A, 2B, 2C, 2FP TOT 64</h2>
             <div class="header">
                 <p id="result1" style="margin-left: 100px;"></p>
             </div>
@@ -202,7 +201,7 @@
   
         <!-- Box Verde -->
         <div class="box box-right">
-            <h2>Dinner 2 ore 19:15 <br> Classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C TOT 57</h2>
+            <h2>Secondo Dinner ore 19:15 <br> Classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C TOT 57</h2>
             <div class="header">
                 <p id="result2" style="margin-left: 100px;"></p>
             </div>
@@ -389,7 +388,7 @@
 
             // Mostra il risultato con i numeri in grassetto e colorati
             document.getElementById(`result${formId.slice(-1)}`).innerHTML = 
-                `In questo turno ci sono <span class="red-bold">${flagCount}</span> assenti e <span class="green-bold">${presentCount}</span> presenti`;
+                `Oggi in questo turno risultano <span class="red-bold">${flagCount}</span> assenti e <span class="green-bold">${presentCount}</span> presenti`;
         }
 
         // Chiama la funzione per mostrare la data e flaggare assenti all'apertura della pagina
