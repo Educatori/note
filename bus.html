@@ -121,7 +121,7 @@
         // Funzione per ottenere la data e l'ora attuale nel formato desiderato
         function updateDateTime() {
             const now = new Date();
-            now.setSeconds(now.getSeconds() + 170); // Aggiungi 110 secondi
+            now.setSeconds(now.getSeconds() + 30); // Aggiungi -- secondi
             const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const optionsTime = { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false };
             document.getElementById('current-day').textContent = now.toLocaleString('it-IT', optionsDate).split(",")[0];
