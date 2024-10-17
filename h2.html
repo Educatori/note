@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -40,11 +41,13 @@
             border-radius: 500px; /* Smussare angoli delle sub-celle */
             padding: 10px;
             margin: 0.5px 0;
+            width: 70px; /* Larghezza fissa per le sub-celle */
+            display: inline-block; /* Assicura che si comportino come elementi in linea */
         }
         /* Colori di sfondo e testo per ogni cella */
         .grid-item:nth-child(1) { background-color: #FFCCCB; color: #000080; }
         .grid-item:nth-child(2) { background-color: #ADD8E6; color: #8B0000; }
-        .grid-item:nth-child(3) { background-color: #ffff00; color: #4B0082; }
+        .grid-item:nth-child(3) { background-color: yellow; color: purple; }
         .grid-item:nth-child(4) { background-color: #f8f8bd; color: #0000CD; }
         .grid-item:nth-child(5) { background-color: #e3fac3; color: #006400; }
         .grid-item:nth-child(6) { background-color: #DAA520; color: #800080; }
@@ -60,7 +63,7 @@
         /* Colori di sfondo per le sub-celle */
         .sub-item {
             background-color: yellow; 
-            color: #ecfdec; 
+            color: yellow; 
        
          }
         /* Stile per le caselle di testo */
@@ -98,10 +101,10 @@
 
         <!-- Seconda sezione a tre colonne -->
         <div class="grid-item">
-            OGGI LAB 
+            OGGI LAB <br>
         
             <div class="sub-item" id="sub2C">2C</div>
-            <div class="sub-item" id="sub2A">2A</div>
+            <div class="sub-item" id="sub2A">2A</div><br>
             <div class="sub-item" id="sub5BC">5BC</div> 
             <div class="sub-item" id="sub2B">2B</div>
             
@@ -137,20 +140,20 @@
             <p>.</p>
         </div>
         <div class="grid-item">
-            Trasporti <br> del mattino
-            <p>==></p>
-            <p>.</p>
+            >>>>>>
+            <p>Trasporti <br> del mattino</p>
+            <p>>>>>>></p>
             
         </div>
         <div class="grid-item">
             BUS 7:40
-            <p>1A, 1B, 3A, 3B</p>
+            <p>1A, 1B, <br> 3A, 3B</p>
             <p> </p>
             <div class="sub-item" id="sub4BC">+4B CUCINA</div>
         </div>
         <div class="grid-item">
             BUS 7:50
-            <p>4A, 4B, 5B, 5C</p>
+            <p>4A, 4B, <br> 5B, 5C</p>
             <p> </p>
             <div class="sub-item" id="sub4BS">-4B SALA van</div>
         </div>
@@ -165,8 +168,7 @@
         <div class="grid-item row-span-3">
             +
             <p>+</p>
-            <p>+</p>
-            <a href="home.html" class="link">Home</a>
+           <a href="home.html" class="link">Home</a>
         </div>
     </div>
 
@@ -214,3 +216,4 @@
 
 </body>
 </html>
+    
