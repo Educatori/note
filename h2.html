@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema HTML con Testo, Colori e Immagine</title>
+    <style>
+        body {
+            font-family: Verdana, sans-serif;
+            background-color: #e3f2fd; /* Colore di sfondo blu chiaro */
+            margin: 0;
+            padding: 10px;
+        
+        }
+        .grid-container {
+            display: grid;
+            grid-template-rows: repeat(2, auto) 1fr repeat(2, auto);
+            grid-template-columns: repeat(4, 3fr);
+            gap: 10px;
+            text-align: center;
+        }
+        .grid-item {
+            font-weight: bold;
+            font-size: 15px;
+            padding: 20px;
+            border: 1px solid #000;
+            border-radius: 500px; /* Smussare gli angoli */
+        }
+        /* Modifica le righe specifiche */
+        .row-span-3 {
+            grid-column: span 4;
+        }
+        /* Stile per la data e l'orologio */
+        #data, #orario {
+            font-size: 28px; /* Dimensione aumentata */
+            margin: 10px 0;
+        }
+        /* Stile per le sub-celle */
+        .sub-item {
+            border-radius: 500px; /* Smussare angoli delle sub-celle */
+            padding: 10px;
+            margin: 0.5px 0;
+        }
+        /* Colori di sfondo e testo per ogni cella */
+        .grid-item:nth-child(1) { background-color: #FFCCCB; color: #000080; }
+        .grid-item:nth-child(2) { background-color: #ADD8E6; color: #8B0000; }
+        .grid-item:nth-child(3) { background-color: #ffff00; color: #4B0082; }
+        .grid-item:nth-child(4) { background-color: #f8f8bd; color: #0000CD; }
+        .grid-item:nth-child(5) { background-color: #e3fac3; color: #006400; }
+        .grid-item:nth-child(6) { background-color: #DAA520; color: #800080; }
+        .grid-item:nth-child(7) { background-color: #F08080; color: #000080; }
+        .grid-item:nth-child(8) { background-color: #DDA0DD; color: #00ffeb; }
+        .grid-item:nth-child(9) { background-color: #20B2AA; color: #2F4F4F; }
+        .grid-item:nth-child(10) { background-color: #B0E0E6; color: #8B0000; }
+        .grid-item:nth-child(11) { background-color: #FFA07A; color: #00008B; }
+        .grid-item:nth-child(12) { background-color: #9370DB; color: #f8ff47; }
+        .grid-item:nth-child(13) { background-color: #E6E6FA; color: #4682B4; }
+        .grid-item:nth-child(14) { background-color: #7FFFD4; color: #000000; }
+
+        /* Colori di sfondo per le sub-celle */
+        .sub-item {
+            background-color: yellow; 
+            color: #ecfdec; 
+       
+         }
+        /* Stile per le caselle di testo */
+        .input-number {
+            font-size: 1em; /* Dimensione font aumentata */
+            padding: 10px;
+            width: 50px; /* Larghezza fissa per le caselle */
+            border: 1px solid #e3f2fd; /* Bordo marrone scuro */
+            border-radius: 5px;
+            text-align: center;
+            -moz-appearance: textfield; /* Rimuovi frecce in Firefox */
+        }
+        /* Rimuovi frecce di scorrimento in Chrome e Safari */
+        .input-number::-webkit-inner-spin-button,
+        .input-number::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            
+            margin: 0;
+    </style>
+</head>
+<body>
+
+    <div class="grid-container">
+        <!-- Prima serie -->
+        <div class="grid-item row-span-3">
+         École Hôtelière de la Vallée d’Aoste
+            <p>SEDE Via Italo Mus, 14</p>
+            <p>Châtillon</p>
+        </div>
+        <div class="grid-item row-span-3">
+            Right Here, Right Now
+            <p id="orario"></p> <!-- Spazio per l'orologio -->
+            <p id="data"></p> <!-- Spazio per la data -->
+        </div>
+
+        <!-- Seconda sezione a tre colonne -->
+        <div class="grid-item">
+            OGGI LAB 
+        
+            <div class="sub-item" id="sub2C">2C</div>
+            <div class="sub-item" id="sub2A">2A</div>
+            <div class="sub-item" id="sub5BC">5BC</div> 
+            <div class="sub-item" id="sub2B">2B</div>
+            
+        </div>
+        <div class="grid-item">
+            Primo <br> Dinner 18:30
+            <div>
+                <p>1A, 1B, 1FP, 2A, 2B, 2C, 2FP</p>
+                <p> </p>
+                 <td>
+                <input type="number" class="input-number" min="0" max="64"
+            maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);">
+            </td>
+            </div>
+        </div>
+        <div class="grid-item">
+            Secondo <br> Dinner 19:15
+            <p>3A, 3B, 3FP, 4A, 4B, 5B, 5C</p>
+             <p> </p>
+             <td>
+                <input type="number" class="input-number" min="0" max="57"
+            maxlength="2" placeholder="--" oninput="this.value = this.value.slice(0, 2);">
+            </td>
+        </div>
+        <div class="grid-item">
+            ORA STUDIO
+            <p>1IEPF: 18:00-18:30</p>
+            <p>1A-1B: 19:00-20:00</p>
+        </div>
+        <div class="grid-item">
+            *
+            <p>.</p>
+            <p>.</p>
+        </div>
+        <div class="grid-item">
+            Trasporti <br> del mattino
+            <p>==></p>
+            <p>.</p>
+            
+        </div>
+        <div class="grid-item">
+            BUS 7:40
+            <p>1A, 1B, 3A, 3B</p>
+            <p> </p>
+            <div class="sub-item" id="sub4BC">+4B CUCINA</div>
+        </div>
+        <div class="grid-item">
+            BUS 7:50
+            <p>4A, 4B, 5B, 5C</p>
+            <p> </p>
+            <div class="sub-item" id="sub4BS">-4B SALA van</div>
+        </div>
+      
+        
+        <!-- Seconda serie -->
+        <div class="grid-item row-span-3">
+            avvisi
+            <p>20:00</p>
+            <p>ATTIVITA' SERALI</p>
+        </div>
+        <div class="grid-item row-span-3">
+            +
+            <p>+</p>
+            <p>+</p>
+        </div>
+    </div>
+
+    <script>
+        // Funzione per ottenere la data odierna con il giorno della settimana
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('data').innerText = today.toLocaleDateString('it-IT', options);
+
+        // Cambia il colore di sfondo delle sub-celle in base al giorno della settimana
+        const dayOfWeek = today.getDay(); // 0 è domenica, 1 è lunedì, ..., 6 è sabato
+
+        if (dayOfWeek === 1) { // Lunedì
+            document.getElementById('sub2C').style.backgroundColor = 'purple';
+            document.getElementById('sub2C').style.color = '#FFFFFF';
+        }
+        if (dayOfWeek === 2) { // Martedì
+            document.getElementById('sub2A').style.backgroundColor = 'purple';
+            document.getElementById('sub2A').style.color = '#FFFFFF';
+        }
+        if (dayOfWeek === 3) { // Mercoledì
+              document.getElementById('sub4BS').style.backgroundColor = 'purple';
+              document.getElementById('sub4BS').style.color = '#FFFFFF';
+            document.getElementById('sub5BC').style.backgroundColor = 'purple';
+            document.getElementById('sub5BC').style.color = '#FFFFFF';
+        }
+        if (dayOfWeek === 4) { // Giovedì
+            document.getElementById('sub4BC').style.backgroundColor = 'purple';
+            document.getElementById('sub4BC').style.color = '#FFFFFF';
+            document.getElementById('sub2B').style.backgroundColor = 'purple';
+            document.getElementById('sub2B').style.color = '#FFFFFF';
+        }
+
+        // Funzione per aggiornare l'orologio
+        function updateClock() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('it-IT');
+            document.getElementById('orario').innerText = timeString;
+        }
+
+        // Aggiornare l'orologio ogni secondo
+        setInterval(updateClock, 1000);
+        updateClock(); // Esegui subito per non aspettare un secondo
+    </script>
+
+</body>
+</html>
