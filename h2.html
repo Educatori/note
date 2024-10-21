@@ -45,25 +45,25 @@
             display: inline-block; /* Assicura che si comportino come elementi in linea */
         }
         /* Colori di sfondo e testo per ogni cella */
-        .grid-item:nth-child(1) { background-color: #FFCCCB; color: #000080; }
-        .grid-item:nth-child(2) { background-color: #ADD8E6; color: #8B0000; }
-        .grid-item:nth-child(3) { background-color: yellow; color: purple; }
+        
+        .grid-item:nth-child(1) { background-color: #7046e2; color: ghostwhite; }
+        .grid-item:nth-child(2) { background-color: yellowgreen; color: #b500b5; }
+        .grid-item:nth-child(3) { background-color: #ADD8E6; color: #8B0000; }
         .grid-item:nth-child(4) { background-color: #f8f8bd; color: #0000CD; }
         .grid-item:nth-child(5) { background-color: #e3fac3; color: #006400; }
         .grid-item:nth-child(6) { background-color: #DAA520; color: #800080; }
         .grid-item:nth-child(7) { background-color: #f29292; color: #000080; }
-        .grid-item:nth-child(8) { background-color: #DDA0DD; color: #00a7ff; }
+        .grid-item:nth-child(8) { background-color: #e586e5; color: #0055ff; }
         .grid-item:nth-child(9) { background-color: #20B2AA; color: #2F4F4F; }
-        .grid-item:nth-child(10) { background-color: #a8d8de; color: #bb5f00; }
-        .grid-item:nth-child(11) { background-color: #ff0000; color: #FFFFFF; }
-        .grid-item:nth-child(12) { background-color: #9370DB; color: #f8ff47; }
-        .grid-item:nth-child(13) { background-color: #E6E6FA; color: #4682B4; }
-        .grid-item:nth-child(14) { background-color: #7FFFD4; color: #000000; }
+        .grid-item:nth-child(10) { background-color: red; color: whitesmoke; }
+        .grid-item:nth-child(11) { background-color: #00e3ff; color: #bb5f00; }
+        .grid-item:nth-child(12) { background-color: #090707; color: yellow; }
+        
 
         /* Colori di sfondo per le sub-celle */
         .sub-item {
-            background-color: yellow; 
-            color: yellow; 
+            background-color: yellowgreen; 
+            color: yellowgreen; 
                 
          }
         /* Stile per le caselle di testo */
@@ -88,9 +88,7 @@
 
     <div class="grid-container">
         <!-- Prima serie -->
-        <div class="grid-item row-span-3">          
-            Châtillon
-        </div>
+        
         <div class="grid-item row-span-3">
             
             <p id="orario"></p> <!-- Spazio per l'orologio -->
@@ -99,7 +97,7 @@
 
         <!-- Seconda sezione a tre colonne -->
         <div class="grid-item">
-            OGGI LAB <br>
+            OGGI LAB *<br>
         
             <div class="sub-item" id="sub2C">2C</div>
             <div class="sub-item" id="sub2A">2A</div><br>
@@ -156,22 +154,18 @@
             <p>4A, 4B, 5B, 5C</p>
             <p> </p>
             <div class="sub-item" id="sub4BS">-4B SALA van</div>
-             
+          
         </div>
       
-        
         <!-- Seconda serie -->
         <div class="grid-item row-span-3">
-            avvisi
-            <p>20:00</p>
-            <p>ATTIVITA' SERALI</p>
+          ATTIVITA' SERALI
+            <p>ore 20:00</p>
+          
         </div>
         <div class="grid-item row-span-3">
-            
-            <a href="unico.html" class="link">^</a>
-            
-        </div>
-        
+         <a href="unico.html" class="link">^</a>
+         </div>
     </div>
 
     <script>
