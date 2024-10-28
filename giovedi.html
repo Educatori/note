@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -48,7 +50,7 @@
             background-color: #7986cb; /* Indaco chiaro */
             color: white;
             text-decoration: none;
-            border-radius: 5px;
+            border-radius: 100px;
             font-size: 1.56em; /* Dimensione link aumentata */
         }
         .link:hover {
@@ -70,7 +72,7 @@
             width: 60px;
             height: 60px;
             border: 3px solid #3949ab;
-            border-radius: 50%;
+            border-radius: 10%;
             background: white;
             margin-left: 20px; /* Spacing between text and clock */
         }
@@ -95,13 +97,19 @@
             width: 2px;
             height: 45%;
         }
+        .digital-clock {
+            font-size: 1.5em; /* Dimensione font aumentata per il digitale */
+            color: #e65100; /* Colore arancione scuro */
+            margin-left: 20px; /* Spazio tra l'orologio analogico e quello digitale */      
+            
+        }
         /* Stile per le caselle di testo */
         .input-number {
             font-size: 1.5em; /* Dimensione font aumentata */
             padding: 10px;
             width: 80px; /* Larghezza fissa per le caselle */
             border: 1px solid #3949ab; /* Bordo indaco scuro */
-            border-radius: 5px;
+            border-radius: 100px;
             text-align: center;
             -moz-appearance: textfield; /* Rimuovi frecce in Firefox */
         }
@@ -115,7 +123,7 @@
             padding: 10px;
             width: 40px; /* Larghezza fissa per le caselle */
             border: 1px solid #3949ab; /* Bordo indaco scuro */
-            border-radius: 5px;
+            border-radius: 100px;
             text-align: center;
             -moz-appearance: textfield; /* Rimuovi frecce in Firefox */
         }
@@ -133,8 +141,8 @@
     </style>
 </head>
 <body>
-    <h1>Dinner Giovedì</h1>
-    <h2>LAB 2B</h2>
+    <h1>Dinner Giovedì - LAB 2B</h1>
+    <h2></h2>
     <table>
         <tr>
             <th>Ore</th>
@@ -172,10 +180,13 @@
             1IEPF: 18:00-18:30<br>
             1A-1B: 19:00-20:00
         </div>
-        <div class="clock">
-            <div class="hand hour" id="hour"></div>
-            <div class="hand minute" id="minute"></div>
-            <div class="hand second" id="second"></div>
+        <div>
+            <div class="clock">
+                <div class="hand hour" id="hour"></div>
+                <div class="hand minute" id="minute"></div>
+                <div class="hand second" id="second"></div>
+            </div>
+            <div class="digital-clock" id="digital-clock">00:00</div>
         </div>
     </div>
 
@@ -183,7 +194,7 @@
         <a href="home.html" class="link">Home</a>
         <a href="lunedi.html" class="link">Lunedì</a>
         <a href="martedi.html" class="link">Martedì</a>
-        <a href="mercoledi.html" class="link">Mercoledì</a>
+        <a href="giovedi.html" class="link">Giovedì</a>
         <a href="unico.html" class="link">Unico</a>
         <a href="bus.html" class="link">Bus</a>
     </div>
@@ -202,6 +213,12 @@
             secondHand.style.transform = `rotate(${seconds * 6}deg)`;
             minuteHand.style.transform = `rotate(${minutes * 6 + seconds / 10}deg)`;
             hourHand.style.transform = `rotate(${hours * 30 + minutes / 2}deg)`;
+
+            // Aggiorna l'orologio digitale
+            const digitalClock = document.getElementById('digital-clock');
+            const formattedHours = String(now.getHours()).padStart(2, '0');
+            const formattedMinutes = String(minutes).padStart(2, '0');
+            digitalClock.textContent = `${formattedHours}:${formattedMinutes}`;
         }
 
         setInterval(updateClock, 1000);
