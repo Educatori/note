@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Schema con Menu a Tendina</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, blue, gold);
+            margin: 0;
+            padding: 20px;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+
+        td {
+            padding: 15px;
+            text-align: center;
+        }
+
+        select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid #fff;
+            background-color: #f2f2f2;
+            color: #333;
+            transition: all 0.3s ease;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #2575fc;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(37, 117, 252, 0.5);
+        }
+
+        label {
+            display: block;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+
+        tr:nth-child(even) {
+            background-color: #1e3a8a;
+            border-radius: 10px;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #1c2a5b;
+        }
+
+        tr:hover {
+            background-color: #4c6ef5;
+            cursor: pointer;
+        }
+ /* Stile della sezione immagine */
+        .qr-code {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .qr-code img {
+            max-width: 200px;
+            border: 3px solid #fff;
+            border-radius: 10px;
+        }
+        /* Link Style */
+        .links {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        .links a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #2575fc;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .links a:hover {
+            background-color: #6a11cb;
+            transform: scale(1.1);
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>Attività della settimana</h1>
+    <table>
+        <!-- Prima riga -->
+        <tr>
+            <td>
+                <label for="giorno">Giorno:</label>
+                <select id="giorno">
+                    <option value="Lunedi">Lunedì</option>
+                    <option value="Martedi">Martedì</option>
+                    <option value="Mercoledi">Mercoledì</option>
+                    <option value="Giovedi">Giovedì</option>
+                </select>
+            </td>
+            <td>
+                <label for="referente">Referente:</label>
+                <select id="referente">
+                    <option value="">--</option>
+                    <option value="Brian">Brian</option>
+                    <option value="Diego">Diego</option>
+                    <option value="Francesca">Francesca</option>
+                    <option value="Hervè">Hervè</option>
+                    <option value="Marco">Marco</option>
+                    <option value="Maurizio">Maurizio</option>
+                    <option value="Michele">Michele</option>
+                    <option value="Stefano">Stefano</option>
+                </select>
+            </td>
+            <td>
+                <label for="attivita">Attività:</label>
+                <select id="attivita">
+                    <option value="">--</option>
+                    <option value="basket">Basket</option>
+                    <option value="bigliardino">Bigliardino</option>
+                    <option value="calcio">Calcio</option>
+                    <option value="cineforum">Cineforum</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="interconvitti">Interconvitti</option>
+                    <option value="karaoke">Karaoke</option>
+                    <option value="ping pong">Ping Pong</option>
+                    <option value="terme">Terme</option>
+                    <option value="volley">Volley</option>
+                </select>
+            </td>
+            <td>
+                <label for="orario">Orario:</label>
+                <select id="orario">
+                    <option value="17">17:00</option>
+                    <option value="18">18:00</option>
+                    <option value="19">19:00</option>
+                    <option value="20">20:00</option>
+                </select>
+            </td>
+        </tr>
+        <!-- Seconda riga -->
+        <tr>
+            <td>
+                <select id="giorno2">
+                    <option value="Martedi">Martedì</option>
+                    <option value="Mercoledi">Mercoledì</option>
+                    <option value="Giovedi">Giovedì</option>
+                    <option value="Lunedi">Lunedì</option>
+                </select>
+            </td>
+            <td>
+                <select id="referente2">
+                    <option value="">--</option>
+                    <option value="Brian">Brian</option>
+                    <option value="Diego">Diego</option>
+                    <option value="Francesca">Francesca</option>
+                    <option value="Hervè">Hervè</option>
+                    <option value="Marco">Marco</option>
+                    <option value="Maurizio">Maurizio</option>
+                    <option value="Michele">Michele</option>
+                    <option value="Stefano">Stefano</option>
+                </select>
+            </td>
+            <td>
+                <select id="attivita2">
+                    <option value="">--</option>
+                    <option value="basket">Basket</option>
+                    <option value="bigliardino">Bigliardino</option>
+                    <option value="calcio">Calcio</option>
+                    <option value="cineforum">Cineforum</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="interconvitti">Interconvitti</option>
+                    <option value="karaoke">Karaoke</option>
+                    <option value="ping pong">Ping Pong</option>
+                    <option value="terme">Terme</option>
+                    <option value="volley">Volley</option>
+                </select>
+            </td>
+            <td>
+                <select id="orario2">
+                    <option value="18">18:00</option>
+                    <option value="19">19:00</option>
+                    <option value="20">20:00</option>
+                    <option value="17">17:00</option>
+                </select>
+            </td>
+        </tr>
+        <!-- Terza riga -->
+        <tr>
+            <td>
+                <select id="giorno3">
+                    <option value="Mercoledi">Mercoledì</option>
+                    <option value="Giovedi">Giovedì</option>
+                    <option value="Lunedi">Lunedì</option>
+                    <option value="Martedi">Martedì</option>
+                </select>
+            </td>
+            <td>
+                <select id="referente3">
+                    <option value="">--</option>
+                    <option value="Brian">Brian</option>
+                    <option value="Diego">Diego</option>
+                    <option value="Francesca">Francesca</option>
+                    <option value="Hervè">Hervè</option>
+                    <option value="Marco">Marco</option>
+                    <option value="Maurizio">Maurizio</option>
+                    <option value="Michele">Michele</option>
+                    <option value="Stefano">Stefano</option>
+                </select>
+            </td>
+            <td>
+                <select id="attivita3">
+                    <option value="">--</option>
+                    <option value="basket">Basket</option>
+                    <option value="bigliardino">Bigliardino</option>
+                    <option value="calcio">Calcio</option>
+                    <option value="cineforum">Cineforum</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="interconvitti">Interconvitti</option>
+                    <option value="karaoke">Karaoke</option>
+                    <option value="ping pong">Ping Pong</option>
+                    <option value="terme">Terme</option>
+                    <option value="volley">Volley</option>
+                </select>
+            </td>
+            <td>
+                <select id="orario3">
+                    <option value="19">19:00</option>
+                    <option value="20">20:00</option>
+                    <option value="17">17:00</option>
+                    <option value="18">18:00</option>
+                </select>
+            </td>
+        </tr>
+        <!-- Quarta riga -->
+        <tr>
+            <td>
+                <select id="giorno4">
+                    <option value="Giovedi">Giovedì</option>
+                    <option value="Lunedi">Lunedì</option>
+                    <option value="Martedi">Martedì</option>
+                    <option value="Mercoledi">Mercoledì</option>
+                </select>
+            </td>
+            <td>
+                <select id="referente4">
+                    <option value="">--</option>
+                    <option value="Brian">Brian</option>
+                    <option value="Diego">Diego</option>
+                    <option value="Francesca">Francesca</option>
+                    <option value="Hervè">Hervè</option>
+                    <option value="Marco">Marco</option>
+                    <option value="Maurizio">Maurizio</option>
+                    <option value="Michele">Michele</option>
+                    <option value="Stefano">Stefano</option>
+                </select>
+            </td>
+            <td>
+                <select id="attivita4">
+                    <option value="">--</option>
+                    <option value="basket">Basket</option>
+                    <option value="bigliardino">Bigliardino</option>
+                    <option value="calcio">Calcio</option>
+                    <option value="cineforum">Cineforum</option>
+                    <option value="cinema">Cinema</option>
+                    <option value="interconvitti">Interconvitti</option>
+                    <option value="karaoke">Karaoke</option>
+                    <option value="ping pong">Ping Pong</option>
+                    <option value="terme">Terme</option>
+                    <option value="volley">Volley</option>
+                </select>
+            </td>
+            <td>
+                <select id="orario4">
+                    <option value="20">20:00</option>
+                    <option value="17">17:00</option>
+                    <option value="18">18:00</option>
+                    <option value="19">19:00</option>
+                </select>
+            </td>
+        </tr>
+    </table>
+
+    <!-- Spazio per il QR code -->
+    <div class="qr-code">
+        <h2>Scansiona il QR Code per iscriverti</h2>
+        <img src="qr-doc-open.png" alt="QR Code">
+        <!-- Sostituisci l'URL con il tuo QR Code -->
+    </div>
+
+    <!-- Links -->
+    <div class="links">
+        <a href="home.html" class="link">Home</a>
+       
+    </div>
+
+</body>
+</html>
