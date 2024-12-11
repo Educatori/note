@@ -23,11 +23,28 @@
             border-radius: 8px;
             width: 90%;
             max-width: 1000px;
-            height: 90%;  /* Aumentato per consentire più spazio verticale */
+            height: 100%;  /* Aumentato per consentire più spazio verticale */
             display: flex;
             flex-direction: column;
             justify-content: space-between;
         }
+        .link-row {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .link {
+            display: inline-block;
+            margin: 0 250px;
+            padding: 20px 20px; /* Padding aumentato */
+            background-color: #c8e6c9; /* Verde chiaro */
+            color: black;
+            text-decoration: none;
+            border-radius: 100px;
+            font-size: 1em; /* Dimensione link aumentata */
+        }
+        .link:hover {
+            background-color: #a5d6a7; /* Verde scuro */
+        }    
         h1 {
             color: #4CAF50;
             font-size: 25px; /* Ridotto il font-size */
@@ -99,7 +116,9 @@
                 <br>
                 <button type="submit">Carica PDF</button>
             </form>
-        </div>
+                   </div>
+                <br>
+            <a href="home.html" class="link">Home</a>
     </div>
 
     <script>
