@@ -16,7 +16,13 @@
             padding: 15px;
 
               
-                }
+        }
+        
+        .resize-image {
+    max-width: 100%;  /* L'immagine non supererà la larghezza del suo contenitore */
+    height: auto;  /* Mantenere le proporzioni */
+        }
+        
         .grid-container {
             display: grid;
             grid-template-rows: repeat(2, auto) 1fr repeat(2, auto);
@@ -140,7 +146,10 @@
         <div class="grid-item">
           
             <p>Trasporti <br> del mattino</p>
-             <a href="ora.html" class="link"> ►►► </a>
+             <a href="empty.html">
+    <img src="freccia1.png" alt="freccia" class="resize-image">
+                
+            </a>
             
             
         </div>
@@ -160,7 +169,12 @@
       
         <!-- Seconda serie -->
         <div class="grid-item row-span-3">
-          <p><img src="QR-modulo.png" alt="QR Code"></p>
+            
+            <a href="https://www.example.com">
+  <img src="QR-modulo.png" alt="QR Code">
+</a>
+            
+         
         </div>
         <div class="grid-item row-span-3">
          <a href=" " class="link">link</a>
