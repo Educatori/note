@@ -1,1 +1,657 @@
 
+
+
+<!DOCTYPE html>
+
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=0.8">
+    <title>Registro Campus</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0.5em;
+            padding: 0.3em;
+            background-color: #e9f7f1; /* Colore di sfondo azzurro chiaro */
+        }
+/* Registro delle presenze dinner e notte al campus */
+     .info-box {
+    display: flex; /* Usa il layout flessibile per disporre gli elementi in una riga */
+    flex-wrap: nowrap; /* Evita che gli elementi vadano a capo */
+    gap: 5px; /* Spazio tra gli elementi */
+    margin: 10px 5px;
+    padding: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+   
+   }
+        
+        .interruzionePagina{
+    page-break-before: always;      
+    
+}
+        
+        .interruzionePagina{
+    page-break-after: always;
+}
+
+.info-box .col {
+    text-align: center;
+    font-style: ;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    font-size: 1m;
+    white-space: nowrap; /* Forza il testo su una sola riga */
+    
+    text-overflow: ellipsis; /* Mostra "..." per il testo tagliato */
+    
+}
+.info-box .row {
+    display: flex;
+    justify-content: space-around; /* Usa spazio distribuito tra elementi */
+    gap: 0.5px; /* Riduci ulteriormente gli spazi */
+}
+
+
+/* Stile per il tasto Stampa */
+#stampa {
+    width: 100%;
+    font-size: 12px;
+    padding: 5px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#stampa:hover {
+    background-color: #4567a0;
+}
+        /* Intestazione con logo e titolo centrato */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #3c53f0; /* Colore riga titolo */
+            color: gold;
+            padding: 0.1px 10px;
+        }
+
+        header h1 {
+            font-size: 2.6em;
+            text-align: center;
+            flex-grow: 1.5;
+        }
+
+        #logo {
+            width: 70px;
+            height: 70px;
+            background-color: #fff;
+            border-radius: 100%;
+            background-image: url('leCAMP.png'); /* Aggiungi il percorso del logo */
+            background-size: cover;
+        }
+
+        .totali {
+            margin-bottom: 1px;
+            background-color: #e9f7f1;
+            padding: 1px;
+            border-radius: 0.8px;
+            box-shadow: 2px 8px rgba(0, 0, 0, 0.17);
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .notes {
+            margin-bottom: 1px;
+            background-color: #e9f7f1;
+            padding: 0.5px;
+            border-radius: 0.8px;
+            box-shadow: 0px 0px rgba(0, 0, 0, 0);
+            font-size: 1.1em;
+            font-weight: normal;
+            
+        }
+        
+        .rosso {
+            color: orangered;
+            margin-bottom: 1em;
+             font-size: 1.4em;
+            font-style: bold;
+        }
+
+        .blu {
+            color: blue;
+            margin-bottom: 1em;
+             font-size: 1.1em;
+             font-style: oblique;
+        }
+        
+        .viola {
+            color: blueviolet;
+            margin-bottom: 1.5em;
+             font-size: 1.1em;
+             font-style: oblique;
+        }
+
+        .box {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            width: 100px;
+            height: 100px;
+            border: 1px solid #000;
+            padding: 1.2px;
+            justify-items: center;
+            align-items: justify;
+        }
+
+        .box div {
+            font-size: 15px;
+            font-weight: bold;
+            width: 10px;
+            height: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            border-radius: 100px;
+        }
+
+        #stampa {
+            display: inline-block;
+            margin: 1px 1;
+            padding: 10px 70px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #stampa:hover {
+            background-color: #4567a0;
+        }
+
+        #dataOdierna, #oraEsatta {
+            font-size: 1.5em;
+            font-weight: thin;
+            color: #4CAF50;
+        }
+
+        /* Modifiche alle righe della tabella con alternanza colori */
+        .camera-pari {
+            background-color: #ffffff; /* Colore bianco sporco per le camere pari */
+        }
+
+        .camera-dispari {
+            background-color: #ececec; /* Colore grigio chiaro per le camere dispari */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            background-color: #8678b1;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        th, td {
+            border: 0.1px solid #ccc;
+            padding: 0.5px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #ffffff;
+        }
+
+        td input[type="text"], td input[type="time"] {
+            width: 100%;
+            padding: 1px;
+            font-size: 20px;
+            border-radius: 7px;
+            border: 1px solid #ccc;
+        }
+
+        td input[type="checkbox"] {
+            transform: scale(1.5);
+        }
+
+        /* Aggiunta di un bordo laterale per la sezione della stampa */
+        .container {
+            max-width: 120px;
+            margin: 2.5px auto;
+            padding: 15px;
+            background-color: #fff;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+
+        /* Styling dei pulsanti */
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 12px;
+            padding: 7px 7px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #454fa0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header con logo e titolo -->
+    <header>
+        <div id="logo"></div>
+        <h1>Registro del Campus</h1>
+        
+    </header>
+    
+  
+
+
+<!-- Nuova Box con due righe e tre colonne -->
+<div class="info-box">
+    <!-- una sola riga -->
+    <div class="row">
+        <div class="col">
+            <p class="rosso">NOTTE<br>A: <span id="notteAssenti">0</span> | P: <span id="nottePresenti">0</span></p>
+        </div>
+        <div class="col">
+            <p class="blu">DINNER 18:30 <br>A: <span id="primoDinnerAssenti">0</span> | P: <span id="primoDinnerPresenti">0</span></p>
+        </div>
+        <div class="col">
+            <p class="viola">DINNER 19:15 <br>A: <span id="secondoDinnerAssenti">0</span> | P: <span id="secondoDinnerPresenti">0</span></p>
+        </div>
+   
+        <div class="col">
+            <p id="dataOraBox">
+                <span id="dataOdierna"></span><br>
+                <span id="oraEsatta"></span>
+            </p>
+        </div>
+        
+        <div class="row">
+            <button id="stampa" onclick="stampaPagina()">Stampa</button>
+        </div>
+    </div>
+ </div>
+
+    <!-- Contenitore principale -->
+    
+ <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2px;">
+    <div>
+        
+        
+     </div>
+           
+            
+        
+    </div>
+     
+       <br>
+    
+       <h2>FEMMINILE piano 1</h2>
+       
+<div style="margin-top: 0em; margin-bottom: 0.5em; center; font: bold">
+    <label for="note1">FORESTERIA F:</label>
+    <input type="text" id="note1" name="note1" style="width: 80%; font-size: 15px; padding: 15x; border-radius: 5px; border: 1px solid #ccc;">
+</div>
+    
+        <table id="primoPiano">
+            <thead>
+                <tr>
+                    <th>Stanza</th>
+                    <th>Classe</th>
+                    <th>Cognome</th>
+                    <th>Esce [→</th>
+                    <th>Entra →]</th>
+                    <th>Assente</th>
+                    <th>No Notte</th>
+                    <th>No Dinner</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody id="primoPianoBody"></tbody>
+        </table>
+    
+
+    <p STYLE="page-break-after: always">.</p>
+    <header>
+        <div id="EH"></div>
+        <h1>Registro del Campus</h1>
+    </header>
+    
+        <h2>MASCHILE piano 2</h2>
+    <div style="margin-top: 0em; margin-bottom: 0.5em; center; font: bold">
+    <label for="note2">FORESTERIA M:</label>
+     <input type="text" id="note2" name="note2" style="width: 80%; font-size: 15px; padding: 15x; border-radius: 5px; border: 1px solid #ccc;"></div>
+        <table id="secondoPiano">
+            <thead>
+                <tr>
+                    <th>Stanza</th>
+                    <th>Classe</th>
+                    <th>Cognome</th>
+                    <th>Esce [→</th>
+                    <th>Entra →]</th>
+                    <th>Assente</th>
+                    <th>No Notte</th>
+                    <th>No Dinner</th>
+                    <th>Note</th>
+                </tr>
+            </thead>
+            <tbody id="secondoPianoBody"></tbody>
+        </table>
+    
+    
+    <br>
+    <br>
+    
+        <!-- Contenitore per notes -->
+     
+        <div class="notes"> 
+            <p>Classi in laboratorio che non vengono inserite nel dinner: Lunedì 2C, Martedì 2A, Mercoledì 5B, 5C, Giovedì 2B</p>
+        </div>
+           
+        <div class="notes">
+        <p>Turni Dinner:<br>Primo 18:30 classi: 1A, 1B, 1FP, 2A, 2B, 2C, 2FP tot 62
+        <br> Secondo 19:15 classi: 3A, 3B, 3FP, 4A, 4B, 5B, 5C tot 56</p>
+            </div>
+    
+        <div class="notes">
+        <p>Permessi Permanenti NO dinner:<br>
+        lunedi e mercoledì<br>			
+            CLERIN 202, MISERENDINO 101, CHESSA 218, PIGNATELLI 113<br>
+        mercoledi<br>			
+            DUNAND 114<br>
+        giovedi<br>	
+            TRIESTE 217
+    </p>
+             
+            </div>
+   
+    
+    </body>
+</html>
+<p STYLE="page-break-after: always">.</p>
+    <script>
+        // Funzione per aggiornare la data e ora
+        function aggiornaDataOra() {
+            const giorniSettimana = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
+            const oggi = new Date();
+            const giorno = giorniSettimana[oggi.getDay()];
+            const data = oggi.toLocaleDateString('it-IT');
+            const ora = oggi.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('dataOdierna').textContent = `${giorno} ${data}`;
+            document.getElementById('oraEsatta').textContent = `ore ${ora}`;
+            return giorno;
+        }
+        function stampaPagina() {
+            window.print();
+        }
+
+        // Funzioni e logiche per la gestione delle presenze
+            // Flagga le box "No Dinner" in base al giorno della settimana e alla classe
+        function classiInLaboratorio(giornoCorrente) {
+    // Mappa dei giorni con le classi corrispondenti
+    const classiLaboratorio = {
+        lunedì: ['2C'],
+        martedì: ['2A'],
+        mercoledì: ['5B', '5C'],
+        giovedì: ['2B']
+    };
+
+    // Ottieni le classi in laboratorio per il giorno corrente
+    const classiOggi = classiLaboratorio[giornoCorrente] || [];
+
+    // Flagga le caselle "No Dinner" per le classi del giorno
+    const righe = document.querySelectorAll('tbody tr');
+    righe.forEach(riga => {
+        const classe = riga.children[1].textContent.trim(); // Colonna "Classe"
+        const noDinnerCheckbox = riga.querySelector('.dinner'); // Checkbox "No Dinner"
+
+        if (classiOggi.includes(classe)) {
+            noDinnerCheckbox.checked = true;
+        }
+    });
+}
+
+        
+        // Funzione per flaggare automaticamente il "No Dinner" in base all'orario di ingresso
+        function flaggaNoDinner() {
+            const timeInputs = document.querySelectorAll('input[type="time"]');
+            timeInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const classe = input.closest('tr').children[1].textContent.trim();
+                    const noDinnerCheckbox = input.closest('tr').querySelector('.dinner');
+
+                    // Se l'orario è successivo alle 18:40 per le classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP
+                    if (['1A', '1B', '1FP', '2A', '2B', '2C', '2FP'].includes(classe)) {
+                        if (input.value > '18:40') {
+                            input.closest('tr').querySelector('.dinner').checked = true; // Flagga la checkbox No Dinner
+                        }
+                    }
+
+                    // Se l'orario è successivo alle 19:20 per le classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C
+                    if (['3A', '3B', '3FP', '4A', '4B', '5B', '5C'].includes(classe)) {
+                        if (input.value > '19:20') {
+                            input.closest('tr').querySelector('.dinner').checked = true; // Flagga la checkbox No Dinner
+                        }
+                    }
+                });
+            });
+        }
+        
+         // Funzione per la gestione della selezione orario "Entra"
+        function flaggaNoNotteSe00Entra() {
+            const entraInputs = document.querySelectorAll('input[type="time"]');
+            entraInputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    const riga = input.closest('tr');
+                    const entraOrario = input.value;
+                    const noNotteCheckbox = riga.querySelector('input[type="checkbox"].notte');
+
+                    // Se l'orario "Entra" è 00:00, flagga la casella "No Notte"
+                    if (entraOrario === '00:00') {
+                        noNotteCheckbox.checked = true;
+                    }
+                });
+            });
+        }
+// Mappa dei permessi permanenti per ogni giorno della settimana
+const permessiPermanenti = {
+    lunedì: ['CLERIN', 'MISERENDINO', 'CHESSA', 'PIGNATELLI'],
+    martedì: ['', ''],
+    mercoledì: ['CLERIN', 'MISERENDINO', 'DUNAND', 'CHESSA', 'PIGNATELLI', 'TRIESTE'],
+    giovedì: ['TRIESTE']
+};
+
+// Funzione che aggiorna i permessi in base al giorno corrente
+function aggiornaPermessiPermanenti() {
+    const giornoCorrente = aggiornaDataOra(); // Ottieni il giorno della settimana
+    const permessiOggi = permessiPermanenti[giornoCorrente] || [];
+
+    // Per ogni riga della tabella, verifica se il cognome corrisponde ai permessi del giorno
+    const righe = document.querySelectorAll('tbody tr');
+    righe.forEach(riga => {
+        const cognome = riga.children[2].textContent.trim(); // Cognome (colonna 3)
+        const noDinnerCheckbox = riga.querySelector('.dinner'); // Checkbox "No Dinner"
+        
+
+        // Se il cognome è tra quelli con permesso per il giorno, flagga le checkbox
+        if (permessiOggi.includes(cognome)) {
+            noDinnerCheckbox.checked = true; // Flagga la checkbox "No Dinner"
+           
+        }
+    });
+}
+
+// Chiama la funzione per aggiornare i permessi appena la pagina viene caricata
+document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
+
+        // Calcola i totali per le flagbox
+        function calcolaTotali() {
+            const notteCheckbox = document.querySelectorAll('.notte');
+            const dinnerCheckbox = document.querySelectorAll('.dinner');
+            const primoDinnerClassi = ['1A', '1B', '1FP', '2A', '2B', '2C', '2FP'];
+            const secondoDinnerClassi = ['3A', '3B', '3FP', '4A', '4B', '5B', '5C'];
+
+            let notteAssenti = 0, nottePresenti = 0;
+            let primoDinnerAssenti = 0, primoDinnerPresenti = 0;
+            let secondoDinnerAssenti = 0, secondoDinnerPresenti = 0;
+
+            notteCheckbox.forEach(box => {
+                if (box.checked) {
+                    notteAssenti++; // Se è selezionata, è assente
+                } else {
+                    nottePresenti++; // Se non è selezionata, è presente
+                }
+            });
+
+            dinnerCheckbox.forEach(box => {
+                const classe = box.closest('tr').children[1].textContent.trim();
+                if (primoDinnerClassi.includes(classe)) {
+                    if (box.checked) {
+                        primoDinnerAssenti++; // Se è selezionata, è assente
+                    } else {
+                        primoDinnerPresenti++; // Se non è selezionata, è presente
+                    }
+                }
+                if (secondoDinnerClassi.includes(classe)) {
+                    if (box.checked) {
+                        secondoDinnerAssenti++; // Se è selezionata, è assente
+                    } else {
+                        secondoDinnerPresenti++; // Se non è selezionata, è presente
+                    }
+                }
+            });
+
+            document.getElementById('notteAssenti').textContent = notteAssenti;
+            document.getElementById('nottePresenti').textContent = nottePresenti;
+            document.getElementById('primoDinnerAssenti').textContent = primoDinnerAssenti;
+            document.getElementById('primoDinnerPresenti').textContent = primoDinnerPresenti;
+            document.getElementById('secondoDinnerAssenti').textContent = secondoDinnerAssenti;
+            document.getElementById('secondoDinnerPresenti').textContent = secondoDinnerPresenti;
+        }
+
+        // Funzione per alternare i colori delle righe delle camere
+        function generaRighe(tbodyId, data) {
+            const tbody = document.getElementById(tbodyId);
+            let isCameraPari = true; // Alterna il colore per la stanza
+
+            for (const [stanza, info] of Object.entries(data)) {
+                // Aggiungi 3 righe per ogni stanza
+                for (let i = 0; i < info.length; i += 2) {
+                    const classe = info[i];      // Classe
+                    const cognome = info[i + 1]; // Cognome
+
+                    const tr = document.createElement('tr');
+                    // Imposta la classe per alternare il colore della riga
+                    tr.classList.add(isCameraPari ? 'camera-pari' : 'camera-dispari');
+
+                    tr.innerHTML = ` 
+                        <td>${stanza}</td>
+                        <td>${classe}</td>
+                        <td>${cognome}</td>
+                        <td><input type="time"></td><td><input type="time"></td>
+                        <td><input type="checkbox" class="assente"></td> <!-- Nuovo campo "Assente" -->
+                        <td><input type="checkbox" class="notte"></td>
+                        <td><input type="checkbox" class="dinner"></td>
+                        <td><input type="text"></td>
+                    `;
+                    tbody.appendChild(tr);
+                }
+                // Alterna il colore della stanza successiva
+                isCameraPari = !isCameraPari;
+            }
+        }
+
+        // Dati iniziali delle stanze
+        const primoPianoData = {    
+    101: ["3FP", "MILLESI", "1FP", "MONTERO", "1B", "MISERENDINO"],
+    102: ["1FP", "PERRIN", "1FP", "TORTORELLI_C", "1FP", "TORTORELLI_G"],
+    103: ["1A", "SILVANI", "1A", "CASTELLANO", "1A", "DA_FRE'"],
+    104: ["2B", "BOGGIA", "2A", "PEAQUIN", "2B", "TRIOLO"],
+    105: ["2FP", "CONSOL", "2FP", "RONCO", "1FP", "STEVENIN"],
+    106: ["2C", "CUMINO", "3B", "GUIDI", "5C", "PERRONE"],
+    107: ["3A", "OBERTO", "3B", "SAVELLA", "3A", "VIOT"],
+    108: ["2B", "BLANCHET", "3FP", "COMIOTTO", "4B", "LINTY"],
+    109: ["4A", "COTTINO", "4A", "DE_GATTIS", "3A", "MANCUSO"],
+    110: ["1FP", "DONZEL", "3A", "EPICOCO", "3A", "TESSARIN"],
+    111: ["1A", "PENNARD", "1B", "MAINO", "3FP", "MUSTACCHIO"],
+    113: ["4B", "PIGNATELLI", "4B", "CARRUOZZO_A", "4B", "PICCOLI", "4A", "KOUROUMA"],
+    114: ["1B", "DUNAND", "1A", "SAITTA", "1A", "CAPRILLI"],
+    115: ["2C", "CELESIA", "2C", "TARTIN"],
+    116: ["5C", "BULLIO", "5B", "CHATRIAN", "5C", "CURTAZ"],
+    117: ["3B", "FAVRE", "3B", "NICOLASI", "3B", "SERIO"],
+    118: ["4A", "CARRUOZZO_V", "4A", "RASO", "4B", "DI_TRIA"],
+    119: ["1A", "DE_GASPER", "2B", "DUBLANC", "1A", "HERESAZ"],
+    120: ["4A", "MARGUERETTAZ", "1B", "SARACCO", "2C", "PALMISANO"],
+    121: ["3B", "GORREX", "5B", "BLANC", "2FP", "TEBANO"],
+    125: ["3A", "HARBAOUI"],
+   
+        };
+
+        const secondoPianoData = {
+    201: ["1FP", "BERRUTI_A", "1FP", "BERRUTI_S", "1B", "PEZZOLI"],
+    202: ["1FP", "CASALICCHIO", "1FP", "CLERIN", "1FP", "HERRERA"],
+    203: ["1FP", "GENS", "1A", "BARAVALLE"],
+    204: ["1A", "BERTOT", "1A", "BUZZI", "1A", "VOLGET"],
+    205: ["1B", "CHEN", "1B", "DELL'AQUILA", "1B", "GHILARDINI"],
+    206: ["2C", "MERLET", "3A", "MENALDINO", "4A", "PETRIS"],
+    207: ["2FP", "MARRERO", "2FP", "LLESHI", "2FP", "LAGOMARSINI"],
+    208: ["3A", "CONTA", "3A", "CRESTO", "3A", "NAVARRETTA"],
+    209: ["2A", "ZOPPO", "4A", "OBERT"],
+    210: ["3FP", "CROCE", "3FP", "GIOVANNELLI", "4B", "HACHEMAOUI"],
+    211: ["2B", "CIRINA", "2A", "FLORIAN", "2A", "MARANGELO"],
+    212: ["1FP", "BERRIAD", "1B", "MOUNIM", "1B", "TACCONE"],
+    213: ["3FP", "CARBONI", "4A", "CELESIA", "2B", "GRANATA"],
+    215: ["4B", "CORVO", "4A", "DANNA", "4B", "RABAGLIO"],
+    216: ["3FP", "TAPPELLA", "3FP", "MARCIANO", "2B", "PRUTEANU"],
+    217: ["2A", "CATTARINUSSI", "2A", "TRIESTE", "2A", "GARCIA"],
+    218: ["3B", "CHESSA", "3A", "CHIADO'", "3A", "MEYNET"],
+    219: ["3FP", "LOCCI", "2A", "BUSHATI"],
+    220: ["4B", "SORRENTI", "4B", "VIGLIANO", "2FP", "COSTANZA"],
+    221: ["4A", "MILLIERY", "4A", "SALVADORI", "4A", "VALLOMY"]
+        };
+
+       // Le funzioni già implementate nel tuo codice rimangono intatte
+
+        // Inizializzazione
+        const giornoCorrente = aggiornaDataOra();
+        generaRighe("primoPianoBody", primoPianoData);
+        generaRighe("secondoPianoBody", secondoPianoData);
+        flaggaNoNotteSe00Entra(); // Chiama la funzione dopo la generazione
+        flaggaNoDinner();
+        classiInLaboratorio(giornoCorrente);
+        
+        calcolaTotali();
+
+        
+        
+
+        document.body.addEventListener('change', calcolaTotali);
+    </script>
+
+
+
+ <div class="links">
+        <a href="home.html" class="link">Home</a>
