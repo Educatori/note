@@ -76,7 +76,18 @@
         function checkPassword() {
             const passwordInput = document.getElementById('password').value;
             const hashedPassword = '4825be87a2a1e4cdd6e1edd1ad7d8473'; // Hash MD5 della password
+ const inputHash = md5(passwordInput);
+    console.log(`Input hash: ${inputHash}, Expected hash: ${hashedPassword}`); // DEBUG
 
+    if (inputHash === hashedPassword) {
+        alert("Password corretta!");
+        return true; // Permette l'accesso
+    } else {
+        alert('Password errata. Riprova.');
+        return false; // Blocca l'accesso
+    }
+}
+            
             function md5(string) {
                 // Funzione di hashing MD5
                 return CryptoJS.MD5(string).toString();
