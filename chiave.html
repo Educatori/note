@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pagina 1</title>
+    <style>
+        /* Stile per limitare le dimensioni della pagina */
+        html, body {
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;     /* Nasconde tutto il contenuto al di fuori della box */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        body {
+            background-color: #e3f2fd; /* Colore di sfondo blu chiaro */
+            font-family: Arial, sans-serif;
+        }
+
+        .box {
+            background-color: #7046e2; /* Colore viola per la box */
+            color: ghostwhite; /* Colore del testo */
+            padding: 20px;
+            border-radius: 15px;
+            width: 400px; /* Impostato a 400px */
+            height: 250px; /* Impostato a 400px */
+            text-align: center;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2); /* Effetto ombra */
+            overflow: auto; /* Consente lo scorrimento interno se il contenuto è troppo grande */
+        }
+
+        form {
+            margin-top: 15px;
+        }
+
+        button {
+            background-color: #4caf50; /* Verde per il bottone */
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #45a049; /* Colore bottone al passaggio del mouse */
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>Pagina di Accesso</h1>
+        <p>Inserisci la password per proseguire</p>
+        <form action="empty.html" method="post" onsubmit="return checkPassword()">
+            <input type="password" id="password" name="password" placeholder="Password" required><br><br>
+            <button type="submit">Accedi</button>
+        </form>
+    </div>
+
+    <script>
+        function checkPassword() {
+            const passwordInput = document.getElementById('password').value;
+            const hashedPassword = '4825be87a2a1e4cdd6e1edd1ad7d8473'; // Hash MD5 della password
+
+            function md5(string) {
+                // Funzione di hashing MD5
+                return CryptoJS.MD5(string).toString();
+            }
+
+            const inputHash = md5(passwordInput);
+            console.log(`Input hash: ${inputHash}, Expected hash: ${hashedPassword}`); // DEBUG
+
+            if (inputHash === hashedPassword) {
+                return true; // Permette l'accesso
+            } else {
+                alert('Password errata. Riprova.');
+                return false; // Blocca l'accesso
+            }
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</body>
+</html>
