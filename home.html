@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -16,17 +17,78 @@
             font-size: 3.25em; /* Dimensione titolo normale */
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Ombra del testo */
         }
-        .date-box {
+        
+        /* Box del banner */
+    .banner-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Contenitore che fa scorrere gli elementi */
+    .banner-content {
+      display: flex;
+      animation: scroll 15s linear infinite;
+    }
+
+    /* Immagine1 */
+    .banner-image1 {
+      width: 280px;
+      height: 400px;
+      margin-right: 20px;
+    }
+
+    /* Box di testo1 */
+    .banner-text1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 400px;
+      height: 400px;
+      background-color: #ff0000;
+      margin-right: 20px;
+      font-size: 20px;
+      color: #fff700;
+    }
+         }
+
+    /* Immagine2 */
+    .banner-image2 {
+      width: 200px;
+      height: 200px;
+      margin-right: 20px;
+    }
+
+    /* Box di testo2 */
+    .banner-text2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 400px;
+      height: 400px;
+      background-color: #f2f2f2;
+      margin-right: 20px;
+      font-size: 20px;
+      color: #333;
+  }
+
+    /* Animazione di scorrimento */
+    @keyframes scroll {
+      0% { transform: translateX(70%); }
+      200% { transform: translateX(-100%); }
+    }
+        
+        .big-box {
             display: block;
             margin: 20px auto; /* Centra il box */
-            padding: 15px;
-            background-color: #fff; /* Bianco */
+            padding: 30px;
+            background-color: #f2f2f2; /* Bianco */
             border: 2px solid #0d47a1; /* Colore bordo blu scuro */
             color: #0d47a1; /* Colore testo blu scuro */
             font-weight: bold;
             font-size: 5em; /* Dimensione testo box aumentata del 100% */
             text-align: center; /* Centra il testo */
-            border-radius: 100px; /* Angoli arrotondati */
+            border-radius: 80px; /* Angoli arrotondati */
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombra */
         }
         .link-row {
@@ -52,9 +114,37 @@
     </style>
 </head>
 <body>
-    <h1>Home</h1>
+    <h1>Home CAMPUS</h1>
 
-    <div class="date-box" id="date-time-box">
+    <div class="big-box" id="big-banner-box">
+        
+         <!-- Box del banner -->
+  <div class="banner-container">
+      
+      <!-- Box del banner -->
+<div class="banner-container">
+    
+  <div class="banner-content">
+    <!-- Prima Immagine -->
+    <img src="festa.png" alt="Immagine 1" class="banner-image1">
+    <!-- Primo Box di Testo -->
+    <div class="banner-text1">
+      <p>AVVISO<br>VENERDÌ 20 MATTINA ALLE ORE 8:30 <br>
+            I PIANI VERRANNO CHIUSI A CHIAVE! PERTANTO VI CHIEDIAMO DI PROVVEDERE A PORTARE VIA
+            LA BIANCHERIA DA LAVARE ED EVENTUALI AVANZI DI CIBI E BEVANDE, MENTRE POTRETE 
+            LASCIARE NELL’ARMADIO LE ALTRE VOSTRE COSE. <br>BUONE VACANZE</p>
+    </div>
+   
+      <!-- Seconda Immagine -->
+    <img src="QR-modulo.png" alt="Immagine 2" class="banner-image2">
+    <!-- Secondo Box di Testo -->
+    <div class="banner-text2">
+      <p>Inquadra il QR per iscriverti alle attività</p>
+    </div>
+    </div>
+    </div>
+    </div>
+        
         <!-- Il testo verrà aggiornato dallo script -->
     </div>
 
@@ -74,18 +164,7 @@
      </div>
 
     <script>
-        // Funzione per ottenere la data e l'ora attuale nel formato desiderato
-        function updateDateTime() {
-            const now = new Date();
-            now.setSeconds(now.getSeconds() + 30); // Aggiungi -- secondi
-            const optionsDate = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-            const date = now.toLocaleDateString('it-IT', optionsDate); // Formatta la data
-            const time = String(now.getHours()).padStart(2, '0') + ':' + 
-                         String(now.getMinutes()).padStart(2, '0') + ':' + 
-                         String(now.getSeconds()).padStart(2, '0');
-
-            // Imposta il testo nel formato desiderato e metti a capo l'ora
-            const formattedDateTime = ` ${date} <br>  ${time}`;
+       
 
             document.getElementById('date-time-box').innerHTML = formattedDateTime;
         }
@@ -97,3 +176,5 @@
     </script>
 </body>
 </html>
+
+
