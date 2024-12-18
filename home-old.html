@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e3f2fd; /* Colore di sfondo blu chiaro */
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #ffd600; /* Colore titolo oro */
+            font-size: 3.25em; /* Dimensione titolo normale */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Ombra del testo */
+        }
+        
+        /* Box del banner */
+    .banner-container {
+      width: 100%;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Contenitore che fa scorrere gli elementi */
+    .banner-content {
+      display: flex;
+      animation: scroll 15s linear infinite;
+    }
+
+    /* Immagine1 */
+    .banner-image1 {
+      width: 280px;
+      height: 400px;
+      margin-right: 20px;
+    }
+
+    /* Box di testo1 */
+    .banner-text1 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 400px;
+      height: 400px;
+      background-color: #ff0000;
+      margin-right: 20px;
+      font-size: 20px;
+      color: #fff700;
+    }
+         }
+
+    /* Immagine2 */
+    .banner-image2 {
+      width: 200px;
+      height: 200px;
+      margin-right: 20px;
+    }
+
+    /* Box di testo2 */
+    .banner-text2 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 400px;
+      height: 400px;
+      background-color: #f2f2f2;
+      margin-right: 20px;
+      font-size: 20px;
+      color: #333;
+  }
+
+    /* Animazione di scorrimento */
+    @keyframes scroll {
+      0% { transform: translateX(70%); }
+      200% { transform: translateX(-100%); }
+    }
+        
+        .big-box {
+            display: block;
+            margin: 20px auto; /* Centra il box */
+            padding: 30px;
+            background-color: #f2f2f2; /* Bianco */
+            border: 2px solid #0d47a1; /* Colore bordo blu scuro */
+            color: #0d47a1; /* Colore testo blu scuro */
+            font-weight: bold;
+            font-size: 5em; /* Dimensione testo box aumentata del 100% */
+            text-align: center; /* Centra il testo */
+            border-radius: 80px; /* Angoli arrotondati */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombra */
+        }
+        .link-row {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .link {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 13px 26px; /* Padding normale */
+            background-color: #0d47a1; /* Blu scuro */
+            color: #ffd600; /* Oro */
+            text-decoration: none;
+            border-radius: 100px;
+            font-size: 1.56em; /* Dimensione link normale */
+            transition: background-color 0.3s, transform 0.3s; /* Transizione */
+        }
+        .link:hover {
+            background-color: #ffd600; /* Oro */
+            color: #0d47a1; /* Blu scuro */
+            transform: scale(1.05); /* Leggera elevazione al passaggio del mouse */
+        }
+    </style>
+</head>
+<body>
+    <h1>Home CAMPUS</h1>
+
+    <div class="big-box" id="big-banner-box">
+        
+         <!-- Box del banner -->
+  <div class="banner-container">
+      
+      <!-- Box del banner -->
+<div class="banner-container">
+    
+  <div class="banner-content">
+    <!-- Prima Immagine -->
+    <img src="festa.png" alt="Immagine 1" class="banner-image1">
+    <!-- Primo Box di Testo -->
+    <div class="banner-text1">
+      <p>AVVISO<br>VENERDÌ 20 MATTINA ALLE ORE 8:30 <br>
+            I PIANI VERRANNO CHIUSI A CHIAVE! PERTANTO VI CHIEDIAMO DI PROVVEDERE A PORTARE VIA
+            LA BIANCHERIA DA LAVARE ED EVENTUALI AVANZI DI CIBI E BEVANDE, MENTRE POTRETE 
+            LASCIARE NELL’ARMADIO LE ALTRE VOSTRE COSE. <br>BUONE VACANZE</p>
+    </div>
+   
+      <!-- Seconda Immagine -->
+    <img src="QR-modulo.png" alt="Immagine 2" class="banner-image2">
+    <!-- Secondo Box di Testo -->
+    <div class="banner-text2">
+      <p>Inquadra il QR per iscriverti alle attività</p>
+    </div>
+    </div>
+    </div>
+    </div>
+        
+        <!-- Il testo verrà aggiornato dallo script -->
+    </div>
+
+    <div class="link-row">
+        <a href="lunedi.html" class="link">Lunedì</a>
+        <a href="martedi.html" class="link">Martedì</a>
+        <a href="mercoledi.html" class="link">Mercoledì</a>
+        <a href="giovedi.html" class="link">Giovedì</a>
+        <a href="unico.html" class="link">Unico</a><BR>
+        <a href="ora.html" class="link">Ora</a>
+        <a href="attivita.html" class="link">Attività</a>     
+        <a href="bus.html" class="link">Bus</a>
+        <a href="h2.html" class="link">H2</a><BR>
+        
+        <a href="avvisi.html" class="link">Avvisi</a>
+
+     </div>
+
+    <script>
+       
+
+            document.getElementById('date-time-box').innerHTML = formattedDateTime;
+        }
+
+        // Aggiorna data e ora al caricamento della pagina
+        updateDateTime();
+        // Opzionale: aggiorna ogni secondo
+        setInterval(updateDateTime, 1000);
+    </script>
+</body>
+</html>
