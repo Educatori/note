@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 
 <html lang="it">
@@ -26,6 +27,25 @@
    
    }
         
+       .link-row {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .link {
+            display: inline-block;
+            margin: 0 10px;
+            padding: 13px 26px; /* Padding aumentato */
+            background-color: #d7ccc8; /* Marrone molto chiaro */
+            color: black;
+            text-decoration: none;
+            border-radius: 100px;
+            font-size: 1.56em; /* Dimensione link aumentata */
+        }
+        .link:hover {
+            background-color: #bcaaa4; /* Marrone scuro al passaggio del mouse */
+            
+            
+   }     
         .interruzionePagina{
     page-break-before: always;      
     
@@ -240,6 +260,7 @@
         /* Styling dei pulsanti */
         button {
             background-color: #4CAF50;
+            width: 80%;
             color: white;
             font-size: 12px;
             padding: 7px 7px;
@@ -290,6 +311,14 @@
         <div class="row">
             <button id="stampa" onclick="stampaPagina()">Stampa</button>
         </div>
+        
+        <div class="row">
+            <a href="home.html" class="link">Home</a>
+        </div>
+        
+        
+        
+
     </div>
  </div>
 
