@@ -1,11 +1,11 @@
+
 <!DOCTYPE html>
+
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=0.8">
     <title>Registro Campus</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>avvisi</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -25,15 +25,16 @@
     border-radius: 5px;
    
    }
-
+        
         .interruzionePagina{
     page-break-before: always;      
     
 }
-
+        
         .interruzionePagina{
     page-break-after: always;
 }
+
 .info-box .col {
     text-align: center;
     font-style: ;
@@ -52,6 +53,8 @@
     justify-content: space-around; /* Usa spazio distribuito tra elementi */
     gap: 0.5px; /* Riduci ulteriormente gli spazi */
 }
+
+
 /* Stile per il tasto Stampa */
 #stampa {
     width: 100%;
@@ -64,6 +67,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 #stampa:hover {
     background-color: #4567a0;
 }
@@ -76,13 +80,9 @@
             color: gold;
             padding: 0.1px 10px;
         }
+
         header h1 {
             font-size: 2.6em;
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #e6ffe9;
-            margin: 0;
-            padding: 0;
             text-align: center;
             flex-grow: 1.5;
         }
@@ -94,18 +94,11 @@
             border-radius: 100%;
             background-image: url('leCAMP.png'); /* Aggiungi il percorso del logo */
             background-size: cover;
-        h1 {
-            color: #4f00ff;
-            padding-top: 30px;
-            font-size: 3em;
         }
 
         .totali {
             margin-bottom: 1px;
             background-color: #e9f7f1;
-        form {
-            margin-top: 20px;
-            background-color: #d6daff;
             padding: 1px;
             border-radius: 0.8px;
             box-shadow: 2px 8px rgba(0, 0, 0, 0.17);
@@ -129,8 +122,6 @@
             margin-bottom: 1em;
              font-size: 1.4em;
             font-style: bold;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .blu {
@@ -146,6 +137,7 @@
              font-size: 1.1em;
              font-style: oblique;
         }
+
         .box {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -158,6 +150,7 @@
             justify-items: center;
             align-items: justify;
         }
+
         .box div {
             font-size: 15px;
             font-weight: bold;
@@ -167,13 +160,8 @@
             justify-content: center;
             align-items: center;
             background-color: #f2f2f2;
-        input[type="file"] {
-            padding: 10px;
-            font-size: 1em;
-            border-radius: 5px;
             border: 1px solid #ccc;
             border-radius: 100px;
-            background-color: #fff;
         }
 
         #stampa {
@@ -183,13 +171,7 @@
             background-color: #4CAF50;
             color: white;
             font-size: 20px;
-        button {
-            padding: 1px 0px;
-            margin-top: 10px;
-            font-size: 1em;
             border: none;
-            background-color: #d6daff;
-            color: #d6daff;
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
@@ -198,33 +180,20 @@
         #stampa:hover {
             background-color: #4567a0;
         }
+
         #dataOdierna, #oraEsatta {
             font-size: 1.5em;
             font-weight: thin;
             color: #4CAF50;
-        button:hover {
-            background-color: #45a049;
         }
 
         /* Modifiche alle righe della tabella con alternanza colori */
         .camera-pari {
             background-color: #ffffff; /* Colore bianco sporco per le camere pari */
-        #preview-container {
-            margin-top: 30px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
         }
 
         .camera-dispari {
             background-color: #ececec; /* Colore grigio chiaro per le camere dispari */
-        #pdfPreview {
-            width: 200%;
-            max-width: 1000px;
-            height: 1000px;
-            display: none;
-            border: none;
         }
 
         table {
@@ -234,30 +203,16 @@
             background-color: #8678b1;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-        #imagePreview {
-            max-width: 100%;
-            max-height: 600px;
-            display: none;
-            border: 2px solid #ddd;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
             border: 0.1px solid #ccc;
             padding: 0.5px;
             text-align: center;
-        .instructions {
-            font-size: 18px;
-            color: #666;
-            margin-top: 20px;
         }
 
         th {
             background-color: #ffffff;
-        .file-info {
-            margin-top: 10px;
-            font-size: 16px;
-            color: #555;
         }
 
         td input[type="text"], td input[type="time"] {
@@ -265,19 +220,13 @@
             padding: 1px;
             font-size: 20px;
             border-radius: 7px;
-        /* Nuovo stile per il box di testo */
-        #alertTextBox {
-            margin-top: 20px;
-            width: 90%;
-            max-width: 600px;
-            font-size: 2.5em;
-            resize: none;
-            padding: 10px;
             border: 1px solid #ccc;
         }
+
         td input[type="checkbox"] {
             transform: scale(1.5);
         }
+
         /* Aggiunta di un bordo laterale per la sezione della stampa */
         .container {
             max-width: 120px;
@@ -287,6 +236,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             border-radius: 5px;
         }
+
         /* Styling dei pulsanti */
         button {
             background-color: #4CAF50;
@@ -298,20 +248,10 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
+
         button:hover {
             background-color: #454fa0;
-            border-radius: 10px;
-            background-color: #ffffff;
-            color: #333;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-
-        .link-row {
-@@ -278,404 +126,73 @@
-        }
-
-
-        
     </style>
 </head>
 <body>
@@ -324,12 +264,7 @@
     </header>
     
   
-    <h1>BACHECA DEL CAMPUS</h1>
 
-    <form id="uploadForm">
-        <input type="file" id="fileInput" accept=".pdf, image/png, image/jpeg, .jpg"/>
-        <button type="submit" disabled>Carica</button>
-    </form>
 
 <!-- Nuova Box con due righe e tre colonne -->
 <div class="info-box">
@@ -351,15 +286,10 @@
                 <span id="oraEsatta"></span>
             </p>
         </div>
-    <div id="preview-container">
-        <!-- Visualizzazione PDF -->
-        <iframe id="pdfPreview" src="" frameborder="0"></iframe>
-
+        
         <div class="row">
             <button id="stampa" onclick="stampaPagina()">Stampa</button>
         </div>
-        <!-- Visualizzazione Immagini -->
-        <img id="imagePreview" src="" alt="Immagine Preview"/>
     </div>
  </div>
 
@@ -373,8 +303,6 @@
            
             
         
-    <div class="instructions">
-        <p>carica un file oppure scrivi un testo nella box</p>
     </div>
      
        <br>
@@ -383,7 +311,7 @@
        
 <div style="margin-top: 0em; margin-bottom: 0.5em; center; font: bold">
     <label for="note1">FORESTERIA F:</label>
-    <input type="text" id="note1" name="note1" style="width: 80%; font-size: 15px; padding: 15x; border-radius: 5px; border: 1px solid #ccc;">
+    <input type="text" id="note1" name="note1" style="width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
 </div>
     
         <table id="primoPiano">
@@ -403,6 +331,7 @@
             <tbody id="primoPianoBody"></tbody>
         </table>
     
+
     <p STYLE="page-break-after: always">.</p>
     <header>
         <div id="EH"></div>
@@ -412,7 +341,8 @@
         <h2>MASCHILE piano 2</h2>
     <div style="margin-top: 0em; margin-bottom: 0.5em; center; font: bold">
     <label for="note2">FORESTERIA M:</label>
-     <input type="text" id="note2" name="note2" style="width: 80%; font-size: 15px; padding: 15x; border-radius: 5px; border: 1px solid #ccc;"></div>
+    <input type="text" id="note2" name="note2" style="width: 80%; padding: 10px; border-radius: 5px; border: 1.2px solid #ccc;">
+</div>
         <table id="secondoPiano">
             <thead>
                 <tr>
@@ -457,12 +387,9 @@
              
             </div>
    
- <div class="links">
-        
-        </body>
-</html>
     
-    <a href="home.html" class="link">Home</a>
+    </body>
+</html>
 <p STYLE="page-break-after: always">.</p>
     <script>
         // Funzione per aggiornare la data e ora
@@ -479,6 +406,7 @@
         function stampaPagina() {
             window.print();
         }
+
         // Funzioni e logiche per la gestione delle presenze
             // Flagga le box "No Dinner" in base al giorno della settimana e alla classe
         function classiInLaboratorio(giornoCorrente) {
@@ -489,13 +417,16 @@
         mercoledì: ['5B', '5C'],
         giovedì: ['2B']
     };
+
     // Ottieni le classi in laboratorio per il giorno corrente
     const classiOggi = classiLaboratorio[giornoCorrente] || [];
+
     // Flagga le caselle "No Dinner" per le classi del giorno
     const righe = document.querySelectorAll('tbody tr');
     righe.forEach(riga => {
         const classe = riga.children[1].textContent.trim(); // Colonna "Classe"
         const noDinnerCheckbox = riga.querySelector('.dinner'); // Checkbox "No Dinner"
+
         if (classiOggi.includes(classe)) {
             noDinnerCheckbox.checked = true;
         }
@@ -510,12 +441,14 @@
                 input.addEventListener('input', function() {
                     const classe = input.closest('tr').children[1].textContent.trim();
                     const noDinnerCheckbox = input.closest('tr').querySelector('.dinner');
+
                     // Se l'orario è successivo alle 18:40 per le classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP
                     if (['1A', '1B', '1FP', '2A', '2B', '2C', '2FP'].includes(classe)) {
                         if (input.value > '18:40') {
                             input.closest('tr').querySelector('.dinner').checked = true; // Flagga la checkbox No Dinner
                         }
                     }
+
                     // Se l'orario è successivo alle 19:20 per le classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C
                     if (['3A', '3B', '3FP', '4A', '4B', '5B', '5C'].includes(classe)) {
                         if (input.value > '19:20') {
@@ -534,6 +467,7 @@
                     const riga = input.closest('tr');
                     const entraOrario = input.value;
                     const noNotteCheckbox = riga.querySelector('input[type="checkbox"].notte');
+
                     // Se l'orario "Entra" è 00:00, flagga la casella "No Notte"
                     if (entraOrario === '00:00') {
                         noNotteCheckbox.checked = true;
@@ -548,14 +482,11 @@ const permessiPermanenti = {
     mercoledì: ['CLERIN', 'MISERENDINO', 'DUNAND', 'CHESSA', 'PIGNATELLI', 'TRIESTE'],
     giovedì: ['TRIESTE']
 };
-    <!-- Nuova box di testo per avvisi -->
-    <textarea id="alertTextBox" rows="3" maxlength="150" placeholder="Avvisi"></textarea>
 
 // Funzione che aggiorna i permessi in base al giorno corrente
 function aggiornaPermessiPermanenti() {
     const giornoCorrente = aggiornaDataOra(); // Ottieni il giorno della settimana
     const permessiOggi = permessiPermanenti[giornoCorrente] || [];
-    <div class="file-info" id="fileInfo"></div>
 
     // Per ogni riga della tabella, verifica se il cognome corrisponde ai permessi del giorno
     const righe = document.querySelectorAll('tbody tr');
@@ -563,6 +494,7 @@ function aggiornaPermessiPermanenti() {
         const cognome = riga.children[2].textContent.trim(); // Cognome (colonna 3)
         const noDinnerCheckbox = riga.querySelector('.dinner'); // Checkbox "No Dinner"
         
+
         // Se il cognome è tra quelli con permesso per il giorno, flagga le checkbox
         if (permessiOggi.includes(cognome)) {
             noDinnerCheckbox.checked = true; // Flagga la checkbox "No Dinner"
@@ -570,50 +502,29 @@ function aggiornaPermessiPermanenti() {
         }
     });
 }
+
 // Chiama la funzione per aggiornare i permessi appena la pagina viene caricata
 document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
+
         // Calcola i totali per le flagbox
         function calcolaTotali() {
             const notteCheckbox = document.querySelectorAll('.notte');
             const dinnerCheckbox = document.querySelectorAll('.dinner');
             const primoDinnerClassi = ['1A', '1B', '1FP', '2A', '2B', '2C', '2FP'];
             const secondoDinnerClassi = ['3A', '3B', '3FP', '4A', '4B', '5B', '5C'];
+
             let notteAssenti = 0, nottePresenti = 0;
             let primoDinnerAssenti = 0, primoDinnerPresenti = 0;
             let secondoDinnerAssenti = 0, secondoDinnerPresenti = 0;
+
             notteCheckbox.forEach(box => {
                 if (box.checked) {
                     notteAssenti++; // Se è selezionata, è assente
-    <script>
-        const fileInput = document.getElementById('fileInput');
-        const pdfPreview = document.getElementById('pdfPreview');
-        const imagePreview = document.getElementById('imagePreview');
-        const fileInfo = document.getElementById('fileInfo');
-        fileInput.addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const fileType = file.type;
-            // Reset previews and file info
-            pdfPreview.style.display = 'none';
-            imagePreview.style.display = 'none';
-            fileInfo.textContent = '';
-            if (file) {
-                const fileName = file.name;
-                const fileSize = (file.size / 1024).toFixed(2) + ' KB'; // File size in KB
-                fileInfo.textContent = `Nome file: ${fileName} | Dimensione: ${fileSize}`;
-                const url = URL.createObjectURL(file);
-                if (fileType === 'application/pdf') {
-                    // If it's a PDF, display it in an iframe
-                    pdfPreview.src = url;
-                    pdfPreview.style.display = 'block';
-                } else if (fileType === 'image/png' || fileType === 'image/jpeg' || fileType === 'image/jpg') {
-                    // If it's an image, display it in an img tag
-                    imagePreview.src = url;
-                    imagePreview.style.display = 'block';
                 } else {
                     nottePresenti++; // Se non è selezionata, è presente
-                    alert('Formato file non supportato');
                 }
             });
+
             dinnerCheckbox.forEach(box => {
                 const classe = box.closest('tr').children[1].textContent.trim();
                 if (primoDinnerClassi.includes(classe)) {
@@ -631,6 +542,7 @@ document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
                     }
                 }
             });
+
             document.getElementById('notteAssenti').textContent = notteAssenti;
             document.getElementById('nottePresenti').textContent = nottePresenti;
             document.getElementById('primoDinnerAssenti').textContent = primoDinnerAssenti;
@@ -638,18 +550,22 @@ document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
             document.getElementById('secondoDinnerAssenti').textContent = secondoDinnerAssenti;
             document.getElementById('secondoDinnerPresenti').textContent = secondoDinnerPresenti;
         }
+
         // Funzione per alternare i colori delle righe delle camere
         function generaRighe(tbodyId, data) {
             const tbody = document.getElementById(tbodyId);
             let isCameraPari = true; // Alterna il colore per la stanza
+
             for (const [stanza, info] of Object.entries(data)) {
                 // Aggiungi 3 righe per ogni stanza
                 for (let i = 0; i < info.length; i += 2) {
                     const classe = info[i];      // Classe
                     const cognome = info[i + 1]; // Cognome
+
                     const tr = document.createElement('tr');
                     // Imposta la classe per alternare il colore della riga
                     tr.classList.add(isCameraPari ? 'camera-pari' : 'camera-dispari');
+
                     tr.innerHTML = ` 
                         <td>${stanza}</td>
                         <td>${classe}</td>
@@ -666,6 +582,7 @@ document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
                 isCameraPari = !isCameraPari;
             }
         }
+
         // Dati iniziali delle stanze
         const primoPianoData = {    
     101: ["3FP", "MILLESI", "1FP", "MONTERO", "1B", "MISERENDINO"],
@@ -691,6 +608,7 @@ document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
     125: ["3A", "HARBAOUI"],
    
         };
+
         const secondoPianoData = {
     201: ["1FP", "BERRUTI_A", "1FP", "BERRUTI_S", "1B", "PEZZOLI"],
     202: ["1FP", "CASALICCHIO", "1FP", "CLERIN", "1FP", "HERRERA"],
@@ -713,8 +631,8 @@ document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
     220: ["4B", "SORRENTI", "4B", "VIGLIANO", "2FP", "COSTANZA"],
     221: ["4A", "MILLIERY", "4A", "SALVADORI", "4A", "VALLOMY"]
         };
+
        // Le funzioni già implementate nel tuo codice rimangono intatte
-        });
 
         // Inizializzazione
         const giornoCorrente = aggiornaDataOra();
@@ -725,10 +643,12 @@ document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
         classiInLaboratorio(giornoCorrente);
         
         calcolaTotali();
+
         
         
+
         document.body.addEventListener('change', calcolaTotali);
     </script>
-<a href="home.html" class="link">Home</a>
-</body>
-</html>
+
+
+
