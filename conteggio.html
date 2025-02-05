@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conteggio Dinner</title>
+    <style>
+        body {
+            font-family: 'Bahnschrift', sans-serif;
+            background-color: #f5e7f8;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        h2 {
+            text-align: center;
+        }
+        .result-box {
+            background-color: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        .result {
+            text-align: center;
+            font-size: 1.5em;
+        }
+        .count-input {
+            width: 50px;
+            height: 50px;
+            text-align: center;
+            border-radius: 20%;
+            border: 1px solid #ccc;
+            font-size: 1.5em;
+            margin: 0 10px;
+        }
+        .date-display {
+            text-align: center;
+            font-weight: bold;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .red {
+            color: red;
+        }
+        .print-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .print-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #4CAF50; /* Colore verde */
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .print-button:hover {
+            background-color: #d2dfd3; /* Colore verde scuro al passaggio del mouse */
+        }
+    </style>
+</head>
+<body>
+    <h1>Conteggio Dinner</h1>
+    <h2>*</h2>
+    <div class="date-display" id="current-date"></div>
+    <div class="result-box">
+        <div class="result" id="result-display">
+            <span>Primo Dinner ore 18:30 <br> 1A, 1B, 1FP, <span id="2A">2A</span>, <span id="2B">2B</span>, <span id="2C">2C</span>, 2FP:</span>
+            <input type="text" class="count-input" value="0" maxlength="2" 
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);"> presenti +<input type="text" class="count-input" value="0" maxlength="1" 
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">EDU<br>
+            <br>
+            <span>Secondo Dinner ore 19:15 <br> 3A, 3B, 3FP, 4A, 4B, <span id="5B">5B</span>, <span id="5C">5C</span>:</span>
+            <input type="text" class="count-input" value="0" maxlength="2" 
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);"> presenti +<input type="text" class="count-input" value="0" maxlength="1" 
+                   oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 2);">EDU
+        </div>
+    </div>
+    
+    <div class="print-container">
+        <p>Inserire manualmente i valori</p>
+        <button class="print-button" onclick="window.print()">Stampa</button>
+    </div>
+
+    <script>
+        // Mostra la data odierna
+        function mostraDataOdierna() {
+            const oggi = new Date();
+            const options = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+            const dataFormattata = oggi.toLocaleDateString('it-IT', options);
+            document.getElementById('current-date').innerText = `Oggi è ${dataFormattata}`;
+
+            // Cambia colore delle classi in base al giorno della settimana
+            const giorno = oggi.getDay(); // 0: Domenica, 1: Lunedì, ..., 6: Sabato
+
+            // Cambiamenti di colore per i giorni specificati
+            if (giorno === 1) { // Lunedì
+                document.getElementById('2C').classList.add('red');
+            } else if (giorno === 2) { // Martedì
+                document.getElementById('2B').classList.add('red');
+            } else if (giorno === 3) { // Mercoledì
+                document.getElementById('5B').classList.add('red');
+                document.getElementById('5C').classList.add('red');
+            } else if (giorno === 4) { // Giovedì
+                document.getElementById('2B').classList.add('red');
+            }
+        }
+
+        // Chiama la funzione per mostrare la data
+        mostraDataOdierna();
+    </script>
+</body>
+</html>
