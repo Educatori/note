@@ -1,683 +1,467 @@
 
 
-<!DOCTYPE html>
 
+
+
+
+<!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=0.8">
-    <title>Registro Campus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assenti Dinner</title>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            margin: 0.5em;
-            padding: 0.3em;
-            background-color: #e9f7f1; /* Colore di sfondo azzurro chiaro */
+            font-family: 'Bahnschrift', sans-serif;
+            margin: 10;
+            padding: 30px;
+            background-color: #f5e7f8;
         }
-/* Registro delle presenze dinner e notte al campus */
-     .info-box {
-    display: flex; /* Usa il layout flessibile per disporre gli elementi in una riga */
-    flex-wrap: nowrap; /* Evita che gli elementi vadano a capo */
-    gap: 5px; /* Spazio tra gli elementi */
-    margin: 10px 5px;
-    padding: 8px;
-    background-color: #ffffff;
-    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-   
-   }
-        
-       .link-row {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .link {
-            display: inline-block;
-            margin: 0 10px;
-            padding: 13px 26px; /* Padding aumentato */
-            background-color: #d7ccc8; /* Marrone molto chiaro */
-            color: black;
-            text-decoration: none;
-            border-radius: 100px;
-            font-size: 1.56em; /* Dimensione link aumentata */
-        }
-        .link:hover {
-            background-color: #bcaaa4; /* Marrone scuro al passaggio del mouse */
-            
-            
-   }     
-        .interruzionePagina{
-    page-break-before: always;      
-    
-}
-        
-        .interruzionePagina{
-    page-break-after: always;
-}
-
-.info-box .col {
-    text-align: center;
-    font-style: ;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-    font-size: 1m;
-    white-space: nowrap; /* Forza il testo su una sola riga */
-    
-    text-overflow: ellipsis; /* Mostra "..." per il testo tagliato */
-    
-}
-.info-box .row {
-    display: flex;
-    justify-content: space-around; /* Usa spazio distribuito tra elementi */
-    gap: 0.5px; /* Riduci ulteriormente gli spazi */
-}
-
-
-/* Stile per il tasto Stampa */
-#stampa {
-    width: 100%;
-    font-size: 12px;
-    padding: 5px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-#stampa:hover {
-    background-color: #4567a0;
-}
-        /* Intestazione con logo e titolo centrato */
-        header {
+        .container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            background-color: #3c53f0; /* Colore riga titolo */
-            color: gold;
-            padding: 0.1px 10px;
+            margin-top: 0px;
         }
-
-        header h1 {
-            font-size: 2.6em;
-            text-align: center;
-            flex-grow: 1.5;
+        .box {
+            width: 50%;
+            padding: 30px;
+            border-radius: 60px;
+           
         }
-
-        #logo {
-            width: 70px;
-            height: 70px;
-            background-color: #fff;
-            border-radius: 100%;
-            background-image: url('leCAMP.png'); /* Aggiungi il percorso del logo */
-            background-size: cover;
-        }
-
-        .totali {
-            margin-bottom: 1px;
-            background-color: #e9f7f1;
-            padding: 1px;
-            border-radius: 0.8px;
-            box-shadow: 2px 8px rgba(0, 0, 0, 0.17);
-            font-size: 1.2em;
-            font-weight: bold;
-        }
-        
-        .notes {
-            margin-bottom: 1px;
-            background-color: #e9f7f1;
-            padding: 0.5px;
-            border-radius: 0.8px;
-            box-shadow: 0px 0px rgba(0, 0, 0, 0);
-            font-size: 1.1em;
-            font-weight: normal;
+        .box-left {
+            
+            background-color: #f8f8bd;
             
         }
-        
-        .rosso {
-            color: orangered;
-            margin-bottom: 1em;
-             font-size: 1.4em;
-            font-style: bold;
+        .box-right {
+            background-color: #e3fac3;
+        }
+        .box-pink {
+        font-size: 1.3em;
+        display: flex;
+        background-color: pink; /* Cambia il colore di sfondo se necessario */
+        padding: 30px;
+        border-radius: 40px;
         }
 
-        .blu {
-            color: blue;
-            margin-bottom: 1em;
-             font-size: 1.1em;
-             font-style: oblique;
-        }
-        
-        .viola {
-            color: blueviolet;
-            margin-bottom: 1.5em;
-             font-size: 1.1em;
-             font-style: oblique;
+        .column-left {
+        flex: 3; /* 3/4 della larghezza */
         }
 
-        .box {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 8px;
-            width: 100px;
-            height: 100px;
-            border: 1px solid #000;
-            padding: 1.2px;
-            justify-items: center;
-            align-items: justify;
+        .column-right {
+    flex: 1; /* 1/4 della larghezza */
+    display: flex;
+    align-items: center; /* Centra verticalmente il contenuto */
+    justify-content: center; /* Centra orizzontalmente il contenuto */
         }
 
-        .box div {
-            font-size: 15px;
-            font-weight: bold;
-            width: 10px;
-            height: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #f2f2f2;
-            border: 1px solid #ccc;
-            border-radius: 100px;
-        }
-
-        #stampa {
-            display: inline-block;
-            margin: 1px 1;
-            padding: 10px 70px;
-            background-color: #4CAF50;
-            color: white;
-            font-size: 20px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        #stampa:hover {
-            background-color: #4567a0;
-        }
-
-        #dataOdierna, #oraEsatta {
-            font-size: 1.5em;
-            font-weight: thin;
-            color: #4CAF50;
-        }
-
-        /* Modifiche alle righe della tabella con alternanza colori */
-        .camera-pari {
-            background-color: #ffffff; /* Colore bianco sporco per le camere pari */
-        }
-
-        .camera-dispari {
-            background-color: #ececec; /* Colore grigio chiaro per le camere dispari */
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-            background-color: #8678b1;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-
-        th, td {
-            border: 0.1px solid #ccc;
-            padding: 0.5px;
-            text-align: center;
-        }
-
-        th {
-            background-color: #ffffff;
-        }
-
-        td input[type="text"], td input[type="time"] {
-            width: 100%;
-            padding: 1px;
-            font-size: 20px;
-            border-radius: 7px;
-            border: 1px solid #ccc;
-        }
-
-        td input[type="checkbox"] {
-            transform: scale(1.5);
-        }
-
-        /* Aggiunta di un bordo laterale per la sezione della stampa */
-        .container {
-            max-width: 120px;
-            margin: 2.5px auto;
-            padding: 15px;
-            background-color: #fff;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border-radius: 5px;
-        }
-
-        /* Styling dei pulsanti */
         button {
-            background-color: #4CAF50;
-            width: 80%;
-            color: white;
-            font-size: 12px;
-            padding: 7px 7px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+    padding: 10px 20px; /* Padding del bottone */
+    background-color: white; /* Colore di sfondo del bottone */
+    border: 1px solid #ccc; /* Bordo del bottone */
+    border-radius: 5px; /* Angoli arrotondati */
+    cursor: pointer; /* Cambia il cursore su hover */
         }
 
         button:hover {
-            background-color: #454fa0;
+    background-color: #f7f7c9; /* Colore di sfondo al passaggio del mouse */
+
+
+        }
+        .box-blue {
+            background-color: #add8e6; /* Azzurro */
+            font-size: 1.2em; /* Aumento del 25% */
+            display: flex;
+            padding: 30px;
+            border-radius: 40px;
+            margin-bottom: 0px;
+        }
+        h2 {
+            font-weight: bold;
+            margin: 0 50 10px;
+        }
+        table {
+            width: 100%;
+            margin-top: 0px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #c6c1c1; /* colore bordo celle */
+            padding: 5px;
+            text-align: center;
+        }
+        button {
+            
+            padding: 20px 30px; /* Padding del bottone */
+            background-color: #f5e7f8; /* Colore di sfondo del bottone */
+            border: 1px solid #ccc; /* Bordo del bottone */
+            border-radius: 20px; /* Angoli arrotondati aumentati */
+            cursor: pointer; /* Cambia il cursore su hover */
+            
+        }
+        .date-display {
+            text-align: center;
+            font-weight: bold;
+            font-size: 2.5em; /* Dimensione del testo per la data */
+            margin-top: 20px; /* Margine sopra la data */
+        }
+        .red-bold {
+            color: red;
+            font-weight: bold;
+            font-size: 1.6em;
+        }
+        .green-bold {
+            color: green;
+            font-weight: bold;
+            font-size: 1.6em;
         }
     </style>
 </head>
 <body>
-
-    <!-- Header con logo e titolo -->
-    <header>
-        <div id="logo"></div>
-        <h1>Registro del Campus</h1>
-        
-    </header>
+    <h1 style="text-align:center;">Assenti Dinner</h1>
     
+    <div class="date-display" id="current-date"></div><br> <!-- Mostra la data odierna -->
+    
+    <!-- Box rosa per i laboratori -->
+<div class="box-pink">
+    <div class="column-left">
+        <strong>Laboratori, dinner ore 18:00:</strong><br>
+        Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B
+    </div>
+    <div class="column-right">
+        <button id="conteggio">Conteggio</button>
+    </div>
+</div>
+    
+<script> 
+    document.getElementById('conteggio').addEventListener('click', function() {
+        // Apre una nuova pagina con i dati
+        window.open('conteggio.html', '_blank');
+    });
+</script>
+    
+    <!-- Box azzurra per i permessi permanenti -->
+<div class="box-blue">
+    <div class="column-left">
+        <strong>Permessi Permanenti:</strong><br>
+        LUN: Clerin 1Fp, Chessa 3B; anche Miserendino 1B, Pignatelli 4B con dinner posticipato<br>
+        MAR: Petris 4A<br>
+        MER: Clerin 1Fp, Chessa 3B, Dunand 1B, Trieste 2A; anche Miserendino 1B, Pignatelli 4B con dinner posticipato<br>
+        GIO: Trieste 2A, Petris 4A
+    </div>
+        <div class="column-right">
+        <button id="Registro">Registro</button>
+    </div>
+</div>
+    
+<script> 
+    document.getElementById('Registro').addEventListener('click', function() {
+        // Apre una nuova pagina con i dati
+        window.open('Registro.html');
+    });
+</script>
+
+    <!-- schema con lista nomi inizia qui -->
+
+    <div class="container">
+        <!-- Box Giallo -->
+        <div class="box box-left">
+            <h2>Primo Dinner  ore 18:30 <br> Classi: 1A, 1B, 1FP, 2A, 2B, 2C, 2FP TOT 61</h2>
+            <div class="header">
+                <p id="result1" style="margin-left: 100px;"></p>
+                </div>
+        <form id="form1">
+            <table>
+                <tr>
+                    <th>N</th>
+                    <th>COGNOME</th>
+                    <th>NOME</th>
+                    <th>CLASSE</th>
+                    <th>ASSENTE</th>
+                </tr>
+                
+                <!-- Classe 1A -->
+                <tr><td>1</td><td>BARAVALLE</td><td>Andrea</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>2</td><td>BERTOT</td><td>Manuele</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>3</td><td>BUZZI</td><td>Alessandro</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>4</td><td>CASTELLANO</td><td>Martina</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>5</td><td>DA FRÈ</td><td>Gaia</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>6</td><td>DE GASPER</td><td>Lara</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>7</td><td>HERESAZ</td><td>Alyce</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>8</td><td>PENNARD</td><td>Serena</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>9</td><td>SAITTA</td><td>Asia</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>10</td><td>SILVANI</td><td>Amelie</td><td>1A</td><td><input type="checkbox"></td></tr>
+                                
+                <!-- Classe 1B -->
+                <tr><td>11</td><td>CHEN</td><td>Michael Jianhao</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>12</td><td>DELL'AQUILA</td><td>Gabriele</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>13</td><td>DUNAND</td><td>Audrey</td><td>1B</td><td><input type="checkbox"></td><td>PP</td></tr>
+                <tr><td>14</td><td>GHILARDINI</td><td>Leonardo</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>15</td><td>MAINO</td><td>Giada</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>16</td><td>MISERENDINO</td><td>Ludovica</td><td>1B</td><td><input type="checkbox"></td><td>PP</td></tr>
+                <tr><td>17</td><td>MOUNIM</td><td>Yahya</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>28</td><td>PEZZOLI</td><td>Niccolò</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>19</td><td>SARACCO</td><td>Martina</td><td>1B</td><td><input type="checkbox"></td></tr>
+                <tr><td>20</td><td>TACCONE</td><td>Nicholas</td><td>1B</td><td><input type="checkbox"></td></tr>
+                
+                <!-- Classe 1FP -->
+                <tr><td>21</td><td>BERRIAD</td><td>Thierry</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>22</td><td>BERRUTI A</td><td>Andrea</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>23</td><td>BERRUTI S</td><td>Stefano</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>24</td><td>CASALICCHIO</td><td>Nahuel</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>25</td><td>CLERIN</td><td>Pietro</td><td>1FP</td><td><input type="checkbox"></td><td>PP</td></tr>
+                <tr><td>26</td><td>DONZEL</td><td>Elodie</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>27</td><td>GENS</td><td>Aaron</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>28</td><td>HERRERA</td><td>Alexander</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>29</td><td>MONTERO ROSARIO</td><td>Karen</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>30</td><td>PERRIN</td><td>Annie</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>31</td><td>STEVENIN</td><td>Joelle</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>32</td><td>TORTORELLI C</td><td>Carlotta</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>33</td><td>TORTORELLI G</td><td>Greta</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                
+                <!-- Classe 2FP -->
+                <tr><td>34</td><td>CONSOL</td><td>Gaia</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>35</td><td>COSTANZA</td><td>Marcello</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>36</td><td>LAGOMARSINI</td><td>Michele</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>37</td><td>LLESHI</td><td>Gabriele</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>38</td><td>MARRERO CRUZ</td><td>Lewis</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>39</td><td>RONCO</td><td>Angelica</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>40</td><td>TEBANO</td><td>Serena</td><td>2FP</td><td><input type="checkbox"></td></tr>
+                
+                <!-- Classe 2C -->
+                <tr><td>41</td><td>CELESIA</td><td>Marta</td><td>2C</td><td><input type="checkbox"></td><td>L</td></tr>
+                <tr><td>42</td><td>CUMINO</td><td>Lucia</td><td>2C</td><td><input type="checkbox"></td><td>L</td></tr>
+                <tr><td>43</td><td>MERLET</td><td>Cedric</td><td>2C</td><td><input type="checkbox"></td><td>L</td></tr>
+                <tr><td>44</td><td>PALMISANO</td><td>Clarissa</td><td>2C</td><td><input type="checkbox"></td><td>L</td></tr>
+                <tr><td>45</td><td>TARTIN</td><td>Zoe</td><td>2C</td><td><input type="checkbox"></td><td>L</td></tr>
+                
+                <!-- Classe 2A -->
+                <tr><td>46</td><td>BUSHATI</td><td>Red</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                <tr><td>47</td><td>CATTARINUSSI</td><td>Samuele</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                <tr><td>48</td><td>FLORIAN</td><td>Gabriele</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                <tr><td>49</td><td>GARCIA</td><td>Luis</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                <tr><td>50</td><td>MARANGELO</td><td>Giulio</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                <tr><td>51</td><td>PEAQUIN</td><td>Linda</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                <tr><td>52</td><td>TRIESTE</td><td>Fabrizio</td><td>2A</td><td><input type="checkbox"></td><td>M/PP</td></tr>
+                <tr><td>53</td><td>ZOPPO</td><td>Rodrigue</td><td>2A</td><td><input type="checkbox"></td><td>M</td></tr>
+                
+                <!-- Classe 2B -->
+                <tr><td>54</td><td>BLANCHET</td><td>Magalie</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+                <tr><td>55</td><td>BOGGIA</td><td>Vittoria</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+                <tr><td>56</td><td>CIRINA</td><td>Lorenzo</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+                <tr><td>57</td><td>DUBLANC</td><td>Nicole</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+                <tr><td>58</td><td>GRANATA</td><td>Gabriele</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+                <tr><td>59</td><td>TRIOLO</td><td>Eleonora</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+                <tr><td>60</td><td>PRUTEANU</td><td>Mihai Giuliano</td><td>2B</td><td><input type="checkbox"></td><td>G</td></tr>
+           
+                </table><br>
+            </form>
+        </div>
   
-
-
-<!-- Nuova Box con due righe e tre colonne -->
-<div class="info-box">
-    <!-- una sola riga -->
-    <div class="row">
-        <div class="col">
-            <p class="rosso">NOTTE<br>A: <span id="notteAssenti">0</span> | P: <span id="nottePresenti">0</span></p>
-        </div>
-        <div class="col">
-            <p class="blu">DINNER 18:30 <br>A: <span id="primoDinnerAssenti">0</span> | P: <span id="primoDinnerPresenti">0</span></p>
-        </div>
-        <div class="col">
-            <p class="viola">DINNER 19:15 <br>A: <span id="secondoDinnerAssenti">0</span> | P: <span id="secondoDinnerPresenti">0</span></p>
-        </div>
-   
-        <div class="col">
-            <p id="dataOraBox">
-                <span id="dataOdierna"></span><br>
-                <span id="oraEsatta"></span>
-            </p>
-        </div>
-        
-        <div class="row">
-            <button id="stampa" onclick="stampaPagina()">Stampa</button>
-        </div>
-        
-        <div class="row">
-            <a href="home.html" class="link">Home</a>
-        </div>
-        
-        
-        
-
-    </div>
- </div>
-
-    <!-- Contenitore principale -->
-    
- <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.2px;">
-    <div>
-        
-        
-     </div>
-           
-            
-        
-    </div>
-     
-       <br>
-    
-       <h2>FEMMINILE piano 1</h2>
-       
-<div style="margin-top: 0em; margin-bottom: 0.5em; center; font: bold">
-    <label for="note1">FORESTERIA F:</label>
-    <input type="text" id="note1" name="note1" style="width: 80%; padding: 10px; border-radius: 5px; border: 1px solid #ccc;">
-</div>
-    
-        <table id="primoPiano">
-            <thead>
-                <tr>
-                    <th>Stanza</th>
-                    <th>Classe</th>
-                    <th>Cognome</th>
-                    <th>Esce [→</th>
-                    <th>Entra →]</th>
-                    <th>Assente</th>
-                    <th>No Notte</th>
-                    <th>No Dinner</th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody id="primoPianoBody"></tbody>
-        </table>
-    
-
-    <p STYLE="page-break-after: always">.</p>
-    <header>
-        <div id="EH"></div>
-        <h1>Registro del Campus</h1>
-    </header>
-    
-        <h2>MASCHILE piano 2</h2>
-    <div style="margin-top: 0em; margin-bottom: 0.5em; center; font: bold">
-    <label for="note2">FORESTERIA M:</label>
-    <input type="text" id="note2" name="note2" style="width: 80%; padding: 10px; border-radius: 5px; border: 1.2px solid #ccc;">
-</div>
-        <table id="secondoPiano">
-            <thead>
-                <tr>
-                    <th>Stanza</th>
-                    <th>Classe</th>
-                    <th>Cognome</th>
-                    <th>Esce [→</th>
-                    <th>Entra →]</th>
-                    <th>Assente</th>
-                    <th>No Notte</th>
-                    <th>No Dinner</th>
-                    <th>Note</th>
-                </tr>
-            </thead>
-            <tbody id="secondoPianoBody"></tbody>
-        </table>
-    
-    
-    <br>
-    <br>
-    
-        <!-- Contenitore per notes -->
-     
-        <div class="notes"> 
-            <p>Classi in laboratorio che non vengono inserite nel dinner: Lunedì 2C, Martedì 2A, Mercoledì 5B, 5C, Giovedì 2B</p>
-        </div>
-           
-        <div class="notes">
-        <p>Turni Dinner:<br>Primo 18:30 classi: 1A, 1B, 1FP, 2A, 2B, 2C, 2FP tot 62
-        <br> Secondo 19:15 classi: 3A, 3B, 3FP, 4A, 4B, 5B, 5C tot 56</p>
+        <!-- Box Verde -->
+        <div class="box box-right">
+            <h2>Secondo Dinner ore 19:15 <br> Classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C TOT 54</h2>
+            <div class="header">
+                <p id="result2" style="margin-left: 100px;"></p>
             </div>
-    
-        <div class="notes">
-        <p>Permessi Permanenti NO dinner:<br>
-        lunedi e mercoledì<br>			
-            CLERIN 202, MISERENDINO 101, CHESSA 218, PIGNATELLI 113<br>
-        mercoledi<br>			
-            DUNAND 114<br>
-        giovedi<br>	
-            TRIESTE 217
-    </p>
-             
-            </div>
-   
-    
-    </body>
-</html>
-<p STYLE="page-break-after: always">.</p>
+            <form id="form2">
+                <table>
+                    <tr>
+                        <th>N</th>
+                        <th>COGNOME</th>
+                        <th>NOME</th>
+                        <th>CLASSE</th>
+                        <th>ASSENTE</th>
+                    </tr>
+                    
+                   <!-- Classe 5B -->
+                    <tr><td>1</td><td>BLANC</td><td>Elisa</td><td>5B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>2</td><td>CHATRIAN</td><td>Sylvie</td><td>5B</td><td><input type="checkbox"></td></tr>
+                    
+                    <!-- Classe 5C -->
+                    <tr><td>3</td><td>BULLIO</td><td>Noélie</td><td>5C</td><td><input type="checkbox"></td></tr>
+                    <tr><td>4</td><td>CURTAZ</td><td>Debora</td><td>5C</td><td><input type="checkbox"></td></tr>
+                    <tr><td>5</td><td>PERRONE</td><td>Aurora</td><td>5C</td><td><input type="checkbox"></td></tr>
+                    
+                    <!-- Classe 3FP -->
+                    <tr><td>6</td><td>COMIOTTO</td><td>Lucia</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    <tr><td>7</td><td>CROCE</td><td>Giacomo</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    <tr><td>8</td><td>GIOVANNELLI</td><td>Tommaso</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    <tr><td>9</td><td>MARCIANO</td><td>Alberto</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    <tr><td>10</td><td>MILLESI</td><td>Aline</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    <tr><td>11</td><td>MUSTACCHIO</td><td>Denise</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    <tr><td>12</td><td>TAPPELLA</td><td>Luca</td><td>3FP</td><td><input type="checkbox"></td></tr>
+                    
+                    <!-- Classe 3A -->
+                    <tr><td>13</td><td>CHIADÒ CAPONET</td><td>Diego</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>14</td><td>CONTA</td><td>Giovanni</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>15</td><td>CRESTO</td><td>Daniele</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>16</td><td>EPICOCO</td><td>Angelica</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>17</td><td>HARBAOUI</td><td>Emanuela Leyla</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>18</td><td>MANCUSO</td><td>Gaia</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>19</td><td>MENALDINO</td><td>Moreno</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>20</td><td>NAVARRETTA SCHIRRU</td><td>Alexis Denis Fabien</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>21</td><td>OBERTO</td><td>Debora</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>22</td><td>TESSARIN</td><td>Sharon</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>23</td><td>VIOT</td><td>Cecilia</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    
+                    <!-- Classe 3B -->
+                    <tr><td>24</td><td>CHESSA</td><td>Samuele</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>25</td><td>FAVRE</td><td>Emilie</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>26</td><td>GORREX</td><td>Valerie</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>27</td><td>GUIDI</td><td>Aurora Cheyenne</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>28</td><td>MEYNET</td><td>Riccardo</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>29</td><td>NICOLASI</td><td>Ginevra</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>30</td><td>SAVELLA</td><td>Ilaria</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>31</td><td>SERIO</td><td>Federica</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    
+                    <!-- Clase 4A -->
+                    <tr><td>32</td><td>CARRUOZZO V</td><td>Virginia</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>33</td><td>CELESIA</td><td>Alessio</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>34</td><td>COTTINO</td><td>Jacqueline</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>35</td><td>DANNA</td><td>Gioele</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>36</td><td>DE GATTIS</td><td>Eleonora</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>37</td><td>KOUROUMA</td><td>Nora</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>38</td><td>MARGUERETTAZ</td><td>Greta</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>39</td><td>MILLIERY</td><td>Mathieu</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>40</td><td>OBERT</td><td>Tommy</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>41</td><td>PETRIS</td><td>Maurizio</td><td>4A</td><td><input type="checkbox"></td><td>PP</td></tr>
+                    <tr><td>42</td><td>RASO</td><td>Beatrice</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>43</td><td>SALVADORI</td><td>Emile</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>44</td><td>VALLOMY</td><td>Etienne</td><td>4A</td><td><input type="checkbox"></td></tr>
+                    
+                    <!-- Classe 4B -->
+                    <tr><td>45</td><td>CARRUOZZO A</td><td>Amalia</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>46</td><td>CORVO</td><td>Filippo</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>47</td><td>DI TRIA</td><td>Alice</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>48</td><td>HACHEMAOUI</td><td>Slimane Raffaello</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>49</td><td>LINTY</td><td>Alys</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>50</td><td>PICCOLI</td><td>Greta</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>51</td><td>PIGNATELLI</td><td>Maria Vittoria</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>52</td><td>RABAGLIO</td><td>Filippo</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>53</td><td>SORRENTI</td><td>Gabriele</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>54</td><td>VIGLIANO</td><td>Jacopo</td><td>4B</td><td><input type="checkbox"></td></tr>
+                    
+                         
+            </table>
+        </form>
+    </div>
+</div>
+
+<!-- schema con lista nomi finisce qui -->
+
     <script>
-        // Funzione per aggiornare la data e ora
-        function aggiornaDataOra() {
-            const giorniSettimana = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
+        function mostraDataOdierna() {
             const oggi = new Date();
-            const giorno = giorniSettimana[oggi.getDay()];
-            const data = oggi.toLocaleDateString('it-IT');
-            const ora = oggi.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('dataOdierna').textContent = `${giorno} ${data}`;
-            document.getElementById('oraEsatta').textContent = `ore ${ora}`;
-            return giorno;
-        }
-        function stampaPagina() {
-            window.print();
+            const options = { weekday: 'long', day: '2-digit', month: 'long' };
+            const dataFormattata = oggi.toLocaleDateString('it-IT', options);
+            const giorno = dataFormattata.split(' ')[0]; // Estrae il giorno della settimana
+            const giornoNum = oggi.getDate().toString().padStart(2, '0'); // Giorno del mese con zero iniziale
+            const mese = oggi.toLocaleString('it-IT', { month: 'long' }); // Mese
+
+            document.getElementById('current-date').innerText = `Oggi è ${giorno} ${giornoNum} ${mese}`;
         }
 
-        // Funzioni e logiche per la gestione delle presenze
-            // Flagga le box "No Dinner" in base al giorno della settimana e alla classe
-        function classiInLaboratorio(giornoCorrente) {
-    // Mappa dei giorni con le classi corrispondenti
-    const classiLaboratorio = {
-        lunedì: ['2C'],
-        martedì: ['2A'],
-        mercoledì: ['5B', '5C'],
-        giovedì: ['2B']
-    };
+        function flaggaAssenti() {
+            const oggi = new Date();
+            const giorno = oggi.getDay(); // 0: Domenica, 1: Lunedì, ..., 6: Sabato
 
-    // Ottieni le classi in laboratorio per il giorno corrente
-    const classiOggi = classiLaboratorio[giornoCorrente] || [];
-
-    // Flagga le caselle "No Dinner" per le classi del giorno
-    const righe = document.querySelectorAll('tbody tr');
-    righe.forEach(riga => {
-        const classe = riga.children[1].textContent.trim(); // Colonna "Classe"
-        const noDinnerCheckbox = riga.querySelector('.dinner'); // Checkbox "No Dinner"
-
-        if (classiOggi.includes(classe)) {
-            noDinnerCheckbox.checked = true;
-        }
-    });
-}
-
-        
-        // Funzione per flaggare automaticamente il "No Dinner" in base all'orario di ingresso
-        function flaggaNoDinner() {
-            const timeInputs = document.querySelectorAll('input[type="time"]');
-            timeInputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    const classe = input.closest('tr').children[1].textContent.trim();
-                    const noDinnerCheckbox = input.closest('tr').querySelector('.dinner');
-
-                    // Se l'orario è successivo alle 18:40 per le classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP
-                    if (['1A', '1B', '1FP', '2A', '2B', '2C', '2FP'].includes(classe)) {
-                        if (input.value > '18:40') {
-                            input.closest('tr').querySelector('.dinner').checked = true; // Flagga la checkbox No Dinner
-                        }
-                    }
-
-                    // Se l'orario è successivo alle 19:20 per le classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C
-                    if (['3A', '3B', '3FP', '4A', '4B', '5B', '5C'].includes(classe)) {
-                        if (input.value > '19:20') {
-                            input.closest('tr').querySelector('.dinner').checked = true; // Flagga la checkbox No Dinner
-                        }
-                    }
-                });
-            });
-        }
-        
-         // Funzione per la gestione della selezione orario "Entra"
-        function flaggaNoNotteSe00Entra() {
-            const entraInputs = document.querySelectorAll('input[type="time"]');
-            entraInputs.forEach(input => {
-                input.addEventListener('input', function() {
-                    const riga = input.closest('tr');
-                    const entraOrario = input.value;
-                    const noNotteCheckbox = riga.querySelector('input[type="checkbox"].notte');
-
-                    // Se l'orario "Entra" è 00:00, flagga la casella "No Notte"
-                    if (entraOrario === '00:00') {
-                        noNotteCheckbox.checked = true;
-                    }
-                });
-            });
-        }
-// Mappa dei permessi permanenti per ogni giorno della settimana
-const permessiPermanenti = {
-    lunedì: ['CLERIN', 'MISERENDINO', 'CHESSA', 'PIGNATELLI'],
-    martedì: ['', ''],
-    mercoledì: ['CLERIN', 'MISERENDINO', 'DUNAND', 'CHESSA', 'PIGNATELLI', 'TRIESTE'],
-    giovedì: ['TRIESTE']
-};
-
-// Funzione che aggiorna i permessi in base al giorno corrente
-function aggiornaPermessiPermanenti() {
-    const giornoCorrente = aggiornaDataOra(); // Ottieni il giorno della settimana
-    const permessiOggi = permessiPermanenti[giornoCorrente] || [];
-
-    // Per ogni riga della tabella, verifica se il cognome corrisponde ai permessi del giorno
-    const righe = document.querySelectorAll('tbody tr');
-    righe.forEach(riga => {
-        const cognome = riga.children[2].textContent.trim(); // Cognome (colonna 3)
-        const noDinnerCheckbox = riga.querySelector('.dinner'); // Checkbox "No Dinner"
-        
-
-        // Se il cognome è tra quelli con permesso per il giorno, flagga le checkbox
-        if (permessiOggi.includes(cognome)) {
-            noDinnerCheckbox.checked = true; // Flagga la checkbox "No Dinner"
-           
-        }
-    });
-}
-
-// Chiama la funzione per aggiornare i permessi appena la pagina viene caricata
-document.addEventListener('DOMContentLoaded', aggiornaPermessiPermanenti);
-
-        // Calcola i totali per le flagbox
-        function calcolaTotali() {
-            const notteCheckbox = document.querySelectorAll('.notte');
-            const dinnerCheckbox = document.querySelectorAll('.dinner');
-            const primoDinnerClassi = ['1A', '1B', '1FP', '2A', '2B', '2C', '2FP'];
-            const secondoDinnerClassi = ['3A', '3B', '3FP', '4A', '4B', '5B', '5C'];
-
-            let notteAssenti = 0, nottePresenti = 0;
-            let primoDinnerAssenti = 0, primoDinnerPresenti = 0;
-            let secondoDinnerAssenti = 0, secondoDinnerPresenti = 0;
-
-            notteCheckbox.forEach(box => {
-                if (box.checked) {
-                    notteAssenti++; // Se è selezionata, è assente
-                } else {
-                    nottePresenti++; // Se non è selezionata, è presente
-                }
-            });
-
-            dinnerCheckbox.forEach(box => {
-                const classe = box.closest('tr').children[1].textContent.trim();
-                if (primoDinnerClassi.includes(classe)) {
-                    if (box.checked) {
-                        primoDinnerAssenti++; // Se è selezionata, è assente
-                    } else {
-                        primoDinnerPresenti++; // Se non è selezionata, è presente
-                    }
-                }
-                if (secondoDinnerClassi.includes(classe)) {
-                    if (box.checked) {
-                        secondoDinnerAssenti++; // Se è selezionata, è assente
-                    } else {
-                        secondoDinnerPresenti++; // Se non è selezionata, è presente
-                    }
-                }
-            });
-
-            document.getElementById('notteAssenti').textContent = notteAssenti;
-            document.getElementById('nottePresenti').textContent = nottePresenti;
-            document.getElementById('primoDinnerAssenti').textContent = primoDinnerAssenti;
-            document.getElementById('primoDinnerPresenti').textContent = primoDinnerPresenti;
-            document.getElementById('secondoDinnerAssenti').textContent = secondoDinnerAssenti;
-            document.getElementById('secondoDinnerPresenti').textContent = secondoDinnerPresenti;
-        }
-
-        // Funzione per alternare i colori delle righe delle camere
-        function generaRighe(tbodyId, data) {
-            const tbody = document.getElementById(tbodyId);
-            let isCameraPari = true; // Alterna il colore per la stanza
-
-            for (const [stanza, info] of Object.entries(data)) {
-                // Aggiungi 3 righe per ogni stanza
-                for (let i = 0; i < info.length; i += 2) {
-                    const classe = info[i];      // Classe
-                    const cognome = info[i + 1]; // Cognome
-
-                    const tr = document.createElement('tr');
-                    // Imposta la classe per alternare il colore della riga
-                    tr.classList.add(isCameraPari ? 'camera-pari' : 'camera-dispari');
-
-                    tr.innerHTML = ` 
-                        <td>${stanza}</td>
-                        <td>${classe}</td>
-                        <td>${cognome}</td>
-                        <td><input type="time"></td><td><input type="time"></td>
-                        <td><input type="checkbox" class="assente"></td> <!-- Nuovo campo "Assente" -->
-                        <td><input type="checkbox" class="notte"></td>
-                        <td><input type="checkbox" class="dinner"></td>
-                        <td><input type="text"></td>
-                    `;
-                    tbody.appendChild(tr);
-                }
-                // Alterna il colore della stanza successiva
-                isCameraPari = !isCameraPari;
+            // Flagga assenti in base al giorno della settimana
+            if (giorno === 1) { // Lunedì
+                //laboratorio 2C
+                flaggaCheckbox('form1', 'CELESIA');  
+                flaggaCheckbox('form1', 'CHIAROTTO');
+                flaggaCheckbox('form1', 'CUMINO');
+                flaggaCheckbox('form1', 'MERLET');
+                flaggaCheckbox('form1', 'PALMISANO');
+                flaggaCheckbox('form1', 'TARTIN');
+                //permessi permanenti
+                flaggaCheckbox('form1', 'CLERIN');
+                flaggaCheckbox('form2', 'CHESSA');
+            } else if (giorno === 2) { // Martedì
+                 //laboratorio 2A
+                flaggaCheckbox('form1', 'BUSHATI');
+                flaggaCheckbox('form1', 'CATTARINUSSI');
+                flaggaCheckbox('form1', 'DUNAND');
+                flaggaCheckbox('form1', 'FLORIAN');
+                flaggaCheckbox('form1', 'GARCIA');
+                flaggaCheckbox('form1', 'MARANGELO');
+                flaggaCheckbox('form1', 'PEAQUIN');
+                flaggaCheckbox('form1', 'TRIESTE');
+                flaggaCheckbox('form1', 'ZOPPO');
+                //permessi permanenti
+                flaggaCheckbox('form2', 'PETRIS');
+            } else if (giorno === 3) { // Mercoledì
+                //laboratorio 5B, 5C
+                flaggaCheckbox('form2', 'BLANC'); 
+                flaggaCheckbox('form2', 'CHATRIAN');  
+                flaggaCheckbox('form2', 'BULLIO');  
+                flaggaCheckbox('form2', 'CURTAZ');  
+                flaggaCheckbox('form2', 'PERRONE');  
+                //permessi permanenti
+                flaggaCheckbox('form1', 'DUNAND');
+                flaggaCheckbox('form1', 'CLERIN');
+                flaggaCheckbox('form2', 'CHESSA');
+                flaggaCheckbox('form1', 'TRIESTE');
+            } else if (giorno === 4) { // Giovedì
+                //laboratorio 2C
+                flaggaCheckbox('form1', 'BLANCHET');
+                flaggaCheckbox('form1', 'BOGGIA');
+                flaggaCheckbox('form1', 'CIRINA');
+                flaggaCheckbox('form1', 'DUBLANC');
+                flaggaCheckbox('form1', 'GRANATA');
+                flaggaCheckbox('form1', 'TRIOLO');
+                flaggaCheckbox('form1', 'PRUTEANU');
+                //permessi permanenti                
+                flaggaCheckbox('form1', 'TRIESTE');
+                flaggaCheckbox('form2', 'PETRIS');
             }
         }
 
-        // Dati iniziali delle stanze
-        const primoPianoData = {    
-    101: ["3FP", "MILLESI", "1FP", "MONTERO", "1B", "MISERENDINO"],
-    102: ["1FP", "PERRIN", "1FP", "TORTORELLI_C", "1FP", "TORTORELLI_G"],
-    103: ["1A", "SILVANI", "1A", "CASTELLANO", "1A", "DA_FRE'"],
-    104: ["2B", "BOGGIA", "2A", "PEAQUIN", "2B", "TRIOLO"],
-    105: ["2FP", "CONSOL", "2FP", "RONCO", "1FP", "STEVENIN"],
-    106: ["2C", "CUMINO", "3B", "GUIDI", "5C", "PERRONE"],
-    107: ["3A", "OBERTO", "3B", "SAVELLA", "3A", "VIOT"],
-    108: ["2B", "BLANCHET", "3FP", "COMIOTTO", "4B", "LINTY"],
-    109: ["4A", "COTTINO", "4A", "DE_GATTIS", "3A", "MANCUSO"],
-    110: ["1FP", "DONZEL", "3A", "EPICOCO", "3A", "TESSARIN"],
-    111: ["1A", "PENNARD", "1B", "MAINO", "3FP", "MUSTACCHIO"],
-    113: ["4B", "PIGNATELLI", "4B", "CARRUOZZO_A", "4B", "PICCOLI", "4A", "KOUROUMA"],
-    114: ["1B", "DUNAND", "1A", "SAITTA", "1A", "CAPRILLI"],
-    115: ["2C", "CELESIA", "2C", "TARTIN"],
-    116: ["5C", "BULLIO", "5B", "CHATRIAN", "5C", "CURTAZ"],
-    117: ["3B", "FAVRE", "3B", "NICOLASI", "3B", "SERIO"],
-    118: ["4A", "CARRUOZZO_V", "4A", "RASO", "4B", "DI_TRIA"],
-    119: ["1A", "DE_GASPER", "2B", "DUBLANC", "1A", "HERESAZ"],
-    120: ["4A", "MARGUERETTAZ", "1B", "SARACCO", "2C", "PALMISANO"],
-    121: ["3B", "GORREX", "5B", "BLANC", "2FP", "TEBANO"],
-    125: ["3A", "HARBAOUI"],
-   
-        };
+        function flaggaCheckbox(formId, cognome) {
+            const rows = document.querySelectorAll(`#${formId} tr`);
+            rows.forEach(row => {
+                if (row.cells[1].innerText === cognome) {
+                    const checkbox = row.querySelector('input[type="checkbox"]');
+                    if (checkbox) {
+                        checkbox.checked = true; // Flagga la checkbox
+                    }
+                }
+            });
+        }
 
-        const secondoPianoData = {
-    201: ["1FP", "BERRUTI_A", "1FP", "BERRUTI_S", "1B", "PEZZOLI"],
-    202: ["1FP", "CASALICCHIO", "1FP", "CLERIN", "1FP", "HERRERA"],
-    203: ["1FP", "GENS", "1A", "BARAVALLE"],
-    204: ["1A", "BERTOT", "1A", "BUZZI", "1A", "VOLGET"],
-    205: ["1B", "CHEN", "1B", "DELL'AQUILA", "1B", "GHILARDINI"],
-    206: ["2C", "MERLET", "3A", "MENALDINO", "4A", "PETRIS"],
-    207: ["2FP", "MARRERO", "2FP", "LLESHI", "2FP", "LAGOMARSINI"],
-    208: ["3A", "CONTA", "3A", "CRESTO", "3A", "NAVARRETTA"],
-    209: ["2A", "ZOPPO", "4A", "OBERT"],
-    210: ["3FP", "CROCE", "3FP", "GIOVANNELLI", "4B", "HACHEMAOUI"],
-    211: ["2B", "CIRINA", "2A", "FLORIAN", "2A", "MARANGELO"],
-    212: ["1FP", "BERRIAD", "1B", "MOUNIM", "1B", "TACCONE"],
-    213: ["3FP", "CARBONI", "4A", "CELESIA", "2B", "GRANATA"],
-    215: ["4B", "CORVO", "4A", "DANNA", "4B", "RABAGLIO"],
-    216: ["3FP", "TAPPELLA", "3FP", "MARCIANO", "2B", "PRUTEANU"],
-    217: ["2A", "CATTARINUSSI", "2A", "TRIESTE", "2A", "GARCIA"],
-    218: ["3B", "CHESSA", "3A", "CHIADO'", "3A", "MEYNET"],
-    219: ["3FP", "LOCCI", "2A", "BUSHATI"],
-    220: ["4B", "SORRENTI", "4B", "VIGLIANO", "2FP", "COSTANZA"],
-    221: ["4A", "MILLIERY", "4A", "SALVADORI", "4A", "VALLOMY"]
-        };
+        function sommaFlag(formId) {
+            const checkboxes = document.querySelectorAll(`#${formId} input[type="checkbox"]`);
+            let flagCount = 0; // Contatore per gli assenti
+            let presentCount = 0; // Contatore per i presenti
 
-       // Le funzioni già implementate nel tuo codice rimangono intatte
+            checkboxes.forEach(function(checkbox) {
+                if (checkbox.checked) {
+                    flagCount++; // Incrementa il contatore degli assenti
+                } else {
+                    presentCount++; // Incrementa il contatore dei presenti
+                }
+            });
 
-        // Inizializzazione
-        const giornoCorrente = aggiornaDataOra();
-        generaRighe("primoPianoBody", primoPianoData);
-        generaRighe("secondoPianoBody", secondoPianoData);
-        flaggaNoNotteSe00Entra(); // Chiama la funzione dopo la generazione
-        flaggaNoDinner();
-        classiInLaboratorio(giornoCorrente);
-        
-        calcolaTotali();
+            // Mostra il risultato con i numeri in grassetto e colorati
+            document.getElementById(`result${formId.slice(-1)}`).innerHTML = 
+                `Oggi in questo turno risultano <span class="red-bold">${flagCount}</span> assenti e <span class="green-bold">${presentCount}</span> presenti`;
+        }
 
-        
-        
+        // Chiama la funzione per mostrare la data e flaggare assenti all'apertura della pagina
+        mostraDataOdierna();
+        flaggaAssenti();
 
-        document.body.addEventListener('change', calcolaTotali);
+        // Aggiorna il risultato automaticamente al caricamento della pagina
+        sommaFlag('form1');
+        sommaFlag('form2');
+
+        // Aggiungi un listener che aggiorni il risultato ogni volta che si cambia lo stato di una checkbox
+        document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+            checkbox.addEventListener('change', function() {
+                sommaFlag(checkbox.closest('form').id); // Somma i risultati al cambiamento
+            });
+        });
     </script>
-
-
-
+</body>
+</html>
