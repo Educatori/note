@@ -3,6 +3,11 @@
 
 
 
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -130,7 +135,7 @@
     <!-- Box rosa per i laboratori -->
 <div class="box-pink">
     <div class="column-left">
-        <strong>Laboratori, dinner ore 18:00:</strong><br>
+        <strong>Laboratori con dinner ore 18:00:</strong><br>
         Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B
     </div>
     <div class="column-right">
@@ -148,11 +153,11 @@
     <!-- Box azzurra per i permessi permanenti -->
 <div class="box-blue">
     <div class="column-left">
-        <strong>Permessi Permanenti:</strong><br>
-        LUN: Clerin 1Fp, Chessa 3B; anche Miserendino 1B, Pignatelli 4B con dinner posticipato<br>
-        MAR: Petris 4A<br>
-        MER: Clerin 1Fp, Chessa 3B, Dunand 1B, Trieste 2A; anche Miserendino 1B, Pignatelli 4B con dinner posticipato<br>
-        GIO: Trieste 2A, Petris 4A
+        <strong>Permessi Permanenti no dinner:</strong><br>
+        LUN: Clerin 1Fp, Epicoco 3A<br>
+        MAR: Dunand 1B, Casalicchio 1FP, Petris 4A<br>
+        MER: Clerin 1Fp, Epicoco 3A, Saitta 1A, Trieste 2A<br>
+        GIO: Epicoco 3A, Petris 4A, Trieste 2A
     </div>
         <div class="column-right">
         <button id="Registro">Registro</button>
@@ -178,9 +183,9 @@
                     const cognome = row.cells[1].innerText;
                     const nome = row.cells[2].innerText;
                     const classe = row.cells[3].innerText;  // Classe
-                    const ppLabInfo = row.cells[5].innerText; // Colonna "PP" o "Lab" o "Lab/PP"
+                    const ppLabInfo = row.cells[5].innerText; // Colonna "PP" o "Lab" o "L-P"
                     
-                    // Gestione del contenuto della cella con "PP", "Lab" o "Lab/PP"
+                    // Gestione del contenuto della cella con "PP", "Lab" o "L-P"
                     let pp = '';
                     let lab = '';
                     if (ppLabInfo.includes('PP') && ppLabInfo.includes('lab')) {
@@ -346,7 +351,7 @@
                 <tr><td>49</td><td>GARCIA</td><td>Luis</td><td>2A</td><td><input type="checkbox"></td><td>lab</td></tr>
                 <tr><td>50</td><td>MARANGELO</td><td>Giulio</td><td>2A</td><td><input type="checkbox"></td><td>lab</td></tr>
                 <tr><td>51</td><td>PEAQUIN</td><td>Linda</td><td>2A</td><td><input type="checkbox"></td><td>lab</td></tr>
-                <tr><td>52</td><td>TRIESTE</td><td>Fabrizio</td><td>2A</td><td><input type="checkbox"></td><td>lab/PP</td></tr>
+                <tr><td>52</td><td>TRIESTE</td><td>Fabrizio</td><td>2A</td><td><input type="checkbox"></td><td>labPP</td></tr>
                 <tr><td>53</td><td>ZOPPO</td><td>Rodrigue</td><td>2A</td><td><input type="checkbox"></td><td>lab</td></tr>
                 
                 <!-- Classe 2B -->
