@@ -7,7 +7,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assenti Dinner</title>
+    <title>Presenze Dinner</title>
     <style>
         body {
             font-family: 'Bahnschrift', sans-serif;
@@ -231,7 +231,7 @@
                             <p>Dinner 2 ore 19:15 classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C: <input type="number" id="dinner2" max="99" min="0" maxlength="2"> presenti di 54 + <input type="number" id="edu2" max="99" min="0" maxlength="2"> EDU</p>
                         </div>
                         <div class="list-container">
-                            <h2>Giustificativo NO dinner:</h2>
+                            <h2>Lista:</h2>
                             <ul id="assenti-list"></ul>
                         </div>
                         <button onclick="window.print()">STAMPA</button>
@@ -292,7 +292,7 @@
                 <tr><td>6</td><td>DE GASPER</td><td>Lara</td><td>1A</td><td><input type="checkbox"></td></tr>
                 <tr><td>7</td><td>HERESAZ</td><td>Alyce</td><td>1A</td><td><input type="checkbox"></td></tr>
                 <tr><td>8</td><td>PENNARD</td><td>Serena</td><td>1A</td><td><input type="checkbox"></td></tr>
-                <tr><td>9</td><td>SAITTA</td><td>Asia</td><td>1A</td><td><input type="checkbox"></td></tr>
+                <tr><td>9</td><td>SAITTA</td><td>Asia</td><td>1A</td><td><input type="checkbox"></td><td>PP</td></tr>
                 <tr><td>10</td><td>SILVANI</td><td>Amelie</td><td>1A</td><td><input type="checkbox"></td></tr>
                                 
                 <!-- Classe 1B -->
@@ -311,7 +311,7 @@
                 <tr><td>21</td><td>BERRIAD</td><td>Thierry</td><td>1FP</td><td><input type="checkbox"></td></tr>
                 <tr><td>22</td><td>BERRUTI A</td><td>Andrea</td><td>1FP</td><td><input type="checkbox"></td></tr>
                 <tr><td>23</td><td>BERRUTI S</td><td>Stefano</td><td>1FP</td><td><input type="checkbox"></td></tr>
-                <tr><td>24</td><td>CASALICCHIO</td><td>Nahuel</td><td>1FP</td><td><input type="checkbox"></td></tr>
+                <tr><td>24</td><td>CASALICCHIO</td><td>Nahuel</td><td>1FP</td><td><input type="checkbox"></td><td>PP</td></tr>
                 <tr><td>25</td><td>CLERIN</td><td>Pietro</td><td>1FP</td><td><input type="checkbox"></td><td>PP</td></tr>
                 <tr><td>26</td><td>DONZEL</td><td>Elodie</td><td>1FP</td><td><input type="checkbox"></td></tr>
                 <tr><td>27</td><td>GENS</td><td>Aaron</td><td>1FP</td><td><input type="checkbox"></td></tr>
@@ -399,7 +399,7 @@
                     <tr><td>13</td><td>CHIADÒ CAPONET</td><td>Diego</td><td>3A</td><td><input type="checkbox"></td></tr>
                     <tr><td>14</td><td>CONTA</td><td>Giovanni</td><td>3A</td><td><input type="checkbox"></td></tr>
                     <tr><td>15</td><td>CRESTO</td><td>Daniele</td><td>3A</td><td><input type="checkbox"></td></tr>
-                    <tr><td>16</td><td>EPICOCO</td><td>Angelica</td><td>3A</td><td><input type="checkbox"></td></tr>
+                    <tr><td>16</td><td>EPICOCO</td><td>Angelica</td><td>3A</td><td><input type="checkbox"></td><td>PP</td></tr>
                     <tr><td>17</td><td>HARBAOUI</td><td>Emanuela Leyla</td><td>3A</td><td><input type="checkbox"></td></tr>
                     <tr><td>18</td><td>MANCUSO</td><td>Gaia</td><td>3A</td><td><input type="checkbox"></td></tr>
                     <tr><td>19</td><td>MENALDINO</td><td>Moreno</td><td>3A</td><td><input type="checkbox"></td></tr>
@@ -409,7 +409,7 @@
                     <tr><td>23</td><td>VIOT</td><td>Cecilia</td><td>3A</td><td><input type="checkbox"></td></tr>
                     
                     <!-- Classe 3B -->
-                    <tr><td>24</td><td>CHESSA</td><td>Samuele</td><td>3B</td><td><input type="checkbox"></td></tr>
+                    <tr><td>24</td><td>CHESSA</td><td>Samuele</td><td>3B</td><td><input type="checkbox"></td><td>PP</td></tr>
                     <tr><td>25</td><td>FAVRE</td><td>Emilie</td><td>3B</td><td><input type="checkbox"></td></tr>
                     <tr><td>26</td><td>GORREX</td><td>Valerie</td><td>3B</td><td><input type="checkbox"></td></tr>
                     <tr><td>27</td><td>GUIDI</td><td>Aurora Cheyenne</td><td>3B</td><td><input type="checkbox"></td></tr>
@@ -473,7 +473,6 @@
             if (giorno === 1) { // Lunedì
                 //laboratorio 2C
                 flaggaCheckbox('form1', 'CELESIA');  
-                flaggaCheckbox('form1', 'CHIAROTTO');
                 flaggaCheckbox('form1', 'CUMINO');
                 flaggaCheckbox('form1', 'MERLET');
                 flaggaCheckbox('form1', 'PALMISANO');
@@ -481,6 +480,7 @@
                 //permessi permanenti
                 flaggaCheckbox('form1', 'CLERIN');
                 flaggaCheckbox('form2', 'CHESSA');
+                flaggaCheckbox('form2', 'EPICOCO');
             } else if (giorno === 2) { // Martedì
                  //laboratorio 2A
                 flaggaCheckbox('form1', 'BUSHATI');
@@ -494,6 +494,8 @@
                 flaggaCheckbox('form1', 'ZOPPO');
                 //permessi permanenti
                 flaggaCheckbox('form2', 'PETRIS');
+                flaggaCheckbox('form1', 'DUNAND');
+                flaggaCheckbox('form1', 'CASALICCHIO');
             } else if (giorno === 3) { // Mercoledì
                 //laboratorio 5B, 5C
                 flaggaCheckbox('form2', 'BLANC'); 
@@ -502,12 +504,13 @@
                 flaggaCheckbox('form2', 'CURTAZ');  
                 flaggaCheckbox('form2', 'PERRONE');  
                 //permessi permanenti
-                flaggaCheckbox('form1', 'DUNAND');
                 flaggaCheckbox('form1', 'CLERIN');
                 flaggaCheckbox('form2', 'CHESSA');
                 flaggaCheckbox('form1', 'TRIESTE');
+                flaggaCheckbox('form2', 'EPICOCO');
+                flaggaCheckbox('form1', 'SAITTA');
             } else if (giorno === 4) { // Giovedì
-                //laboratorio 2C
+                //laboratorio 2B
                 flaggaCheckbox('form1', 'BLANCHET');
                 flaggaCheckbox('form1', 'BOGGIA');
                 flaggaCheckbox('form1', 'CIRINA');
@@ -518,6 +521,7 @@
                 //permessi permanenti                
                 flaggaCheckbox('form1', 'TRIESTE');
                 flaggaCheckbox('form2', 'PETRIS');
+                flaggaCheckbox('form2', 'EPICOCO');
             }
         }
 
