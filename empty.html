@@ -48,15 +48,24 @@
         font-size: 1.3em;
         display: flex;
         background-color: pink; /* Cambia il colore di sfondo se necessario */
-        padding: 30px;
+        padding: 50px;
         border-radius: 40px;
          border: 1px solid #ccc;
         }
 
         .column-left {
-        flex: 3; /* 3/4 della larghezza */
+    flex: 1; /* 1/4 della larghezza */
+    
+    align-items: center; /* Centra verticalmente il contenuto */
+    justify-content: center; /* Centra orizzontalmente il contenuto */
         }
-
+        .column-center {
+    flex: 1; /* 1/4 della larghezza */
+    
+    align-items: center; /* Centra verticalmente il contenuto */
+    justify-content: center; /* Centra orizzontalmente il contenuto */
+        }
+        
         .column-right {
     flex: 1; /* 1/4 della larghezza */
     display: flex;
@@ -108,7 +117,7 @@
         }
         button {
             
-            padding: 20px 30px; /* Padding del bottone */
+            padding: 50px 50px; /* Padding del bottone */
             background-color: #f5e7f8; /* Colore di sfondo del bottone */
             border: 1px solid #ccc; /* Bordo del bottone */
             border-radius: 20px; /* Angoli arrotondati aumentati */
@@ -141,13 +150,17 @@
     <!-- Box rosa per i laboratori -->
 <div class="box-pink">
     <div class="column-left">
-        <strong>Classi in Laboratorio, dinner ore 18:00:</strong><br>
-        Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B<br>
          <strong>Permessi Permanenti NO dinner:</strong><br>
         LUN: Clerin 1Fp, Epicoco 3A<br>
         MAR: Dunand 1B, Casalicchio 1FP, Petris 4A<br>
         MER: Clerin 1Fp, Epicoco 3A, Saitta 1A, Trieste 2A<br>
         GIO: Epicoco 3A, Petris 4A, Trieste 2A
+        
+       
+    </div>
+    <div class="column-center">
+         <strong>Classi in Laboratorio, dinner ore 18:00:</strong><br>
+        Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B<br>
     
     </div>
     <div class="column-right">
@@ -176,7 +189,7 @@
     </div>
         
 </div>
- .......................................................... -->
+                                    ................................................. -->
     
 <script> 
         document.getElementById('Registro').addEventListener('click', function() {
@@ -481,9 +494,8 @@
                     <tr><td>52</td><td>RABAGLIO</td><td>Filippo</td><td>4B</td><td><input type="checkbox"></td><td> </td></tr>
                     <tr><td>53</td><td>SORRENTI</td><td>Gabriele</td><td>4B</td><td><input type="checkbox"></td><td> </td></tr>
                     <tr><td>54</td><td>VIGLIANO</td><td>Jacopo</td><td>4B</td><td><input type="checkbox"></td><td> </td></tr>
-                    
-                         
-            </table>
+            
+                </table>
         </form>
     </div>
 </div>
