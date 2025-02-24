@@ -8,6 +8,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -19,7 +20,7 @@
             font-family: 'Bahnschrift', sans-serif;
             margin: 10;
             padding: 30px;
-            background-color: #f5e7f8;
+            background-color: #d6efff;
         }
         .container {
             display: flex;
@@ -35,10 +36,13 @@
         .box-left {
             
             background-color: #f8f8bd;
+            border: 1px solid #ccc;
             
         }
         .box-right {
             background-color: #e3fac3;
+            border: 1px solid #ccc;
+        
         }
         .box-pink {
         font-size: 1.3em;
@@ -46,6 +50,7 @@
         background-color: pink; /* Cambia il colore di sfondo se necessario */
         padding: 30px;
         border-radius: 40px;
+         border: 1px solid #ccc;
         }
 
         .column-left {
@@ -68,7 +73,7 @@
         }
 
         button:hover {
-    background-color: #f7f7c9; /* Colore di sfondo al passaggio del mouse */
+    background-color: white; /* Colore di sfondo al passaggio del mouse */
         }
         .box-orange {
             background-color: #ffb55c;
@@ -85,6 +90,7 @@
             padding: 30px;
             border-radius: 40px;
             margin-bottom: 0px;
+            
         }
         h2 {
             font-weight: bold;
@@ -135,8 +141,14 @@
     <!-- Box rosa per i laboratori -->
 <div class="box-pink">
     <div class="column-left">
-        <strong>Laboratori con dinner ore 18:00:</strong><br>
-        Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B
+        <strong>Classi in Laboratorio, dinner ore 18:00:</strong><br>
+        Lunedì 2C, Martedì 2A, Mercoledì 5BC, Giovedì 2B<br>
+         <strong>Permessi Permanenti NO dinner:</strong><br>
+        LUN: Clerin 1Fp, Epicoco 3A<br>
+        MAR: Dunand 1B, Casalicchio 1FP, Petris 4A<br>
+        MER: Clerin 1Fp, Epicoco 3A, Saitta 1A, Trieste 2A<br>
+        GIO: Epicoco 3A, Petris 4A, Trieste 2A
+    
     </div>
     <div class="column-right">
         <button id="lista_assenti_dinner">Conteggi</button>
@@ -150,7 +162,7 @@
     });
 </script>
     
-    <!-- Box azzurra per i permessi permanenti -->
+    <!-- Box azzurra per i permessi permanenti nascosta .................
 <div class="box-blue">
     <div class="column-left">
         <strong>Permessi Permanenti no dinner:</strong><br>
@@ -162,7 +174,9 @@
         <div class="column-right">
         <button id="Registro">Registro</button>
     </div>
+        
 </div>
+ .......................................................... -->
     
 <script> 
         document.getElementById('Registro').addEventListener('click', function() {
@@ -173,102 +187,119 @@
     
 
    <script> 
-        document.getElementById('lista_assenti_dinner').addEventListener('click', function() {
-            const assenti = [];
-            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+    document.getElementById('lista_assenti_dinner').addEventListener('click', function() {
+    const assenti = [];
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
 
-            checkboxes.forEach(function(checkbox) {
-                if (checkbox.checked) {
-                    const row = checkbox.closest('tr');
-                    const cognome = row.cells[1].innerText;
-                    const nome = row.cells[2].innerText;
-                    const classe = row.cells[3].innerText;  // Classe
-                    const ppLabInfo = row.cells[5].innerText; // Colonna "PP" o "Lab" o "L-P"
+    checkboxes.forEach(function(checkbox) {
+        if (checkbox.checked) {
+            const row = checkbox.closest('tr');
+            const cognome = row.cells[1].innerText;
+            const nome = row.cells[2].innerText;
+            const classe = row.cells[3].innerText;  // Classe
+            const ppLabInfo = row.cells[5].innerText; // Colonna "PP" o "Lab" o "L-P"
+            
+            // Gestione del contenuto della cella con "PP", "Lab" o "L-P"
+            let pp = '';
+            let lab = '';
+            if (ppLabInfo.includes('PP') && ppLabInfo.includes('lab')) {
+                pp = 'oggi: PP';
+                lab = 'oggi: Lab';
+            } else if (ppLabInfo.includes('PP')) {
+                pp = 'oggi: PP';
+            } else if (ppLabInfo.includes('lab')) {
+                lab = 'oggi: Lab';
+            }
+
+            // Aggiungi i dati con la classe
+            assenti.push({ nome: cognome + ' ' + nome, classe: classe, XPP: pp, XLab: lab });
+        }
+    });
+
+    const popup = window.open('', 'Popup', 'width=800,height=600');
+    popup.document.write(`
+        <html>
+            <head>
+                <title>Conteggi Dinner</title>
+                <style>
+                    body { font-family: 'Bahnschrift', sans-serif; margin: 20px; }
+                    h1 { text-align: center; }
+                    ul { padding-left: 20px; }
+                    button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 1.2em; margin-top: 20px; display: block; margin-left: auto; margin-right: auto; }
+                    button:hover { background-color: #45a049; }
+                    .date { font-size: 1.5em; font-weight: bold; text-align: center; }
+                    .details { margin-top: 20px; text-align: center; font-size: 1.2em; }
+                    .list-container { margin-top: 20px; padding-left: 40px; }
+                    input[type="number"] { width: 50px; text-align: center; font-size: 1.2em; }
                     
-                    // Gestione del contenuto della cella con "PP", "Lab" o "L-P"
-                    let pp = '';
-                    let lab = '';
-                    if (ppLabInfo.includes('PP') && ppLabInfo.includes('lab')) {
-                        pp = 'oggi: PP';
-                        lab = 'oggi: Lab';
-                    } else if (ppLabInfo.includes('PP')) {
-                        pp = 'oggi: PP';
-                    } else if (ppLabInfo.includes('lab')) {
-                        lab = 'oggi: Lab';
+                    /* Rimuove le frecce dallo spinner */
+                    input[type="number"]::-webkit-outer-spin-button,
+                    input[type="number"]::-webkit-inner-spin-button {
+                        -webkit-appearance: none;
+                        margin: 0;
                     }
+                    input[type="number"] {
+                        -moz-appearance: textfield;
+                    }
+                </style>
+            </head>
+            <body>
+                <h1>Conteggi</h1>
+                <div class="date" id="popup-date"></div>
+                <div class="details">
+                    <p>Dinner 1 ore 18:30 classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP: <input type="number" id="dinner1" max="99" min="0" maxlength="2"> assenti di 60 + <input type="number" id="edu1" max="99" min="0" maxlength="2"> EDU</p>
+                    <p>Dinner 2 ore 19:15 classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C: <input type="number" id="dinner2" max="99" min="0" maxlength="2"> assenti di 54 + <input type="number" id="edu2" max="99" min="0" maxlength="2"> EDU</p>
+                </div>
+                <div class="list-container">
+                    <h2>Lista:</h2>
+                    <ul id="assenti-list"></ul>
+                </div>
+                <button onclick="window.print()">STAMPA</button>
+            </body>
+        </html>
+    `);
 
-                    // Aggiungi i dati con la classe
-                    assenti.push({ nome: cognome + ' ' + nome, classe: classe, XPP: pp, XLab: lab });
-                }
-            });
+    const listContainer = popup.document.getElementById('assenti-list');
+    const dateContainer = popup.document.getElementById('popup-date');
 
-            const popup = window.open('', 'Popup', 'width=800,height=600');
-            popup.document.write(`
-                <html>
-                    <head>
-                        <title>Conteggi Dinner</title>
-                        <style>
-                            body { font-family: 'Bahnschrift', sans-serif; margin: 20px; }
-                            h1 { text-align: center; }
-                            ul { padding-left: 20px; }
-                            button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 1.2em; margin-top: 20px; display: block; margin-left: auto; margin-right: auto; }
-                            button:hover { background-color: #45a049; }
-                            .date { font-size: 1.5em; font-weight: bold; text-align: center; }
-                            .details { margin-top: 20px; text-align: center; font-size: 1.2em; }
-                            .list-container { margin-top: 20px; padding-left: 40px; }
-                            input[type="number"] { width: 50px; text-align: center; font-size: 1.2em; }
-                            
-                            /* Rimuove le frecce dallo spinner */
-                            input[type="number"]::-webkit-outer-spin-button,
-                            input[type="number"]::-webkit-inner-spin-button {
-                                -webkit-appearance: none;
-                                margin: 0;
-                            }
-                            input[type="number"] {
-                                -moz-appearance: textfield;
-                            }
-                        </style>
-                    </head>
-                    <body>
-                        <h1>Conteggi</h1>
-                        <div class="date" id="popup-date"></div>
-                        <div class="details">
-                            <p>Dinner 1 ore 18:30 classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP: <input type="number" id="dinner1" max="99" min="0" maxlength="2"> presenti di 60 + <input type="number" id="edu1" max="99" min="0" maxlength="2"> EDU</p>
-                            <p>Dinner 2 ore 19:15 classi 3A, 3B, 3FP, 4A, 4B, 5B, 5C: <input type="number" id="dinner2" max="99" min="0" maxlength="2"> presenti di 54 + <input type="number" id="edu2" max="99" min="0" maxlength="2"> EDU</p>
-                        </div>
-                        <div class="list-container">
-                            <h2>Lista:</h2>
-                            <ul id="assenti-list"></ul>
-                        </div>
-                        <button onclick="window.print()">STAMPA</button>
-                    </body>
-                </html>
-            `);
+    // Aggiungi la data nel formato richiesto
+    const oggi = new Date();
+    const options = { weekday: 'long', day: '2-digit', month: 'long' };
+    const dataFormattata = oggi.toLocaleDateString('it-IT', options);
+    dateContainer.textContent = `Oggi è ${dataFormattata}`;
 
-            const listContainer = popup.document.getElementById('assenti-list');
-            const dateContainer = popup.document.getElementById('popup-date');
+    // Aggiungi gli assenti alla lista nel popup
+    if (assenti.length > 0) {
+        assenti.forEach(function(persona, index) { // Aggiungi l'indice per numerare
+            let infoPP = persona.XPP ? `${persona.XPP}` : '';
+            let infoLab = persona.XLab ? `${persona.XLab}` : '';
+            const li = popup.document.createElement('li');
+            li.textContent = `${index + 1}. ${persona.nome} ${persona.classe} - ${infoPP} ${infoLab}`; // Mostra la classe e le informazioni di PP e Lab
+            listContainer.appendChild(li);
+        });
+    } else {
+        const li = popup.document.createElement('li');
+        li.textContent = 'Nessun assente per questo turno.';
+        listContainer.appendChild(li);
+    }
 
-            // Aggiungi la data nel formato richiesto
-            const oggi = new Date();
-            const options = { weekday: 'long', day: '2-digit', month: 'long' };
-            const dataFormattata = oggi.toLocaleDateString('it-IT', options);
-            dateContainer.textContent = `Oggi è ${dataFormattata}`;
-
-            // Aggiungi gli assenti alla lista nel popup
-            if (assenti.length > 0) {
-                assenti.forEach(function(persona, index) { // Aggiungi l'indice per numerare
-                    let infoPP = persona.XPP ? `${persona.XPP}` : '';
-                    let infoLab = persona.XLab ? `${persona.XLab}` : '';
-                    const li = popup.document.createElement('li');
-                    li.textContent = `${index + 1}. ${persona.nome} ${persona.classe} - ${infoPP} ${infoLab}`; // Mostra la classe e le informazioni di PP e Lab
-                    listContainer.appendChild(li);
-                });
-            } else {
-                const li = popup.document.createElement('li');
-                li.textContent = 'Nessun assente per questo turno.';
-                listContainer.appendChild(li);
+    // Calcola il totale delle caselle flaggate (assenti) per Dinner 1 e Dinner 2
+    function contaFlaggate(formId, maxCount) {
+        const checkboxes = document.querySelectorAll(`#${formId} input[type="checkbox"]`);
+        let countFlaggate = 0;
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                countFlaggate++;
             }
         });
+        return countFlaggate;
+    }
+
+    // Aggiornare i campi di conteggio degli assenti
+    popup.document.getElementById('dinner1').value = contaFlaggate('form1', 60);
+    popup.document.getElementById('dinner2').value = contaFlaggate('form2', 54);
+});
+
 </script>
 
 
