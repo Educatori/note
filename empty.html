@@ -1,10 +1,6 @@
 
 
 
-
-
-
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -182,25 +178,24 @@
             const cognome = row.cells[1].innerText;
             const nome = row.cells[2].innerText;
             const classe = row.cells[3].innerText;  // Classe
-            const ppLabInfo = row.cells[5].innerText; // Colonna "PP", "Lab", "L-P", o "Stage"
+            const ppLabInfo = row.cells[5].innerText; // Colonna "PP", "Lab", "L-P"
             
-            // Gestione del contenuto della cella con "PP", "Lab" o "Stage"
+            // Gestione del contenuto della cella con "PP", "Lab"
             let pp = '';
             let lab = '';
-            let stage = '';
+            
             if (ppLabInfo.includes('PP') && ppLabInfo.includes('lab')) {
-                pp = 'oggi: PP';
-                lab = 'oggi: Lab';
+                pp = 'ha PP';
+                lab = 'ha Lab';
             } else if (ppLabInfo.includes('PP')) {
-                pp = 'oggi: PP';
+                pp = 'ha PP';
             } else if (ppLabInfo.includes('lab')) {
-                lab = 'oggi: Lab';
-            } else if (ppLabInfo.includes('stage')) {
-                stage = 'oggi: Stage'; // Aggiunta la categoria Stage
+                lab = 'ha Lab';
+            
             }
 
             // Aggiungi i dati con la classe
-            assenti.push({ nome: cognome + ' ' + nome, classe: classe, XPP: pp, XLab: lab, XStage: stage });
+            assenti.push({ nome: cognome + ' ' + nome, classe: classe, XPP: pp, XLab: lab });
         }
     });
 
@@ -235,11 +230,11 @@
                 <h1>Conteggi Dinner</h1>
                 <div class="date" id="popup-date"></div>
                 <div class="details">
-                    <p>Dinner 1 ore 18:30 <br> classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP: sono presenti <input type="number" id="dinner1" max="99" min="0" maxlength="2" style="border-radius: 10px;"> su 60 + <input type="number" id="edu1" max="99" min="0" maxlength="2" style="border-radius: 10px;"> EDU</p>
-                    <p>Dinner 2 ore 19:15 <br> classi 3FP, 3A, 3B, 4A, 4B, 5B, 5C: sono presenti <input type="number" id="dinner2" max="99" min="0" maxlength="2" style="border-radius: 10px;"> su 54 + <input type="number" id="edu2" max="99" min="0" maxlength="2" style="border-radius: 10px;"> EDU</p>
+                    <p>Dinner 1 ore 18:30 <br> classi 1A, 1B, 1FP, 2A, 2B, 2C, 2FP: risultano <input type="number" id="dinner1" max="99" min="0" maxlength="2" style="border-radius: 10px;"> su 61 + <input type="number" id="edu1" max="99" min="0" maxlength="2" style="border-radius: 10px;"> EDU</p>
+                    <p>Dinner 2 ore 19:15 <br> classi 3FP, 3A, 3B, 4A, 4B, 5B, 5C: risultano <input type="number" id="dinner2" max="99" min="0" maxlength="2" style="border-radius: 10px;"> su 54 + <input type="number" id="edu2" max="99" min="0" maxlength="2" style="border-radius: 10px;"> EDU</p>
                 </div>
                 <div class="list-container">
-                    <h2>Esclusi causa assenza, permesso, laboratorio o stage:</h2>
+                    <h2>Esclusi causa assenza, permesso, laboratorio o altro:</h2>
                     <ul id="assenti-list"></ul>
                 </div>
                 
@@ -262,9 +257,9 @@
         assenti.forEach(function(persona, index) { // Aggiungi l'indice per numerare
             let infoPP = persona.XPP ? `${persona.XPP}` : '';
             let infoLab = persona.XLab ? `${persona.XLab}` : '';
-            let infoStage = persona.XStage ? `${persona.XStage}` : ''; // Aggiunta gestione Stage
+            
             const li = popup.document.createElement('li');
-            li.textContent = `${index + 1}. ${persona.nome} ${persona.classe} - ${infoPP} ${infoLab} ${infoStage}`; // Mostra la classe e le informazioni di PP, Lab e Stage
+            li.textContent = `${index + 1}. ${persona.nome} ${persona.classe} - ${infoPP} ${infoLab} `; // Mostra la classe e le informazioni di PP, Lab
             listContainer.appendChild(li);
         });
     } else {
@@ -423,12 +418,11 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
             <form id="form1">
                 <table>
                     <tr>
-                        <th>Nr</th>
+                        <th>N</th>
                         <th>COGNOME</th>
                         <th>NOME</th>
                         <th>CLASSE</th>
                         <th>ASSENTE</th>
-                        <th>NOTE</th>
                     </tr>
                     
         
@@ -448,7 +442,7 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                 <tr><td>11</td><td>ZANARDI</td><td>Marcel</td><td>1A</td><td><input type="checkbox"></td><td></td></tr>
                                 
                 <!-- Classe 1B -->
-                <tr><td>12</td><td>CHEN</td><td>Michael Jianhao</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
+                <tr><td>12</td><td>CHEN</td><td>Michael</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
                 <tr><td>13</td><td>DELL'AQUILA</td><td>Gabriele</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
                 <tr><td>14</td><td>DUNAND</td><td>Audrey</td><td>1B</td><td><input type="checkbox"></td><td>PP</td></tr>
                 <tr><td>15</td><td>GHILARDINI</td><td>Leonardo</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
@@ -498,7 +492,7 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                 <tr style="color:red;"><td style="color:black;">51</td><td>DUBLANC</td><td>Nicole</td><td>2B</td><td><input type="checkbox"></td><td>lab</td></tr>
                 <tr style="color:red;"><td style="color:black;">52</td><td>GRANATA</td><td>Gabriele</td><td>2B</td><td><input type="checkbox"></td><td>lab</td></tr>
                 <tr style="color:red;"><td style="color:black;">53</td><td>TRIOLO</td><td>Eleonora</td><td>2B</td><td><input type="checkbox"></td><td>lab</td></tr>
-                <tr style="color:red;"><td style="color:black;">54</td><td>PRUTEANU</td><td>Mihai Giuliano</td><td>2B</td><td><input type="checkbox"></td><td>lab</td></tr>
+                <tr style="color:red;"><td style="color:black;">54</td><td>PRUTEANU</td><td>Giuliano</td><td>2B</td><td><input type="checkbox"></td><td>lab</td></tr>
            
                  <!-- Classe 2FP -->
                 <tr><td>55</td><td>CONSOL</td><td>Gaia</td><td>2FP</td><td><input type="checkbox"></td><td></td></tr>
@@ -523,12 +517,11 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
             <form id="form2">
                 <table>
                     <tr>
-                        <th>Nr</th>
+                        <th>N</th>
                         <th>COGNOME</th>
                         <th>NOME</th>
                         <th>CLASSE</th>
                         <th>ASSENTE</th>
-                        <th>NOTE</th>
                     </tr>
                     
                     <!-- Classe 3FP -->
@@ -546,7 +539,7 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                     <tr><td>9</td><td>CONTA</td><td>Giovanni</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>10</td><td>CRESTO</td><td>Daniele</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>11</td><td>EPICOCO</td><td>Angelica</td><td>3A</td><td><input type="checkbox"></td><td>PP</td></tr>
-                    <tr><td>12</td><td>HARBAOUI</td><td>Emanuela Leyla</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
+                    <tr><td>12</td><td>HARBAOUI</td><td>Emanuela</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>13</td><td>MANCUSO</td><td>Gaia</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>14</td><td>MENALDINO</td><td>Moreno</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>15</td><td>NAVARRETTA SCHIRRU</td><td>Alexis Denis Fabien</td><td>3A</td><td><input type="checkbox"></td><td></td></tr>
@@ -567,7 +560,7 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                     <!-- Clase 4A -->
                     <tr><td>27</td><td>CARRUOZZO V</td><td>Virginia</td><td>4A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>28</td><td>CELESIA</td><td>Alessio</td><td>4A</td><td><input type="checkbox"></td><td></td></tr>
-                    <tr><td>29</td><td>COTTINO</td><td>Jacqueline</td><td>4A</td><td><input type="checkbox"></td><td></td></tr>
+                    <tr><td>29</td><td>COTTINO</td><td>Jacqueline</td><td>4A</td><td><input type="checkbox"></td><td>erasmus</td></tr>
                     <tr><td>30</td><td>DANNA</td><td>Gioele</td><td>4A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>31</td><td>DE GATTIS</td><td>Eleonora</td><td>4A</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>32</td><td>KOUROUMA</td><td>Nora</td><td>4A</td><td><input type="checkbox"></td><td></td></tr>
@@ -583,7 +576,7 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                     <tr><td>40</td><td>CARRUOZZO A</td><td>Amalia</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>41</td><td>CORVO</td><td>Filippo</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>42</td><td>DI TRIA</td><td>Alice</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
-                    <tr><td>43</td><td>HACHEMAOUI</td><td>Slimane Raffaello</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
+                    <tr><td>43</td><td>HACHEMAOUI</td><td>Raffaello</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>44</td><td>LINTY</td><td>Alys</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>45</td><td>PICCOLI</td><td>Greta</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
                     <tr><td>46</td><td>PIGNATELLI</td><td>Maria Vittoria</td><td>4B</td><td><input type="checkbox"></td><td></td></tr>
@@ -635,8 +628,9 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                 //permessi permanenti
                 flaggaCheckbox('form1', 'CLERIN');
                 flaggaCheckbox('form2', 'EPICOCO');
-        //assenti per stage
-                flaggaCheckbox
+        //assenti per altro
+                flaggaCheckbox('form2', 'HARBAOUI');
+                flaggaCheckbox('form2', 'COTTINO');
             } else if (giorno === 2) { // Martedì
                  //laboratorio 2A
                 flaggaCheckbox('form1', 'BUSHATI');
@@ -652,8 +646,9 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                 flaggaCheckbox('form2', 'PETRIS');
                 flaggaCheckbox('form1', 'DUNAND');
                 flaggaCheckbox('form1', 'CASALICCHIO');
-        //assenti per stage
-                flaggaCheckbox
+        //assenti per altro
+                flaggaCheckbox('form2', 'HARBAOUI');
+                flaggaCheckbox('form2', 'COTTINO');
             } else if (giorno === 3) { // Mercoledì
                 //laboratorio 5B, 5C
                 flaggaCheckbox('form2', 'BLANC'); 
@@ -666,8 +661,9 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                 flaggaCheckbox('form1', 'TRIESTE');
                 flaggaCheckbox('form2', 'EPICOCO');
                 flaggaCheckbox('form1', 'SAITTA');
-        //assenti per stage
-                flaggaCheckbox
+        //assenti per altro
+                flaggaCheckbox('form2', 'HARBAOUI');
+                flaggaCheckbox('form2', 'COTTINO');
             } else if (giorno === 4) { // Giovedì
                 //laboratorio 2B
                 flaggaCheckbox('form1', 'BLANCHET');
@@ -681,8 +677,9 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
                 flaggaCheckbox('form1', 'TRIESTE');
                 flaggaCheckbox('form2', 'PETRIS');
                 flaggaCheckbox('form2', 'EPICOCO');
-        //assenti per stage
-                flaggaCheckbox
+        //assenti per altro
+                flaggaCheckbox('form2', 'HARBAOUI');
+                flaggaCheckbox('form2', 'COTTINO');
             }
         }
 
@@ -733,6 +730,4 @@ inoltre cancella stage nella griglia 531 e lista assenti dalle giornate 634
     </script>
 </body>
 </html>
-
-
 
