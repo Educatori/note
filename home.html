@@ -1,62 +1,65 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>homepage con le bolle</title>
+    <title>Homepage con le bolle</title>
     <style>
         body {
             font-family: Verdana, sans-serif;
-          
             background-color: #e3f2fd; /* Colore di sfondo blu chiaro */
             margin: 0;
             padding: 15px;
+        }
 
-              
-        }
-        
         .resize-image {
-    max-width: 50%;  /* L'immagine non supererà la larghezza del suo contenitore */
-    height: auto;  /* Mantenere le proporzioni */
+            max-width: 50%;  /* L'immagine non supererà la larghezza del contenitore */
+            height: auto;    /* Mantiene le proporzioni */
         }
-        
+
         .grid-container {
             display: grid;
             grid-template-rows: repeat(2, auto) 1fr repeat(2, auto);
             grid-template-columns: repeat(4, 3fr);
             gap: 10px;
             text-align: center;
+            align-items: center;
+            justify-items: center;
         }
+
         .grid-item {
             font-weight: bold;
             font-size: 20px;
             padding: 20px;
             border: 1px solid #000;
-            border-radius: 500px; /* Smussare gli angoli */
+            border-radius: 500px;
         }
-        /* Modifica le righe specifiche */
+
         .row-span-3 {
             grid-column: span 4;
         }
+
         /* Stile per la data e l'orologio */
         #data, #orario {
-            font-size: 28px; /* Dimensione aumentata */
+            font-size: 28px;
             margin: 10px 0;
         }
+
         /* Stile per le sub-celle */
         .sub-item {
-            border-radius: 500px; /* Smussare angoli delle sub-celle */
+            border-radius: 500px;
             padding: 10px;
             margin: 0.5px 0;
-            width: 70px; /* Larghezza fissa per le sub-celle */
-            display: inline-block; /* Assicura che si comportino come elementi in linea */
+            width: 70px;
+            display: inline-block;
+            background-color: yellowgreen;
+            color: yellowgreen;
         }
-        /* Colori di sfondo e testo per ogni cella */
-        
+
+        /* Colori delle celle principali */
         .grid-item:nth-child(1) { background-color: #7046e2; color: ghostwhite; }
         .grid-item:nth-child(2) { background-color: yellowgreen; color: #b500b5; }
         .grid-item:nth-child(3) { background-color: #ADD8E6; color: #8B0000; }
@@ -69,158 +72,128 @@
         .grid-item:nth-child(10) { background-color: red; color: whitesmoke; }
         .grid-item:nth-child(11) { background-color: #00e3ff; color: #bb5f00; }
         .grid-item:nth-child(12) { background-color: #090707; color: yellow; }
-        
 
-        /* Colori di sfondo per le sub-celle */
-        .sub-item {
-            background-color: yellowgreen; 
-            color: yellowgreen; 
-
-                            
-         }
-        /* Stile per le caselle di testo */
+        /* Input numerici */
         .input-number {
-            font-size: 1em; /* Dimensione font aumentata */
+            font-size: 1em;
             padding: 10px;
-            width: 50px; /* Larghezza fissa per le caselle */
-            border: 1px solid #e3f2fd; /* Bordo marrone scuro */
+            width: 50px;
+            border: 1px solid #e3f2fd;
             border-radius: 100px;
             text-align: center;
-            -moz-appearance: textfield; /* Rimuovi frecce in Firefox */
+            -moz-appearance: textfield;
         }
-        /* Rimuovi frecce di scorrimento in Chrome e Safari */
+
         .input-number::-webkit-inner-spin-button,
         .input-number::-webkit-outer-spin-button {
             -webkit-appearance: none;
-            
             margin: 0;
+        }
     </style>
 </head>
 <body>
 
     <div class="grid-container">
-        <!-- Prima serie -->
-        
+        <!-- Orologio e data -->
         <div class="grid-item row-span-3">
-            
-            <p id="orario"></p> <!-- Spazio per l'orologio -->
-            <p id="data"></p> <!-- Spazio per la data -->
+            <p id="orario"></p>
+            <p id="data"></p>
         </div>
 
-        <!-- Seconda sezione a tre colonne -->
+        <!-- Oggi LAB -->
         <div class="grid-item">
-           <br> OGGI LAB <br>
-        
-            <div class="sub-item" id="sub2P">2P</div>
+            <br> OGGI LAB <br>
+            <div class="sub-item" id="sub2FP">2FP</div>
             <div class="sub-item" id="sub5A-B">5A-B</div><br>
-            <div class="sub-item" id="sub2B">2B</div> 
+            <div class="sub-item" id="sub2B">2B</div>
             <div class="sub-item" id="sub2A">2A</div>
-            
         </div>
+
+        <!-- Primo Dinner -->
         <div class="grid-item">
             <br>Primo <br> Dinner 18:30
-            <div>
-                <p>1A, 1B, 1FP, 2A, 2B, 2FP, 3FP</p>
-                <p> </p>
-                 <td>
-               
-            </td>
-            </div>
+            <p>1A, 1B, 1FP, 2A, 2B, 2FP, 3FP</p>
         </div>
+
+        <!-- Secondo Dinner -->
         <div class="grid-item">
             <br>Secondo <br> Dinner 19:15
             <p>3A, 3B, 3C, 4A, 4B, 5A, 5B</p>
-             <p> </p>
-             <td>
-                
-            </td>
         </div>
+
+        <!-- Ora studio -->
         <div class="grid-item">
-           <br> ORA STUDIO
-            <p>1A-1B-1P: 19:00-20:00</p>
+            <br> ORA STUDIO
+            <p>1A-1B-1FP: 19:00-20:00</p>
         </div>
+
+        <!-- Attività -->
         <div class="grid-item">
-           
-            <br>Iscrivetevi alle attività <br> del Campus <br> 
-       </div>
+            <br>Iscrivetevi alle attività <br> del Campus
+        </div>
+
+        <!-- Colazione -->
         <div class="grid-item">
-          
             <p>COLAZIONE DALLE 6:45</p>
-             <a href="chiave.html">
-    <img src="freccia1.png" alt="freccia" class="resize-image">
-                
+            <a href="chiave.html">
+                <img src="freccia1.png" alt="Freccia per accedere alla chiave" class="resize-image">
             </a>
-            
-            
         </div>
+
+        <!-- Bus -->
         <div class="grid-item">
             BUS 7:30
             <p>PUNTUALI NELLA HALL</p>
-            <p> </p>
-            
         </div>
+
+        <!-- Furgone -->
         <div class="grid-item">
             FURGONE 7:30
-            <p> PRIORITA' ALLE CLASSI IN SERVIZIO E ALLA 5A
-            <p> </p>
-            
-          
+            <p>PRIORITÀ ALLE CLASSI IN SERVIZIO E ALLA 5A</p>
         </div>
-      
-        <!-- Seconda serie -->
+
+        <!-- QR Code -->
         <div class="grid-item row-span-3">
-            
-           <a href="https://forms.gle/eZktTFe7ZHzrDH9MA">
-  <img src="QR-modul.png" alt="QR Code" class="resize-image">
-</a>
-            
-         
+            <a href="https://forms.gle/eZktTFe7ZHzrDH9MA">
+                <img src="QR-modul.png" alt="QR Code iscrizione attività" class="resize-image">
+            </a>
         </div>
+
+        <!-- Link Home -->
         <div class="grid-item row-span-3">
-         <a href="home.html" class="link">home</a>
-         </div>
+            <a href="home.html" class="link">home</a>
+        </div>
     </div>
 
     <script>
-        // Funzione per ottenere la data odierna con il giorno della settimana
+        // Mostra la data con giorno della settimana
         const today = new Date();
         const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         document.getElementById('data').innerText = today.toLocaleDateString('it-IT', options);
 
-        // Cambia il colore di sfondo delle sub-celle in base al giorno della settimana
-        const dayOfWeek = today.getDay(); // 0 è domenica, 1 è lunedì, ..., 6 è sabato
-
-        if (dayOfWeek === 1) { // Lunedì
-            document.getElementById('sub2P').style.backgroundColor = 'purple';
-            document.getElementById('sub2P').style.color = '#FFFFFF';
-        }
-        if (dayOfWeek === 2) { // Martedì
-            document.getElementById('sub5A-B').style.backgroundColor = 'purple';
-            document.getElementById('sub5A-B').style.color = '#FFFFFF';
-        }
-        if (dayOfWeek === 3) { // Mercoledì
-              document.getElementById('sub-4BS').style.backgroundColor = 'purple';
-              document.getElementById('sub-4BS').style.color = '#FFFFFF';
-            document.getElementById('sub2B').style.backgroundColor = 'purple';
-            document.getElementById('sub2B').style.color = '#FFFFFF';
-        }
-        if (dayOfWeek === 4) { // Giovedì
-            document.getElementById('sub-4BC').style.backgroundColor = 'purple';
-            document.getElementById('sub-4BC').style.color = '#FFFFFF';
-            document.getElementById('sub2A').style.backgroundColor = 'purple';
-            document.getElementById('sub2A').style.color = '#FFFFFF';
+        // Evidenzia i LAB del giorno
+        const dayOfWeek = today.getDay(); // 0 = domenica, 1 = lunedì, ... 6 = sabato
+        function highlight(id) {
+            const elem = document.getElementById(id);
+            if (elem) {
+                elem.style.backgroundColor = 'purple';
+                elem.style.color = '#FFFFFF';
+            }
         }
 
-        // Funzione per aggiornare l'orologio
+        if (dayOfWeek === 1) highlight('sub2FP');    // Lunedì
+        if (dayOfWeek === 2) highlight('sub5A-B');   // Martedì
+        if (dayOfWeek === 3) highlight('sub2B');     // Mercoledì
+        if (dayOfWeek === 4) highlight('sub2A');     // Giovedì
+
+        // Orologio in tempo reale
         function updateClock() {
             const now = new Date();
             const timeString = now.toLocaleTimeString('it-IT');
             document.getElementById('orario').innerText = timeString;
         }
-
-        // Aggiornare l'orologio ogni secondo
         setInterval(updateClock, 1000);
-        updateClock(); // Esegui subito per non aspettare un secondo
+        updateClock();
     </script>
 
 </body>
