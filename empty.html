@@ -3,7 +3,6 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -208,9 +207,6 @@
     
   <script>
       
-       // script del POPUP INIZIA AL RIGO 240
-      
-      
 document.getElementById('lista_assenti_dinner').addEventListener('click', function() {
     const assenti = [];
     const checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -270,24 +266,26 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                 <h1>Conteggi Dinner</h1>
                 <div class="date" id="popup-date"></div>
                 <div class="details">
+                    <h2>Laboratori LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
                     <p>
-                        Dinner 1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
-                         
-                         assenti <input type="number" id="assenti1" readonly> 
-                    PRESENTI <input type="number" id="presenti1" readonly> 
-                + EDUCATORI <input type="number" id="edu1" max="99" min="0">
+                        Dinner_0 ore 18:00 covittori totali <input type="number" id="assentiLab" readonly> 
+                        </p>
+                    <p>
+                        Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
+                        assenti <input type="number" id="assenti1" readonly> 
+                        presenti <input type="number" id="presenti1" readonly> 
+                        + EDUCATORI <input type="number" id="edu1" max="99" min="0">
                     </p>
                     <p>
-                        Dinner 2 ore 19:15 classi 3A, 3B, 3C, 4A, 4B, 5A, 5B:<br>
-                        
+                        Dinner_2 ore 19:15 classi 3A, 3B, 3C, 4A, 4B, 5A, 5B:<br>
                         assenti <input type="number" id="assenti2" readonly>
-                    PRESENTI <input type="number" id="presenti2" readonly> 
-                + EDUCATORI <input type="number" id="edu2" max="99" min="0">
+                        presenti <input type="number" id="presenti2" readonly> 
+                        + EDUCATORI <input type="number" id="edu2" max="99" min="0">
                     </p>
                 </div>
                 <div class="list-container">
-                    <h2>Laboratorio LUN 2 IEFP, MAR 5A 5B, MER 2B, GIO 2A</h2>
-                    <h2>Esclusi causa assenza, permesso, laboratorio o altro:</h2>
+                    
+                    <h2>Esclusi dai turni 18:30 / 19:15 causa laboratorio, assenza, permesso o altro:</h2>
                     <ul id="assenti-list"></ul>
                 </div>
                 <button onclick="window.print()">STAMPA</button>
@@ -335,15 +333,34 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
 
         popup.document.getElementById('presenti2').value = presenti2;
         popup.document.getElementById('assenti2').value = assenti2;
+
+        // ---- CALCOLO DINNER LAB ----
+        let giorno = oggi.getDay(); // 1=lunedì, 2=martedì, 3=mercoledì, 4=giovedì
+        let classiLab = [];
+        if (giorno === 1) classiLab = ["2P"];
+        if (giorno === 2) classiLab = ["5A", "5B"];
+        if (giorno === 3) classiLab = ["2B"];
+        if (giorno === 4) classiLab = ["2A"];
+
+        let presentiLab = 0, assentiLab = 0;
+        checkboxes.forEach(cb => {
+            const row = cb.closest('tr');
+            const classe = row.cells[2].innerText.trim();
+            if (classiLab.includes(classe)) {
+                if (cb.checked) assentiLab++;
+                else presentiLab++;
+            }
+        });
+
+        popup.document.getElementById('assentiLab').value = assentiLab;
+        popup.document.getElementById('presentiLab').value = presentiLab;
     }
 
     calcolaConteggi();
 });
       
-      // fine script del popup
-      
 </script>
- 
+
     
     
                                     <!--
@@ -538,30 +555,30 @@ FLORIAN E TRIOLO ASSENTI PER THONON FINO AL 6 OTTOBRE
  
                     <!-- Classe 5A -->
                     
-            <tr style="color:mediumpurple;"><td>CARRUOZZO A.</td><td>Amalia</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>CELESIA A.</td><td>Alessio</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>DE GATTIS</td><td>Eleonora</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>OBERT</td><td>Tommy</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>PETRIS</td><td>Maurizio</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>PICCOLI</td><td>Greta</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>PIGNATELLI</td><td>Maria Vittoria</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>RASO</td><td>Beatrice</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>SALVADORI</td><td>Emile</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>SORRENTI</td><td>Gabriele</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>VALLOMY</td><td>Etienne</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>VIGLIANO</td><td>Jacopo</td><td>5A</td><td><input type="checkbox"></td><td>MA</td></tr>
+            <tr style="color:mediumpurple;"><td>CARRUOZZO A.</td><td>Amalia</td><td>5A</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>CELESIA A.</td><td>Alessio</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>DE GATTIS</td><td>Eleonora</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>OBERT</td><td>Tommy</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>PETRIS</td><td>Maurizio</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>PICCOLI</td><td>Greta</td><td>5A</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>PIGNATELLI</td><td>Maria Vittoria</td><td>5A</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>RASO</td><td>Beatrice</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>SALVADORI</td><td>Emile</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>SORRENTI</td><td>Gabriele</td><td>5A</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>VALLOMY</td><td>Etienne</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>VIGLIANO</td><td>Jacopo</td><td>5A</td><td><input type="checkbox"></td><td>MA_1</td></tr>
 
                     <!-- Classe 5B -->
                     
-            <tr style="color:mediumpurple;"><td>CARRUOZZO V.</td><td>Virginia</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>CHREIM</td><td>Khadijé</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>CORVO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>COTTINO</td><td>Jacqueline</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>KOURUMA</td><td>Nora</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>LINTY</td><td>Alys</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>MARGUERETTAZ</td><td>Greta</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>MILLERY</td><td>Mathieu</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
-            <tr style="color:mediumpurple;"><td>RABAGLIO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA</td></tr>
+            <tr style="color:mediumpurple;"><td>CARRUOZZO V.</td><td>Virginia</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>CHREIM</td><td>Khadijé</td><td>5B</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>CORVO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>COTTINO</td><td>Jacqueline</td><td>5B</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>KOURUMA</td><td>Nora</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>LINTY</td><td>Alys</td><td>5B</td><td><input type="checkbox"></td><td>MA_1</td></tr>
+            <tr style="color:mediumpurple;"><td>MARGUERETTAZ</td><td>Greta</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>MILLERY</td><td>Mathieu</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+            <tr style="color:mediumpurple;"><td>RABAGLIO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA_1</td></tr>
                                      
                 </table>
         </form>
