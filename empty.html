@@ -1,6 +1,5 @@
 
 
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -97,10 +96,10 @@
     <div class="box-pink">
         <div class="column-left">
             <strong>Permessi Permanenti NODinner/NORientro:</strong><br>
-            <span class="DAY-brown">LUN</span>: <br>
-            <span class="DAY-brown">MAR</span>: CHEVRERE 1FP -NOR<br>
-            <span class="DAY-brown">MER</span>: <br>
-            <span class="DAY-brown">GIO</span>: <br> 
+            <span class="DAY-brown">LUN</span>: TESSARIN -NOR<br>
+            <span class="DAY-brown">MAR</span>: CASALICCHIO(18), CLERIN(18), CHEVRERE -NOR<br>
+            <span class="DAY-brown">MER</span>: CASALICCHIO(18), TESSARIN -NOR<br>
+            <span class="DAY-brown">GIO</span>: CASALICCHIO(18)<br> 
         </div>
         <div class="column-center">
             <strong>Classi in Laboratorio, dinner ore 18:00:</strong><br>
@@ -181,7 +180,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                 <div class="details">
                     <h2>Laboratori LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
                     <p>
-                        Dinner_0 ore 18:00 covittori totali <input type="number" id="assentiLab" readonly> 
+                        Dinner_0 ore 18:00 covittori totali <input type="number" id="assentiLab" readonly> +CASALICCHIO
                         </p>
                     <p>
                         Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
@@ -615,22 +614,30 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
 
         if (giorno === 1) { // Lunedì
             flaggaCheckbox('form1', '2P');
+            flaggaCheckboxByCognome('form1', 'CASALICCHIO');
             flaggaCheckboxByCognome('form2', 'FLORIAN');
             flaggaCheckboxByCognome('form2', 'TRIOLO');
+            flaggaCheckboxByCognome('form2', 'TESSARIN');
         } 
         else if (giorno === 2 || giorno === 5) { // Martedì o Venerdì
             flaggaGruppoDaCalendario('form2');
+            flaggaCheckboxByCognome('form1', 'CLERIN');
+            flaggaCheckboxByCognome('form1', 'CASALICCHIO'); 
             flaggaCheckboxByCognome('form1', 'CHEVRERE');
             flaggaCheckboxByCognome('form2', 'FLORIAN');
             flaggaCheckboxByCognome('form2', 'TRIOLO');
         } 
         else if (giorno === 3) { // Mercoledì
             flaggaCheckbox('form1', '2B');
+            flaggaCheckboxByCognome('form1', 'CASALICCHIO');
             flaggaCheckboxByCognome('form2', 'FLORIAN');
             flaggaCheckboxByCognome('form2', 'TRIOLO');
+            flaggaCheckboxByCognome('form2', 'TESSARIN');
         } 
         else if (giorno === 4) { // Giovedì
             flaggaCheckbox('form1', '2A');
+            flaggaCheckboxByCognome('form1', 'CLERIN');
+            flaggaCheckboxByCognome('form1', 'CASALICCHIO');
             flaggaCheckboxByCognome('form2', 'FLORIAN');
             flaggaCheckboxByCognome('form2', 'TRIOLO');
         }
