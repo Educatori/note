@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -93,16 +95,16 @@
 
     <div class="box-pink">
         <div class="column-left">
-            <strong>Permessi Permanenti NODinner/NORientro:</strong><br>
-            <span class="DAY-brown">LUN</span>: TESSARIN -NOR<br>
-            <span class="DAY-brown">MAR</span>: CASALICCHIO(18), CLERIN(18), CHEVRERE -NOR<br>
-            <span class="DAY-brown">MER</span>: CASALICCHIO(18)<br>
-            <span class="DAY-brown">GIO</span>: CASALICCHIO(18)<br> 
+            <strong>Permessi Permanenti DinnerOre[x]/NODinner/NORientro:</strong><br>
+            <span class="DAY-brown">LUN</span>: TESSARIN-NOR, PIGNATELLI[20]<br>
+            <span class="DAY-brown">MAR</span>: CASALICCHIO[18], CLERIN[18], CHEVRERE-NOR<br>
+            <span class="DAY-brown">MER</span>: CASALICCHIO[18], PIGNATELLI[20]<br>
+            <span class="DAY-brown">GIO</span>: CASALICCHIO[18]<br> 
         </div>
         <div class="column-center">
-            <strong>Classi in Laboratorio, dinner ore 18:00:</strong><br>
+            <strong>Classi in Laboratorio con dinner ore 18:00:</strong><br>
             <span class="DAY-limegreen">Lunedì</span> 2P <br>
-            <span class="DAY-mediumpurple">Martedì</span> 5A-B <br>
+            <span class="DAY-mediumpurple">Martedì</span> 5A, 5B gruppi 1 e 2 <br>
             <span class="DAY-deepskyblue">Mercoledì</span> 2B <br>
             <span class="DAY-mediumvioletred">Giovedì</span> 2A <br>
         </div>
@@ -309,8 +311,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     <tr><td>GIOVANDO</td><td>Caterina</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>LUNARDI</td><td>Filippo</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>POUJOL</td><td>Chiara</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
-    
-                    <tr><td>QUERIO GIANETTO</td><td>Giorgio</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
+    <tr><td>QUERIO GIANETTO</td><td>Giorgio</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>SALVI</td><td>Sophie</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>SCHIRRU</td><td>Didier Félicien Hervé</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>SILVANI</td><td>Amelie</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
@@ -421,7 +422,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     <tr><td>CIRINA</td><td>Lorenzo</td><td>3B</td><td><input type="checkbox"></td><td></td></tr>         
     <tr><td>DUBLANC</td><td>Nicole</td><td>3B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>GRANATA</td><td>Gabriele</td><td>3B</td><td><input type="checkbox"></td><td></td></tr>
-    <tr><td>PRUTEANU</td><td>Mihai Giuliano</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
+    <tr><td>PRUTEANU</td><td>Mihai Giuliano</td><td>3B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>TRIOLO</td><td>Eleonora</td><td>3B</td><td><input type="checkbox"></td><td>TH</td></tr>
   
                     <!-- Classe 3C -->               
@@ -492,7 +493,20 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     <tr style="color:mediumpurple;"><td>MARGUERETTAZ</td><td>Greta</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
     <tr style="color:mediumpurple;"><td>MILLERY</td><td>Mathieu</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
     <tr style="color:mediumpurple;"><td>RABAGLIO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-                                     
+    
+<!-- STUDENTI THONON DAL 20/10 AL 15/11 
+                    
+    <tr style="color:darkcyan;"><td>Bergeon</td><td>Delphine</td><td>TH</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+    <tr style="color:darkcyan;"><td>Dominique</td><td>Mathilde</td><td>TH</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+    <tr style="color:darkcyan;"><td>Ballian</td><td>Zoe</td><td>TH</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+    <tr style="color:darkcyan;"><td>El Maadoure</td><td>Jahid</td><td>TH</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+    <tr style="color:darkcyan;"><td>Tellier</td><td>Noa</td><td>TH</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+    <tr style="color:darkcyan;"><td>Trincat</td><td>Romane</td><td>TH</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+                    
+                     -->
+                
+                
+                    
                 </table>
         </form>
     </div>
@@ -601,7 +615,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     // FUNZIONE PRINCIPALE
     // =====================
         
-                            <!-- florian e triolo SOLO fino al 6 ottobre -->
+                            
         
         
     function flaggaAssenti() {
@@ -613,31 +627,47 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
         if (giorno === 1) { // Lunedì
             flaggaCheckbox('form1', '2P');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
-            flaggaCheckboxByCognome('form2', 'FLORIAN');
-            flaggaCheckboxByCognome('form2', 'TRIOLO');
+            
+    <!-- florian e triolo fino al 6 ottobre -->        
+    flaggaCheckboxByCognome('form2', 'FLORIAN');
+    flaggaCheckboxByCognome('form2', 'TRIOLO');
+            
             flaggaCheckboxByCognome('form2', 'TESSARIN');
+            flaggaCheckboxByCognome('form2', 'PIGNATELLI');
+            
         } 
         else if (giorno === 2 || giorno === 5) { // Martedì o Venerdì
             flaggaGruppoDaCalendario('form2');
             flaggaCheckboxByCognome('form1', 'CLERIN');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO'); 
             flaggaCheckboxByCognome('form1', 'CHEVRERE');
-            flaggaCheckboxByCognome('form2', 'FLORIAN');
-            flaggaCheckboxByCognome('form2', 'TRIOLO');
+             
+    <!-- florian e triolo fino al 6 ottobre -->            
+    flaggaCheckboxByCognome('form2', 'FLORIAN');
+    flaggaCheckboxByCognome('form2', 'TRIOLO');
+            
+        
         } 
         else if (giorno === 3) { // Mercoledì
             flaggaCheckbox('form1', '2B');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
-            flaggaCheckboxByCognome('form2', 'FLORIAN');
-            flaggaCheckboxByCognome('form2', 'TRIOLO');
+             
+    <!-- florian e triolo fino al 6 ottobre -->            
+    flaggaCheckboxByCognome('form2', 'FLORIAN');
+    flaggaCheckboxByCognome('form2', 'TRIOLO');
+            
+            flaggaCheckboxByCognome('form2', 'PIGNATELLI');
          
         } 
         else if (giorno === 4) { // Giovedì
             flaggaCheckbox('form1', '2A');
             flaggaCheckboxByCognome('form1', 'CLERIN');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
-            flaggaCheckboxByCognome('form2', 'FLORIAN');
-            flaggaCheckboxByCognome('form2', 'TRIOLO');
+             
+    <!-- florian e triolo fino al 6 ottobre -->            
+    flaggaCheckboxByCognome('form2', 'FLORIAN');
+    flaggaCheckboxByCognome('form2', 'TRIOLO');
+            
         }
 
         sommaFlag('form1');
