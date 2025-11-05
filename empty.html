@@ -178,7 +178,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                 <div class="details">
                     <h2>Laboratori LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
                     <p>
-                        Dinner_0 ore 18:00 convittori totali <input type="number" id="assentiLab" readonly> +CASALICCHIO
+                        Dinner_0 ore 18:00 convittori totali <input type="number" id="assentiLab" > + CASALICCHIO + <input type= "text" id="altroDettaglioLab" style="width: 200px;">
                         </p>
                     <p>
                         Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
@@ -348,7 +348,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                 <!-- Classe 2B --> 
                     
     <tr style="color:blue;"><td>CHEN</td><td>Michael Jianhao</td><td>2B</td><td><input type="checkbox"></td><td>ME</td></tr>
-    <tr style="color:blue;"><td>DELLAQUILA</td><td>Gabriele</td><td>2B</td><td><input type="checkbox"></td><td>ME</td></tr>
+    <tr style="color:blue;"><td>DELL'AQUILA</td><td>Gabriele</td><td>2B</td><td><input type="checkbox"></td><td>ME</td></tr>
     <tr style="color:blue;"><td>DUNAND</td><td>Audrey</td><td>2B</td><td><input type="checkbox"></td><td>ME</td></tr>
     <tr style="color:blue;"><td>GHILARDINI</td><td>Leonardo</td><td>2B</td><td><input type="checkbox"></td><td>ME</td></tr>
     <tr style="color:blue;"><td>MAINO</td><td>Giada</td><td>2B</td><td><input type="checkbox"></td><td>ME</td></tr>
@@ -616,7 +616,7 @@ const calendarioLab5AB_Q2 = {
                 debugBox.style.marginTop = "10px";
                 document.querySelector("h1").after(debugBox);
             }
-        
+        <!-- SCRIPT PRINCIPALE FINALE 
             debugBox.innerHTML = `
             
             
@@ -624,8 +624,11 @@ const calendarioLab5AB_Q2 = {
                 <span style="color:blue">${gruppo}</span> classi quinte
                 <div style="font-size:0.9em; color:#444; margin-top:5px;">
                     
+                    
+                    
                 </div>
             `;
+        -->    
         }
     }
 
