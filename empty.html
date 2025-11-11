@@ -94,10 +94,10 @@
     <div class="box-pink">
         <div class="column-left">
             <strong>Permessi Permanenti DinnerOre[x]/NODinner/NORientro:</strong><br>
-            <span class="DAY-brown">LUN</span>: TESSARIN-NOR, PIGNATELLI[20]<br>
+            <span class="DAY-brown">LUN</span>: TESSARIN-NOR, PIGNATELLI[20], MENALDINO [20]<br>
             <span class="DAY-brown">MAR</span>: CASALICCHIO[18], CLERIN[18], CHEVRERE-NOR<br>
             <span class="DAY-brown">MER</span>: CASALICCHIO[18], PIGNATELLI[20]<br>
-            <span class="DAY-brown">GIO</span>: CASALICCHIO[18]<br> 
+            <span class="DAY-brown">GIO</span>: CASALICCHIO[18], MENALDINO [20]<br> 
         </div>
         <div class="column-center">
             <strong>Classi in Laboratorio con dinner ore 18:00:</strong><br>
@@ -176,20 +176,20 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                 <h1>Conteggi Dinner</h1>
                 <div class="date" id="popup-date"></div>
                 <div class="details">
-                    <h2>Laboratori LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
+                    <h2>LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
                     <p>
-                        Dinner_0 ore 18:00 convittori totali <input type="number" id="assentiLab" > + CASALICCHIO + <input type= "text" id="altroDettaglioLab" style="width: 200px;">
+                        Dinner_0 ore 18:00 convittori in laboratorio <input type="number" id="assentiLab" readonly> + CASALICCHIO + <input type= "text" id="altroDettaglioLab" style="width: 250px;">
                         </p>
                     <p>
                         Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
                         assenti <input type="number" id="assenti1" readonly> 
-                        presenti <input type="number" id="presenti1" > 
+                        presenti <input type="number" id="presenti1" readonly> 
                         + EDUCATORI <input type="number" id="edu1" max="99" min="0">
                     </p>
                     <p>
                         Dinner_2 ore 19:15 classi 3A, 3B, 3C, 4A, 4B, 5A, 5B:<br>
                         assenti <input type="number" id="assenti2" readonly>
-                        presenti <input type="number" id="presenti2" > 
+                        presenti <input type="number" id="presenti2" readonly> 
                         + EDUCATORI <input type="number" id="edu2" max="99" min="0">
                     </p>
                 </div>
@@ -313,7 +313,6 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     <tr><td>QUERIO GIANETTO</td><td>Giorgio</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>SALVI</td><td>Sophie</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>SCHIRRU</td><td>Didier Félicien Hervé</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
-    <tr><td>SILVANI</td><td>Amelie</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>VILARDO</td><td>Gabriele</td><td>1B</td><td><input type="checkbox"></td><td></td></tr>
                                 
                 <!-- Classe 1P -->
@@ -330,6 +329,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     <tr><td>PAONESSA</td><td>Leonardo</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>VINCENT</td><td>Thomas</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>RUSCI DI LUCA</td><td>Greta</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
+    <tr><td>SILVANI</td><td>Amelie</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
              
     
                 <!-- Classe 2A --> 
@@ -496,7 +496,7 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     <tr style="color:mediumpurple;"><td>CHREIM</td><td>Khadijé</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
     <tr style="color:mediumpurple;"><td>CORVO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
     <tr style="color:mediumpurple;"><td>COTTINO</td><td>Jacqueline</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>KOURUMA</td><td>Nora</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
+    <tr style="color:mediumpurple;"><td>KOUROUMA</td><td>Nora</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
     <tr style="color:mediumpurple;"><td>LINTY</td><td>Alys</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
     <tr style="color:mediumpurple;"><td>MARGUERETTAZ</td><td>Greta</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
     <tr style="color:mediumpurple;"><td>MILLERY</td><td>Mathieu</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
@@ -648,7 +648,7 @@ const calendarioLab5AB_Q2 = {
         if (giorno === 1) { // Lunedì
             flaggaCheckbox('form1', '2P');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
-            
+            flaggaCheckboxByCognome('form2', 'MENALDINO');
                 
             flaggaCheckboxByCognome('form2', 'TESSARIN');
             flaggaCheckboxByCognome('form2', 'PIGNATELLI');
@@ -674,6 +674,7 @@ const calendarioLab5AB_Q2 = {
             flaggaCheckbox('form1', '2A');
             flaggaCheckboxByCognome('form1', 'CLERIN');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
+            flaggaCheckboxByCognome('form2', 'MENALDINO');
              
                 
         }
