@@ -33,10 +33,27 @@
             font-size: 1.2em;
             display: flex;
             background-color: pink;
+            gap: 10px;
             padding: 30px;
             border-radius: 40px;
             border: 1px solid #ccc;
         }
+        .item {
+        flex: 1; /* tutte le box hanno la stessa dimensione */
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: #f9f9f9;
+    }
+
+    .item input {
+        padding: 5px;
+    }
+        
+        
         .DAY-limegreen { color: limegreen; font-weight: bold; }
         .DAY-mediumpurple { color: mediumpurple; font-weight: bold; }
         .DAY-deepskyblue { color: deepskyblue; font-weight: bold; }
@@ -56,7 +73,22 @@
             border: 1px solid #ccc;
             border-radius: 20px;
             cursor: pointer;
+       }
+
+        /* Stile specifico per il pulsante "Conteggi Dinner" */
+#lista_assenti_dinner {
+    background-color: #f5e7f8;
+    color: #000000;
+   
         }
+
+        /* Stile specifico per il pulsante "Permessi Permanenti" */
+#LINKPP {
+    background-color: #f8dfe4;
+    color: #000000;
+   
+        }
+        
 
         .box-orange {
             background-color: #ffb55c;
@@ -91,27 +123,36 @@
     
     <div class="date-display" id="current-date"></div><br>
 
-    <div class="box-pink">
-        <div class="column-left">
-            <strong>Permessi Permanenti DinnerOre[x]/NODinner/NORientro:</strong><br>
-            <span class="DAY-brown">LUN</span>: TESSARIN-NOR, PIGNATELLI[20], MENALDINO [20]<br>
-            <span class="DAY-brown">MAR</span>: CASALICCHIO[18], CLERIN[18], CHEVRERE-NOR<br>
-            <span class="DAY-brown">MER</span>: CASALICCHIO[18], PIGNATELLI[20]<br>
-            <span class="DAY-brown">GIO</span>: CASALICCHIO[18], MENALDINO [20]<br> 
-        </div>
-        <div class="column-center">
-            <strong>Classi in Laboratorio con dinner ore 18:00:</strong><br>
-            <span class="DAY-limegreen">Lunedì</span> 2P <br>
-            <span class="DAY-mediumpurple">Martedì</span> 5A, 5B gruppi 1 e 2 <br>
-            <span class="DAY-deepskyblue">Mercoledì</span> 2B <br>
-            <span class="DAY-mediumvioletred">Giovedì</span> 2A <br>
-        </div>
-        <div class="column-right">
-            <button id="lista_assenti_dinner">Conteggi</button>
-        </div>
+<div class="box-pink">
+    <div class="column">
+        <strong>Permessi Dinner:</strong><br>
+        <span class="DAY-brown">LUN</span>: TESSARIN NO; PIGNATELLI, MENALDINO, CHESSA ore 20<br>
+        <span class="DAY-brown">MAR</span>: CHEVRERE NO; CASALICCHIO, CLERIN ore 18<br>
+        <span class="DAY-brown">MER</span>: GIOVANNELLI P. NO; CASALICCHIO 18; PIGNATELLI, CHESSA 20<br>
+        <span class="DAY-brown">GIO</span>: CASALICCHIO ore 18; MENALDINO, CHESSA 20<br> 
     </div>
-    
-    
+
+    <div class="column">
+        <strong>Classi in Laboratorio con dinner ore 18:00:</strong><br>
+        <span class="DAY-limegreen"> Lunedì</span> 2P<br>
+        <span class="DAY-mediumpurple"> Martedì</span> 5A, 5B gruppi 1 e 2<br>
+        <span class="DAY-deepskyblue"> Mercoledì</span> 2B<br>
+        <span class="DAY-mediumvioletred"> Giovedì</span> 2A<br>
+    </div>
+
+    <div class="column">
+      
+        <button id="lista_assenti_dinner">Conteggi<br>Dinner</button>
+    </div>
+
+   <div class="column">
+    <button id="LINKPP" onclick="window.open('https://docs.google.com/spreadsheets/d/1pgUwzVD46iYdJpWoBzgPe9IE8qU2xnX4/edit?usp=drive_link&ouid=104982387595149713902&rtpof=true&sd=true', '_blank')">
+        Permessi<br>Permanenti
+    </button>
+
+</div>
+  </div>  
+ 
         <!-- contenuto tasto conteggi  -->
     
     
@@ -178,9 +219,12 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                 <div class="details">
                     <h2>LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
                     <p>
-                        Dinner_0 ore 18:00 convittori in laboratorio <input type="number" id="assentiLab" > + CASALICCHIO <br>
-                        
-                        + altro <input type= "text" id="altroDettaglioLab" style="width: 220px; font-size: 1.2em";>
+                    Permessi Dinner di OGGI:
+                    <p>
+        <span id="cene-oggi"></span>
+                    <p>
+                        Dinner_0 ore 18:00 convittori in laboratorio <input type="number" id="assentiLab" > +
+                         <input type= "text" id="altroDettaglioLab" style="width: 220px; font-size: 1.2em";>
                         </p>
                     <p>
                         Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
@@ -215,7 +259,21 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
     const options = { weekday: 'long', day: '2-digit', month: 'long' };
     const dataFormattata = oggi.toLocaleDateString('it-IT', options);
     dateContainer.textContent = `Oggi è ${dataFormattata}`;
+// ---- TESTO IN BASE AL GIORNO ----
+    const giornoSettimana = oggi.getDay(); // 1=lunedì, 2=martedì, 3=mercoledì, 4=giovedì...
 
+    let cene = "";
+
+    if (giornoSettimana === 1) cene = "TESSARIN NO; PIGNATELLI, MENALDINO, CHESSA ore 20";
+    if (giornoSettimana === 2) cene = "CHEVRERE NO; CASALICCHIO, CLERIN ore 18";
+    if (giornoSettimana === 3) cene = "GIOVANNELLI P. NO; CASALICCHIO 18; PIGNATELLI, CHESSA 20";
+    if (giornoSettimana === 4) cene = "CASALICCHIO ore 18; MENALDINO, CHESSA 20";
+
+    popup.document.getElementById("cene-oggi").textContent = cene;
+    
+    
+    
+    
     // Lista assenti
     if (assenti.length > 0) {
         assenti.forEach(function(persona, index) {
