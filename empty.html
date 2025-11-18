@@ -29,10 +29,10 @@
             background-color: #e3fac3;
             border: 1px solid #ccc;
         }
-        .box-pink {
+        .box-purple {
             font-size: 1.2em;
             display: flex;
-            background-color: pink;
+            background-color: #dccbff;
             gap: 10px;
             padding: 30px;
             border-radius: 40px;
@@ -75,20 +75,37 @@
             cursor: pointer;
        }
 
+         /* Stile specifico per il pulsante "Classeviva" */
+        #linkcv {
+    background-color: rgba(255, 54, 54, 0.58);
+    color: #000000;
+   
+        }  
+          /* Stile specifico per il pulsante "xxx" */
+        #xxx {
+    background-color: #91f2f7;
+    color: #000000;
+   
+        }  
+        
+        
         /* Stile specifico per il pulsante "Conteggi Dinner" */
-#lista_assenti_dinner {
-    background-color: #f5e7f8;
+        #lista_assenti_dinner {
+    background-color: #c3ffb4;
     color: #000000;
    
         }
 
         /* Stile specifico per il pulsante "Permessi Permanenti" */
-#LINKPP {
+        #LINKPP {
     background-color: #f8dfe4;
     color: #000000;
    
         }
-        
+        /* Effetto hover (opzionale) */
+        button:hover {
+    opacity: 0.8;
+        }
 
         .box-orange {
             background-color: #ffb55c;
@@ -119,39 +136,73 @@
     </style>
 </head>
 <body>
-    <h1 style="text-align:center;">Presenze Dinner</h1>
+    <h1 style="text-align:center;">Presenze al Dinner</h1>
     
     <div class="date-display" id="current-date"></div><br>
+    
+    
 
-<div class="box-pink">
+<div class="box-purple">
+    
+    <!-- contenuto tasto 1 -->
     <div class="column">
-        <strong>Permessi Dinner:</strong><br>
-        <span class="DAY-brown">LUN</span>: TESSARIN NO; PIGNATELLI, MENALDINO, CHESSA ore 20<br>
-        <span class="DAY-brown">MAR</span>: CHEVRERE NO; CASALICCHIO, CLERIN ore 18<br>
-        <span class="DAY-brown">MER</span>: GIOVANNELLI P. NO; CASALICCHIO 18; PIGNATELLI, CHESSA 20<br>
-        <span class="DAY-brown">GIO</span>: CASALICCHIO ore 18; MENALDINO, CHESSA 20<br> 
+         <button id="lista_assenti_dinner">Conteggi<br>Dinner</button>
     </div>
 
+    <!-- contenuto superfluo  
+        <strong>Permessi Dinner:</strong><br>
+        <span class="DAY-brown">LUN</span>: TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA ore 20<br>
+        <span class="DAY-brown">MAR</span>: CHEVRERE no dinner; CASALICCHIO, CLERIN ore 18<br>
+        <span class="DAY-brown">MER</span>: GIOVANNELLI P. no dinner; CASALICCHIO 18; PIGNATELLI, CHESSA 20<br>
+        <span class="DAY-brown">GIO</span>: CASALICCHIO ore 18; MENALDINO, CHESSA 20<br> 
+    --> 
+    
+    <!-- contenuto tasto 2 -->
     <div class="column">
+        <button id="linkcv" onclick="window.open('https://web.spaggiari.eu/home/app/default/login.php', '_blank')">
+        Classeviva
+        </button>
+    </div>
+    <!-- contenuto superfluo      
         <strong>Classi in Laboratorio con dinner ore 18:00:</strong><br>
         <span class="DAY-limegreen"> Lunedì</span> 2P<br>
-        <span class="DAY-mediumpurple"> Martedì</span> 5A, 5B gruppi 1 e 2<br>
+        <span class="DAY-mediumpurple"> Martedì</span> 5A, 5B gruppi<br>
         <span class="DAY-deepskyblue"> Mercoledì</span> 2B<br>
         <span class="DAY-mediumvioletred"> Giovedì</span> 2A<br>
-    </div>
-
-    <div class="column">
-      
-        <button id="lista_assenti_dinner">Conteggi<br>Dinner</button>
-    </div>
-
-   <div class="column">
+    --> 
+    
+ <!-- contenuto tasto 3 -->
+     <div class="column">
     <button id="LINKPP" onclick="window.open('https://docs.google.com/spreadsheets/d/1pgUwzVD46iYdJpWoBzgPe9IE8qU2xnX4/edit?usp=drive_link&ouid=104982387595149713902&rtpof=true&sd=true', '_blank')">
         Permessi<br>Permanenti
     </button>
+    </div>
 
-</div>
-  </div>  
+     <!-- contenuto tasto 4 -->
+    <div class="column">
+     <!--   
+        <button id="xxx" onclick="window.open('https://....', '_blank')">
+        xxx
+        </button>
+      -->
+    </div>
+    
+        <strong>Classi e giorni del Laboratorio, permessi dinner:</strong><br>
+        <span class="DAY-limegreen"> LUN</span> 2IeFP<br>
+    PERMESSI:
+    TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA 20
+        <span class="DAY-mediumpurple"> MAR</span> 5A, 5B gr1/gr2
+    PERMESSI:
+    CHEVRERE no dinner; CASALICCHIO, CLERIN ore 18
+        <span class="DAY-deepskyblue"> MER</span> 2B
+    PERMESSI:
+    GIOVANNELLI P. no dinner; CASALICCHIO 18; PIGNATELLI, CHESSA 20
+        <span class="DAY-mediumvioletred"> GIO</span> 2A
+    PERMESSI:
+    CASALICCHIO ore 18; MENALDINO, CHESSA 20
+    <br>
+    
+    </div>  
  
         <!-- contenuto tasto conteggi  -->
     
@@ -186,150 +237,159 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
         }
     });
 
-    // CREAZIONE POPUP
-    const popup = window.open('', 'Popup', 'width=800,height=600');
-    popup.document.write(`
-        <html>
-            <head>
-                <title>Conteggi Dinner</title>
-                <style>
-                    body { font-family: 'Bahnschrift', sans-serif; margin: 20px; }
-                    h1 { text-align: center; }
-                    ul { padding-left: 20px; }
-                    button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 1.2em; margin-top: 20px; display: block; margin-left: auto; margin-right: auto; }
-                    button:hover { background-color: #45a049; }
-                    .date { font-size: 1.5em; font-weight: bold; text-align: center; }
-                    .details { margin-top: 20px; text-align: center; font-size: 1.2em; }
-                    .list-container { margin-top: 20px; padding-left: 40px; }
-                    input[type="number"] { width: 60px; text-align: center; font-size: 1.2em; border-radius: 10px; }
-                    
-                    input[type="number"]::-webkit-outer-spin-button,
-                    input[type="number"]::-webkit-inner-spin-button {
-                        -webkit-appearance: none;
-                        margin: 0;
-                    }
-                    input[type="number"] {
-                        -moz-appearance: textfield;
-                    }
-                </style>
-            </head>
-            <body>
-                <h1>Conteggi Dinner</h1>
-                <div class="date" id="popup-date"></div>
-                <div class="details">
-                    <h2>LUN 2FP, MAR 5A e 5B, MER 2B, GIO 2A</h2>
-                    <p>
-                    Permessi Dinner di OGGI:
-                    <p>
-        <span id="cene-oggi"></span>
-                    <p>
-                        Dinner_0 ore 18:00 convittori in laboratorio <input type="number" id="assentiLab" > +
-                         <input type= "text" id="altroDettaglioLab" style="width: 220px; font-size: 1.2em";>
-                        </p>
-                    <p>
-                        Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
-                        assenti <input type="number" id="assenti1" > 
-                        presenti <input type="number" id="presenti1" > 
-                        + EDUCATORI <input type="number" id="edu1" max="99" min="0">
-                        + <input type= "text" id="altroDettaglioLab" style="width: 220px; font-size: 1.2em";>
-                    </p>
-                    <p>
-                        Dinner_2 ore 19:15 classi 3A, 3B, 3C, 4A, 4B, 5A, 5B:<br>
-                        assenti <input type="number" id="assenti2" >
-                        presenti <input type="number" id="presenti2" > 
-                        + EDUCATORI <input type="number" id="edu2" max="99" min="0">
-                        + <input type= "text" id="altroDettaglioLab" style="width: 220px; font-size: 1.2em";>
-                    </p>
-                </div>
-                <div class="list-container">
-                    
-                    <h2>Esclusi dai turni 18:30 / 19:15 causa laboratorio, assenza, permesso o altro:</h2>
-                    <ul id="assenti-list"></ul>
-                </div>
-                <button onclick="window.print()">STAMPA</button>
-            </body>
-        </html>
-    `);
+// CREAZIONE POPUP
+const popup = window.open('', 'Popup', 'width=800,height=600');
+popup.document.write(`
+    <html>
+        <head>
+            <title>Conteggi del Dinner</title>
+            <style>
+                body { font-family: 'Bahnschrift', sans-serif; margin: 20px; }
+                h1 { text-align: center; }
+                ul { padding-left: 20px; }
+                button { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; cursor: pointer; font-size: 1.2em; margin-top: 20px; display: block; margin-left: auto; margin-right: auto; }
+                button:hover { background-color: #45a049; }
+                .date { font-size: 1.5em; font-weight: bold; text-align: center; }
+                .details { margin-top: 20px; text-align: center; font-size: 1.2em; }
+                .list-container { margin-top: 20px; padding-left: 40px; }
+                input[type="number"] { width: 60px; text-align: center; font-size: 1.2em; border-radius: 10px; }
+                input[type="number"]::-webkit-inner-spin-button,
+                input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+                input[type="number"] { -moz-appearance: textfield; }
+            </style>
+        </head>
+        <body>
+            <h1>Conteggi Dinner</h1>
+            <div class="date" id="popup-date"></div>
 
-    const listContainer = popup.document.getElementById('assenti-list');
-    const dateContainer = popup.document.getElementById('popup-date');
+            <div class="details">
 
-    // Data
-    const oggi = new Date();
-    const options = { weekday: 'long', day: '2-digit', month: 'long' };
-    const dataFormattata = oggi.toLocaleDateString('it-IT', options);
-    dateContainer.textContent = `Oggi è ${dataFormattata}`;
-// ---- TESTO IN BASE AL GIORNO ----
-    const giornoSettimana = oggi.getDay(); // 1=lunedì, 2=martedì, 3=mercoledì, 4=giovedì...
+                <p>Pemessi e fuori turno:</p>
+                <p><span id="cene-oggi"></span></p>
 
-    let cene = "";
+                
+                <p>Dinner_0 ore 18:00 classe in LAB: <span id="lab-oggi"></span>
 
-    if (giornoSettimana === 1) cene = "TESSARIN NO; PIGNATELLI, MENALDINO, CHESSA ore 20";
-    if (giornoSettimana === 2) cene = "CHEVRERE NO; CASALICCHIO, CLERIN ore 18";
-    if (giornoSettimana === 3) cene = "GIOVANNELLI P. NO; CASALICCHIO 18; PIGNATELLI, CHESSA 20";
-    if (giornoSettimana === 4) cene = "CASALICCHIO ore 18; MENALDINO, CHESSA 20";
+                                   
+                    <!-- convittori del laboratorio
+                    assenti <input type="number" id="assentiLab">
+                    presenti <input type="number" id="presentiLab">
+                     -->
+                    + <input type="text" id="altroDettaglioLab0" style="width: 220px; font-size: 1.2em;">
+                </p>
 
-    popup.document.getElementById("cene-oggi").textContent = cene;
-    
-    
-    
-    
-    // Lista assenti
-    if (assenti.length > 0) {
-        assenti.forEach(function(persona, index) {
-            let infoPP = persona.XPP ? `${persona.XPP}` : '';
-            let infoLab = persona.XLab ? `${persona.XLab}` : '';
-            const li = popup.document.createElement('li');
-            li.textContent = `${index + 1}. ${persona.nome} ${persona.classe} - ${infoPP} ${infoLab}`;
-            listContainer.appendChild(li);
-        });
-    } else {
+                <p>
+                    Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
+                    assenti <input type="number" id="assenti1">
+                    presenti <input type="number" id="presenti1">
+                    + EDUCATORI <input type="number" id="edu1" max="99" min="0">
+                    + <input type="text" id="altroDettaglioLab1" style="width: 220px; font-size: 1.2em;">
+                </p>
+
+                <p>
+                    Dinner_2 ore 19:15 classi 3A, 3B, 3C, 4A, 4B, 5A, 5B:<br>
+                    assenti <input type="number" id="assenti2">
+                    presenti <input type="number" id="presenti2">
+                    + EDUCATORI <input type="number" id="edu2" max="99" min="0">
+                    + <input type="text" id="altroDettaglioLab2" style="width: 220px; font-size: 1.2em;">
+                </p>
+
+            </div>
+
+            <div class="list-container">
+                <h2>Esclusi dalle 18:30 / 19:15 per assenza, permesso, lab:</h2>
+                <ul id="assenti-list"></ul>
+            </div>
+
+            <button onclick="window.print()">STAMPA</button>
+        </body>
+    </html>
+`);
+
+// Riferimenti nel popup
+const listContainer = popup.document.getElementById('assenti-list');
+const dateContainer = popup.document.getElementById('popup-date');
+
+// Data
+const oggi = new Date();
+const options = { weekday: 'long', day: '2-digit', month: 'long' };
+dateContainer.textContent = `Oggi è ${oggi.toLocaleDateString('it-IT', options)}`;
+
+// Testo cene fuori turno
+const giorno = oggi.getDay(); // 0=domenica, 1=lunedì, 2=martedì...
+
+let cene = "";
+if (giorno === 1) cene = "TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA ore 20";
+if (giorno === 2) cene = "CHEVRERE no dinner; CASALICCHIO, CLERIN ore 18";
+if (giorno === 3) cene = "GIOVANNELLI P. no dinner; CASALICCHIO 18; PIGNATELLI, CHESSA 20";
+if (giorno === 4) cene = "CASALICCHIO ore 18; MENALDINO, CHESSA 20";
+
+popup.document.getElementById("cene-oggi").textContent = cene;
+
+// ---- NUOVA SEZIONE: CLASSI DEL LABORATORIO OGGI ----
+let labOggi = "";
+
+if (giorno === 1) labOggi = "2FP";      // Lunedì
+if (giorno === 2) labOggi = "gruppi di 5A, 5B";   // Martedì
+if (giorno === 3) labOggi = "2B";       // Mercoledì
+if (giorno === 4) labOggi = "2A";       // Giovedì
+
+popup.document.getElementById("lab-oggi").textContent = labOggi;
+
+// Lista assenti
+if (assenti.length > 0) {
+    assenti.forEach(function(persona, index) {
+        let infoPP = persona.XPP ? `${persona.XPP}` : '';
+        let infoLab = persona.XLab ? `${persona.XLab}` : '';
         const li = popup.document.createElement('li');
-        li.textContent = 'Nessun risultato';
+        li.textContent = `${index + 1}. ${persona.nome} ${persona.classe} - ${infoPP} ${infoLab}`;
         listContainer.appendChild(li);
-    }
+    });
+} else {
+    const li = popup.document.createElement('li');
+    li.textContent = 'Nessun risultato';
+    listContainer.appendChild(li);
+}
 
-    // ---- CALCOLO PRESENTI/ASSENTI ----
-    function calcolaConteggi() {
-        const checkboxesDinner1 = document.querySelectorAll('#form1 input[type="checkbox"]');
-        const checkboxesDinner2 = document.querySelectorAll('#form2 input[type="checkbox"]');
+// ---- CALCOLO PRESENTI/ASSENTI ----
+function calcolaConteggi() {
+    const checkboxesDinner1 = document.querySelectorAll('#form1 input[type="checkbox"]');
+    const checkboxesDinner2 = document.querySelectorAll('#form2 input[type="checkbox"]');
 
-        let presenti1 = 0, assenti1 = 0;
-        checkboxesDinner1.forEach(cb => cb.checked ? assenti1++ : presenti1++);
+    let presenti1 = 0, assenti1 = 0;
+    checkboxesDinner1.forEach(cb => cb.checked ? assenti1++ : presenti1++);
 
-        let presenti2 = 0, assenti2 = 0;
-        checkboxesDinner2.forEach(cb => cb.checked ? assenti2++ : presenti2++);
+    let presenti2 = 0, assenti2 = 0;
+    checkboxesDinner2.forEach(cb => cb.checked ? assenti2++ : presenti2++);
 
-        popup.document.getElementById('presenti1').value = presenti1;
-        popup.document.getElementById('assenti1').value = assenti1;
+    popup.document.getElementById('presenti1').value = presenti1;
+    popup.document.getElementById('assenti1').value = assenti1;
 
-        popup.document.getElementById('presenti2').value = presenti2;
-        popup.document.getElementById('assenti2').value = assenti2;
+    popup.document.getElementById('presenti2').value = presenti2;
+    popup.document.getElementById('assenti2').value = assenti2;
 
-        // ---- CALCOLO DINNER LAB ----
-        let giorno = oggi.getDay(); // 1=lunedì, 2=martedì, 3=mercoledì, 4=giovedì
-        let classiLab = [];
-        if (giorno === 1) classiLab = ["2P"];
-        if (giorno === 2) classiLab = ["5A", "5B"];
-        if (giorno === 3) classiLab = ["2B"];
-        if (giorno === 4) classiLab = ["2A"];
+    // ---- CALCOLO DINNER LAB ----
+    let classiLab = [];
+    if (giorno === 1) classiLab = ["2FP"];
+    if (giorno === 2) classiLab = ["5A", "5B"];
+    if (giorno === 3) classiLab = ["2B"];
+    if (giorno === 4) classiLab = ["2A"];
 
-        let presentiLab = 0, assentiLab = 0;
-        checkboxes.forEach(cb => {
-            const row = cb.closest('tr');
-            const classe = row.cells[2].innerText.trim();
-            if (classiLab.includes(classe)) {
-                if (cb.checked) assentiLab++;
-                else presentiLab++;
-            }
-        });
+    let presentiLab = 0, assentiLab = 0;
+    checkboxes.forEach(cb => {
+        const row = cb.closest('tr');
+        const classe = row.cells[2].innerText.trim();
+        if (classiLab.includes(classe)) {
+            if (cb.checked) assentiLab++;
+            else presentiLab++;
+        }
+    });
 
-        popup.document.getElementById('assentiLab').value = assentiLab;
-        popup.document.getElementById('presentiLab').value = presentiLab;
-       
-    }
+    popup.document.getElementById('assentiLab').value = assentiLab;
+    popup.document.getElementById('presentiLab').value = presentiLab;
+}
 
-    calcolaConteggi();
+calcolaConteggi();
 });
       
 </script>
@@ -534,30 +594,30 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
                    
                     <!-- Classe 5A -->
                     
-    <tr style="color:mediumpurple;"><td>CARRUOZZO A.</td><td>Amalia</td><td>5A</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>CELESIA A.</td><td>Alessio</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>DE GATTIS</td><td>Eleonora</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>OBERT</td><td>Tommy</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>PETRIS</td><td>Maurizio</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>PICCOLI</td><td>Greta</td><td>5A</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>PIGNATELLI</td><td>Maria Vittoria</td><td>5A</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>RASO</td><td>Beatrice</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>SALVADORI</td><td>Emile</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>SORRENTI</td><td>Gabriele</td><td>5A</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>VALLOMY</td><td>Etienne</td><td>5A</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>VIGLIANO</td><td>Jacopo</td><td>5A</td><td><input type="checkbox"></td><td>MA-1</td></tr>
+    <tr style="color:mediumpurple;"><td>CARRUOZZO A.</td><td>Amalia</td><td>5A</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>CELESIA A.</td><td>Alessio</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>DE GATTIS</td><td>Eleonora</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>OBERT</td><td>Tommy</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>PETRIS</td><td>Maurizio</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>PICCOLI</td><td>Greta</td><td>5A</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>PIGNATELLI</td><td>Maria Vittoria</td><td>5A</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>RASO</td><td>Beatrice</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>SALVADORI</td><td>Emile</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>SORRENTI</td><td>Gabriele</td><td>5A</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>VALLOMY</td><td>Etienne</td><td>5A</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>VIGLIANO</td><td>Jacopo</td><td>5A</td><td><input type="checkbox"></td><td>gr1</td></tr>
 
                     <!-- Classe 5B -->
                     
    
-    <tr style="color:mediumpurple;"><td>CHREIM</td><td>Khadijé</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>CORVO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>COTTINO</td><td>Jacqueline</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>KOUROUMA</td><td>Nora</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>LINTY</td><td>Alys</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
-    <tr style="color:mediumpurple;"><td>MARGUERETTAZ</td><td>Greta</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>MILLERY</td><td>Mathieu</td><td>5B</td><td><input type="checkbox"></td><td>MA-2</td></tr>
-    <tr style="color:mediumpurple;"><td>RABAGLIO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>MA-1</td></tr>
+    <tr style="color:mediumpurple;"><td>CHREIM</td><td>Khadijé</td><td>5B</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>CORVO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>COTTINO</td><td>Jacqueline</td><td>5B</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>KOUROUMA</td><td>Nora</td><td>5B</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>LINTY</td><td>Alys</td><td>5B</td><td><input type="checkbox"></td><td>gr1</td></tr>
+    <tr style="color:mediumpurple;"><td>MARGUERETTAZ</td><td>Greta</td><td>5B</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>MILLERY</td><td>Mathieu</td><td>5B</td><td><input type="checkbox"></td><td>gr2</td></tr>
+    <tr style="color:mediumpurple;"><td>RABAGLIO</td><td>Filippo</td><td>5B</td><td><input type="checkbox"></td><td>gr1</td></tr>
     
                
                 
@@ -577,18 +637,18 @@ document.getElementById('lista_assenti_dinner').addEventListener('click', functi
       
 const calendarioLab5AB_Q1 = {
   
-  "04/11/2025": "MA-2", "11/11/2025": "MA-1", "18/11/2025": "MA-2",
-  "25/11/2025": "MA-1", "02/12/2025": "MA-2", "09/12/2025": "MA-1",
-  "16/12/2025": "MA-2", "13/01/2026": "MA-2", "20/01/2026": "MA-1",
-  "27/01/2026": "MA-2"
+  "04/11/2025": "gr2", "11/11/2025": "gr1", "18/11/2025": "gr2",
+  "25/11/2025": "gr1", "02/12/2025": "Mgr2", "09/12/2025": "gr1",
+  "16/12/2025": "gr2", "13/01/2026": "gr2", "20/01/2026": "gr1",
+  "27/01/2026": "gr2"
 };
 const calendarioLab5AB_Q2 = {
-  "03/02/2026": "MA-1", "10/02/2026": "MA-2", "17/02/2026": "MA-1",
-  "24/02/2026": "MA-2", "03/03/2026": "MA-1", "10/03/2026": "MA-2",
-  "17/03/2026": "MA-1", "24/03/2026": "MA-2", "31/03/2026": "MA-1",
-  "07/04/2026": "MA-2", "14/04/2026": "MA-1", "21/04/2026": "MA-2",
-  "28/04/2026": "MA-1", "05/05/2026": "MA-2", "12/05/2026": "MA-1",
-  "19/05/2026": "MA-2", "26/05/2026": "MA-1"  
+  "03/02/2026": "gr1", "10/02/2026": "gr2", "17/02/2026": "gr1",
+  "24/02/2026": "gr2", "03/03/2026": "gr1", "10/03/2026": "gr2",
+  "17/03/2026": "gr1", "24/03/2026": "gr2", "31/03/2026": "gr1",
+  "07/04/2026": "gr2", "14/04/2026": "gr1", "21/04/2026": "gr2",
+  "28/04/2026": "gr1", "05/05/2026": "gr2", "12/05/2026": "gr1",
+  "19/05/2026": "gr2", "26/05/2026": "gr1"  
  };       
         
         
@@ -673,19 +733,37 @@ const calendarioLab5AB_Q2 = {
                 debugBox.style.marginTop = "10px";
                 document.querySelector("h1").after(debugBox);
             }
-        <!-- SCRIPT PRINCIPALE FINALE 
-            debugBox.innerHTML = `
             
-            
-                📌 Oggi (${dataChiave}) laboratorio per 
-                <span style="color:blue">${gruppo}</span> classi quinte
-                <div style="font-size:0.9em; color:#444; margin-top:5px;">
-                    
-                    
-                    
-                </div>
-            `;
-        -->    
+            <!-- SCRIPT PRINCIPALE FINALE 
+// === NUOVO TESTO DEBUG CON TUTTI I LABORATORI DEL GIORNO ===
+let labExtra = "";
+
+switch (oggi.getDay()) {
+    case 1: // lunedì
+        labExtra = "• Classe 2P";
+        break;
+    case 3: // mercoledì
+        labExtra = "• Classe 2B";
+        break;
+    case 4: // giovedì
+        labExtra = "• Classe 2A";
+        break;
+    default:
+        labExtra = "";
+}
+
+debugBox.innerHTML = `
+    📌 <strong>Laboratorio  <!-- di oggi (${dataChiave}) -->  </strong>
+
+    ${gruppo ? `
+        • <span style="color:blue; font-weight:bold">${gruppo}</span> delle classi 5A e 5B
+      ` : `• Nessun laboratorio previsto per 5A/5B`}
+
+    <br>
+    ${labExtra}
+`;
+-->        
+      
         }
     }
 
