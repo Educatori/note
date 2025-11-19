@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -151,10 +152,10 @@
 
     <!-- contenuto superfluo  
         <strong>Permessi Dinner:</strong><br>
-        <span class="DAY-brown">LUN</span>: TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA ore 20<br>
-        <span class="DAY-brown">MAR</span>: CHEVRERE no dinner; CASALICCHIO, CLERIN ore 18<br>
-        <span class="DAY-brown">MER</span>: GIOVANNELLI P. no dinner; CASALICCHIO 18; PIGNATELLI, CHESSA 20<br>
-        <span class="DAY-brown">GIO</span>: CASALICCHIO ore 18; MENALDINO, CHESSA 20<br> 
+        <span class="DAY-brown">LUN</span>: TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA 20<br>
+        <span class="DAY-brown">MAR</span>: CHEVRERE, CHEN, COMMOD, EPICOCO no dinner; CASALICCHIO, CLERIN 18; LAZIER 20<br>
+        <span class="DAY-brown">MER</span>: BERRUTI S., D'AGOSTINO, EPICOCO, GIOVANNELLI P. no dinner; CASALICCHIO 18; SAITTA 19; PIGNATELLI, CHESSA 20<br>
+        <span class="DAY-brown">GIO</span>: BERRUTI A., CHEN, EPICOCO no dinner; CASALICCHIO, CLERIN 18; MENALDINO, LUNARDI, CHESSA 20<br> 
     --> 
     
     <!-- contenuto tasto 2 -->
@@ -190,16 +191,16 @@
         <strong>Classi e giorni del Laboratorio, permessi dinner:</strong><br>
         <span class="DAY-limegreen"> LUN</span> 2IeFP<br>
     PERMESSI:
-    TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA 20<br>
+    TESSARIN no dinner; CASALICCHIO 18; PIGNATELLI, MENALDINO, CHESSA 20<br>
         <span class="DAY-mediumpurple"> MAR</span> 5A, 5B gr1/gr2
     PERMESSI:
-    CHEVRERE no dinner; CASALICCHIO, CLERIN ore 18
+    CHEVRERE, CHEN, COMMOD, EPICOCO no dinner; CASALICCHIO, CLERIN 18; LAZIER 20
         <span class="DAY-deepskyblue"> MER</span> 2B<br>
     PERMESSI:
-    GIOVANNELLI P. no dinner; CASALICCHIO 18; PIGNATELLI, CHESSA 20
+    BERRUTI S., D'AGOSTINO, EPICOCO, GIOVANNELLI P. no dinner; CASALICCHIO 18; SAITTA 19; PIGNATELLI, CHESSA 20
         <span class="DAY-mediumvioletred"> GIO</span> 2A<br>
     PERMESSI:
-    CASALICCHIO ore 18; MENALDINO, CHESSA 20
+    BERRUTI A., CHEN, EPICOCO no dinner; CASALICCHIO, CLERIN 18; MENALDINO, LUNARDI, CHESSA 20
     <br>
     
     </div>  
@@ -280,7 +281,9 @@ popup.document.write(`
 
                 <p>
                     Dinner_1 ore 18:30 classi 1A, 1B, 1P, 2A, 2B, 2P, 3P:<br>
-                    assenti <input type="number" id="assenti1">
+                   
+                   assenti <input type="number" id="assenti1">
+                   
                     presenti <input type="number" id="presenti1">
                     + EDUCATORI <input type="number" id="edu1" max="99" min="0">
                     + <input type="text" id="altroDettaglioLab1" style="width: 220px; font-size: 1.2em;">
@@ -288,8 +291,10 @@ popup.document.write(`
 
                 <p>
                     Dinner_2 ore 19:15 classi 3A, 3B, 3C, 4A, 4B, 5A, 5B:<br>
-                    assenti <input type="number" id="assenti2">
-                    presenti <input type="number" id="presenti2">
+                   
+                   assenti <input type="number" id="assenti2">
+                   
+                   presenti <input type="number" id="presenti2">
                     + EDUCATORI <input type="number" id="edu2" max="99" min="0">
                     + <input type="text" id="altroDettaglioLab2" style="width: 220px; font-size: 1.2em;">
                 </p>
@@ -319,10 +324,10 @@ dateContainer.textContent = `Oggi è ${oggi.toLocaleDateString('it-IT', options)
 const giorno = oggi.getDay(); // 0=domenica, 1=lunedì, 2=martedì...
 
 let cene = "";
-if (giorno === 1) cene = "TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA ore 20";
-if (giorno === 2) cene = "CHEVRERE no dinner; CASALICCHIO, CLERIN ore 18";
-if (giorno === 3) cene = "GIOVANNELLI P. no dinner; CASALICCHIO 18; PIGNATELLI, CHESSA 20";
-if (giorno === 4) cene = "CASALICCHIO ore 18; MENALDINO, CHESSA 20";
+if (giorno === 1) cene = "TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA 20";
+if (giorno === 2) cene = "CHEVRERE, CHEN, COMMOD, EPICOCO no dinner; CASALICCHIO, CLERIN 18; LAZIER 20";
+if (giorno === 3) cene = "BERRUTI S., D'AGOSTINO, EPICOCO, GIOVANNELLI P. no dinner; CASALICCHIO 18; SAITTA 19; PIGNATELLI, CHESSA 20";
+if (giorno === 4) cene = "BERRUTI A., CHEN, EPICOCO no dinner; CASALICCHIO, CLERIN 18; MENALDINO, LUNARDI, CHESSA 20";
 
 popup.document.getElementById("cene-oggi").textContent = cene;
 
@@ -442,7 +447,7 @@ calcolaConteggi();
     <tr><td>BOUKHRIS</td><td>Chams Jacopo</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>CHABLOZ</td><td>Annette</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>CHEVRERE</td><td>Bruno</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
-    <tr><td>D'AGOSTINO</td><td>Domenico</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
+    <tr><td>DAGOSTINO</td><td>Domenico</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>FURLAN</td><td>Alessandro</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>GIOVANNELLI P.</td><td>Pietro</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
     <tr><td>GUIZZETTI RINCON</td><td>Francisco Andres</td><td>1P</td><td><input type="checkbox"></td><td></td></tr>
@@ -783,35 +788,51 @@ debugBox.innerHTML = `
 
         if (giorno === 1) { // Lunedì
             flaggaCheckbox('form1', '2P');
-            flaggaCheckboxByCognome('form1', 'CASALICCHIO');
-            flaggaCheckboxByCognome('form2', 'MENALDINO');
-                
             flaggaCheckboxByCognome('form2', 'TESSARIN');
-            flaggaCheckboxByCognome('form2', 'PIGNATELLI');
+            flaggaCheckboxByCognome('form1', 'CASALICCHIO');
+              flaggaCheckboxByCognome('form2', 'PIGNATELLI');
+            flaggaCheckboxByCognome('form2', 'MENALDINO');
+            flaggaCheckboxByCognome('form2', 'CHESSA');    
+            
             
         } 
         else if (giorno === 2 || giorno === 5) { // Martedì o Venerdì
             flaggaGruppoDaCalendario('form2');
+            flaggaCheckboxByCognome('form1', 'CHEVRERE');
+            flaggaCheckboxByCognome('form1', 'CHEN');
+            flaggaCheckboxByCognome('form1', 'COMMOD');
+            flaggaCheckboxByCognome('form2', 'EPICOCO');
             flaggaCheckboxByCognome('form1', 'CLERIN');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO'); 
-            flaggaCheckboxByCognome('form1', 'CHEVRERE');
+            flaggaCheckboxByCognome('form1', 'LAZIER');
+            
              
             
         } 
         else if (giorno === 3) { // Mercoledì
             flaggaCheckbox('form1', '2B');
+            
+            
+            flaggaCheckboxByCognome('form1', 'BERRUTI S.');
+            flaggaCheckboxByCognome('form1', 'DAGOSTINO');
+            flaggaCheckboxByCognome('form2', 'EPICOCO');
+            flaggaCheckboxByCognome('form1', 'GIOVANNELLI P.');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
-             
-               
+            flaggaCheckboxByCognome('form1', 'SAITTA'); 
+            flaggaCheckboxByCognome('form2', 'CHESSA');    
             flaggaCheckboxByCognome('form2', 'PIGNATELLI');
          
         } 
         else if (giorno === 4) { // Giovedì
             flaggaCheckbox('form1', '2A');
-            flaggaCheckboxByCognome('form1', 'CLERIN');
+            flaggaCheckboxByCognome('form1', 'BERRUTI A.');
+            flaggaCheckboxByCognome('form1', 'CHEN');
+            flaggaCheckboxByCognome('form2', 'EPICOCO');
             flaggaCheckboxByCognome('form1', 'CASALICCHIO');
+            flaggaCheckboxByCognome('form1', 'CLERIN');
             flaggaCheckboxByCognome('form2', 'MENALDINO');
-             
+            flaggaCheckboxByCognome('form1', 'LUNARDI');
+            flaggaCheckboxByCognome('form2', 'CHESSA');  
                 
         }
 
