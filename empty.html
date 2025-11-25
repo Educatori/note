@@ -265,7 +265,7 @@ popup.document.write(`
 
             <div class="details">
 
-                <p>Pemessi e fuori turno:</p>
+                <p>Pemessi e pasti fuori turno:</p>
                 <p><span id="cene-oggi"></span></p>
 
                 
@@ -324,10 +324,10 @@ dateContainer.textContent = `Oggi è ${oggi.toLocaleDateString('it-IT', options)
 const giorno = oggi.getDay(); // 0=domenica, 1=lunedì, 2=martedì...
 
 let cene = "";
-if (giorno === 1) cene = "TESSARIN no dinner; PIGNATELLI, MENALDINO, CHESSA 20";
-if (giorno === 2) cene = "CHEVRERE, CHEN, COMMOD, EPICOCO no dinner; CASALICCHIO, CLERIN 18; LAZIER 20";
-if (giorno === 3) cene = "BERRUTI S., D'AGOSTINO, EPICOCO, GIOVANNELLI P. no dinner; CASALICCHIO 18; SAITTA 19; PIGNATELLI, CHESSA 20";
-if (giorno === 4) cene = "BERRUTI A., CHEN, EPICOCO no dinner; CASALICCHIO, CLERIN 18; MENALDINO, LUNARDI, CHESSA 20";
+if (giorno === 1) cene = " no dinner TESSARIN; dinner ore 20 PIGNATELLI, MENALDINO, CHESSA";
+if (giorno === 2) cene = "no dinner CHEVRERE, CHEN, COMMOD, EPICOCO; dinner ore 18 CASALICCHIO, CLERIN; dinner ore 20 LAZIER";
+if (giorno === 3) cene = "no dinner BERRUTI S., D'AGOSTINO, EPICOCO, GIOVANNELLI P.; dinner ore 18 CASALICCHIO; dinner ore 19 SAITTA; PIGNATELLI, dinner ore 20CHESSA";
+if (giorno === 4) cene = "no dinner BERRUTI A., CHEN, EPICOCO; dinner ore 18 CASALICCHIO, CLERIN; dinner ore 20 MENALDINO, LUNARDI, CHESSA";
 
 popup.document.getElementById("cene-oggi").textContent = cene;
 
