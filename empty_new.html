@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -7,15 +8,54 @@
     <style>
         :root {
             --bg:#f0f2f5;
-            --primary:rgba(238, 67, 67, 0.92);
+            --primary:#3984a7;
             --d1:#f39c12;
             --d2:#9b59b6;
             --ok:#2ecc71;
             --no:#e74c3c;
+            --wait:#27ae60;
         }
         body{font-family:'Segoe UI',sans-serif;background:var(--bg);padding:20px}
         .container{max-width:800px;margin:auto}
-        header{background:var(--primary);color:#fff;padding:20px;border-radius:10px;text-align:center;margin-bottom:15px}
+        
+        header{
+            background:var(--primary);
+            color:#fff;
+            padding:25px;
+            border-radius:15px;
+            text-align:center;
+            margin-bottom:15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Stile Data e Orologio */
+        #todayDate {
+            font-size: 1.5em; /* Dimensione aumentata */
+            font-weight: 500;
+            margin-top: 8px;
+            text-transform: capitalize;
+            opacity: 0.9;
+        }
+
+        .clock-container {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 30px;
+            border-radius: 12px;
+            transition: all 0.5s ease;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+
+        #digitalClock {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 2.5em;
+            font-weight: bold;
+        }
+
+        /* Stati Orologio */
+        .status-waiting { background: var(--wait); color: white; }
+        .status-dinner1 { background: var(--d1); color: white; }
+        .status-dinner2 { background: var(--no); color: white; }
         
         /* Box Giorni Settimana */
         .days-container {
@@ -28,9 +68,8 @@
             background: #fff;
             padding: 10px;
             text-align: center;
-            border-radius: 8px;
-            font-size: 0.75em;
-            line-height: 1.2;
+            border-radius: 10px;
+            font-size: 0.9em;
             color: #999;
             border: 2px solid transparent;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -56,7 +95,7 @@
         .btn.active{opacity:1; transform: scale(1.05)}
         
         .filter-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:15px}
-        .tag{padding:5px 12px;background:#dfe6e9;border-radius:20px;cursor:pointer;font-size: 0.9em}
+        .tag{padding:5px 12px;background:#dfe6e9;border-radius:20px;cursor:pointer;font-size: 1.1em}
         .tag.active{background:var(--primary);color:#fff}
 
         /* Contatore Totale */
@@ -75,7 +114,7 @@
         }
         .student-row.assente{border-left-color:var(--no);background:#fdf2f2}
         .student-row.assente .name{text-decoration:line-through;color:#999}
-        .group-badge { font-size: 0.7em; background: #eee; padding: 2px 6px; border-radius: 4px; margin-left: 8px; color: #666; }
+        .group-badge { font-size: 1.0em; background: #eee; padding: 2px 6px; border-radius: 4px; margin-left: 8px; color: #666; }
     </style>
 </head>
 
@@ -83,17 +122,17 @@
 <div class="container">
     <header>
         <h1>Registro Dinner</h1>
-        oggi è <div id="todayDate"></div>
+        <div id="todayDate"></div>
+        <div class="clock-container status-waiting">
+            <div id="digitalClock">00:00:00</div>
+        </div>
     </header>
 
     <div class="days-container" id="daysHeader">
-        <div class="day-box" id="day-1">LUN <br>2IeFP<br>
-PERMESSI: Tessarin no dinner; Casalicchio h 18; Pignatelli, Menaldino, Chessa h 20</div>
+        <div class="day-box" id="day-1">LUN <br>2IeFP<br>PERMESSI: Tessarin no dinner; Casalicchio h 18; Pignatelli, Menaldino, Chessa h 20</div>
         <div class="day-box" id="day-2">MAR <br>5A, 5B gr1/gr2<br> PERMESSI: Chen, Commod, Epicoco no dinner; Casalicchio, Clerin h 18; Lazier h 20</div>
-        <div class="day-box" id="day-3">MER<br> 2B<br>
-PERMESSI: Berruti S., D'Agostino, Epicoco, Giovannelli P. no dinner; Casalicchio h 18; Saitta h 19; Pignatelli, Chessa h 20</div>
-        <div class="day-box" id="day-4">GIO<br> 2A<br>
-PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldino, Lunardi, Chessa h 20</div>
+        <div class="day-box" id="day-3">MER<br> 2B<br>PERMESSI: Berruti S., D'Agostino, Epicoco, Giovannelli P. no dinner; Casalicchio h 18; Saitta h 19; Pignatelli, Chessa h 20</div>
+        <div class="day-box" id="day-4">GIO<br> 2A<br>PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldino, Lunardi, Chessa h 20</div>
     </div>
 
     <div class="counter-banner">
@@ -108,13 +147,13 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
             <button class="btn-clear" onclick="resetRicerca()">CANCELLA</button>
         </div>
         <div class="btn-group">
-            <button class="btn d1" id="btn-d1" onclick="setTurno(1)">1° Dinner</button>
-            <button class="btn d2" id="btn-d2" onclick="setTurno(2)">2° Dinner</button>
+            <button class="btn d1" id="btn-d1" onclick="setTurno(1)">18:30</button>
+            <button class="btn d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
         </div>
         <div class="filter-tags" id="tagList">
             <div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte</div>
         </div>
-        <button class="btn" style="background:#689e4b;width:100%; font-size: 1.2em; padding: 15px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
+        <button class="btn" style="background:#689e4b;width:100%; font-size: 1.0em; padding: 15px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
     </div>
 
     <div id="listaStudenti"></div>
@@ -132,14 +171,11 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
     };
 
     const CALENDARIO_GRUPPI = {
-        "20/01/2026": "gr1", "27/01/2026": "gr2", "03/02/2026": "gr1", "10/02/2026": "gr2", 
-        "17/02/2026": "gr1", "24/02/2026": "gr2", "03/03/2026": "gr1", "10/03/2026": "gr2",
-        "17/03/2026": "gr1", "24/03/2026": "gr2", "31/03/2026": "gr1", "07/04/2026": "gr2", 
-        "14/04/2026": "gr1", "21/04/2026": "gr2", "28/04/2026": "gr1", "05/05/2026": "gr2", 
-        "12/05/2026": "gr1", "19/05/2026": "gr2", "26/05/2026": "gr1"
+        "20/01/2026": "gr1", "27/01/2026": "gr2", "03/02/2026": "gr1", "10/02/2026": "gr2" 
+        // Aggiungi qui le altre date se necessario
     };
 
-    const studenti=[ 
+     const studenti=[ 
         { cognome: "COMMOD", nome: "Gaia", classe: "1A" },
         { cognome: "GASPARD", nome: "Thierry", classe: "1A" },
         { cognome: "JANS", nome: "Giada", classe: "1A" },
@@ -241,7 +277,7 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
         { cognome: "VIOT", nome: "Cecilia", classe: "4A" },
         { cognome: "CHESSA", nome: "Samuele", classe: "4B" },
         { cognome: "FAVRE", nome: "Emilie", classe: "4B" },
-        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "1P" },
+        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B" },
         { cognome: "GORREX", nome: "Valerie", classe: "4B" },
         { cognome: "TEBANO", nome: "Serena", classe: "3P" },
         { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B" },
@@ -273,9 +309,34 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
 
     let filtroDinner=null, filtroClasse='Tutte';
 
+    function updateClock() {
+        const ora = new Date();
+        const h = ora.getHours();
+        const m = ora.getMinutes();
+        const s = ora.getSeconds();
+        const timeString = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        document.getElementById('digitalClock').innerText = timeString;
+
+        const clockBox = document.querySelector('.clock-container');
+        const totaleMinuti = (h * 60) + m;
+
+        clockBox.classList.remove('status-waiting', 'status-dinner1', 'status-dinner2');
+        if (totaleMinuti < 1110) clockBox.classList.add('status-waiting'); // Prima delle 18:30
+        else if (totaleMinuti < 1155) clockBox.classList.add('status-dinner1'); // 18:30 - 19:14
+        else clockBox.classList.add('status-dinner2'); // Dalle 19:15
+    }
+
     function init(){
         const d=new Date(), g=d.getDay();
-        todayDate.innerText=d.toLocaleDateString('it-IT',{weekday:'long',day:'numeric',month:'long'});
+        
+        // Formattazione Data
+        const opzioni = { weekday: 'long', day: 'numeric', month: 'long' };
+        let dataStr = d.toLocaleDateString('it-IT', opzioni);
+        document.getElementById('todayDate').innerText = dataStr.charAt(0).toUpperCase() + dataStr.slice(1);
+
+        // Orologio
+        updateClock();
+        setInterval(updateClock, 1000);
 
         if(g >= 1 && g <= 4) document.getElementById('day-'+g).classList.add('active-day');
 
@@ -325,7 +386,7 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
         });
         document.getElementById('count1').innerText = p1;
         document.getElementById('count2').innerText = p2;
-        document.getElementById('countTot').innerText = p1 + p2 + 4; // +4 educatori
+        document.getElementById('countTot').innerText = p1 + p2 + 4;
     }
 
     function resetRicerca() {
@@ -378,9 +439,6 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
 
         const dataStampa = document.getElementById('todayDate').innerText;
         const d = new Date(), g = d.getDay();
-        const nomiGiorni = {1: 'LUNEDÌ', 2: 'MARTEDÌ', 3: 'MERCOLEDÌ', 4: 'GIOVEDÌ'};
-        const giornoTesto = nomiGiorni[g] || "";
-
         const testiPermessi = {
             1: "LAB 2IeFP + PERMESSI: Tessarin no dinner; Casalicchio h 18; Pignatelli, Menaldino, Chessa h 20",
             2: "LAB 5A/5B + PERMESSI: Chen, Commod, Epicoco no dinner; Casalicchio, Clerin h 18; Lazier h 20",
@@ -396,11 +454,10 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
                 <title>Stampa Conteggi</title>
                 <style>
                     body { font-family: sans-serif; padding: 40px; color: #000; }
-                    h2 { text-align: center; text-transform: uppercase; text-decoration: ; }
+                    h2 { text-align: center; text-transform: uppercase; }
                     .date { text-align: center; font-size: 1.2em; }
                     .day-container-print { text-align: center; margin: 20px 0; }
-                    .day-box-print { display: inline-block; font-weight: bold; font-size: 1.8em; border: 3px solid #000; padding: 5px 40px; }
-                    .editable-notes { width: 100%; border: 1px dashed #ccc; font-size: 1.1em; font-weight: bold; text-align: center; text-transform: uppercase; padding: 10px; margin-top:10px; }
+                    .editable-notes { width: 100%; border: 1px dashed #ccc; font-size: 1.1em; font-weight: bold; text-align: center; text-transform: uppercase; padding: 10px; }
                     .section { margin-bottom: 30px; border-left: 6px solid #333; padding-left: 20px; }
                     .stats-row { display: flex; gap: 20px; align-items: center; }
                     input { font-size: 1.5em; font-weight: bold; width: 60px; border: none; border-bottom: 2px solid #000; text-align: center; }
@@ -412,16 +469,7 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
             <body>
                 <h2>Conteggi Dinner</h2>
                 <div class="date">${dataStampa}</div>
-                <div class="day-container-print">
-              
-                <!--    
-                
-                <div class="day-box-print">${giornoTesto}</div> 
-                
-                -->
-                 
-                    <textarea class="editable-notes" rows="2">${notaGiornoCorrente}</textarea>
-                </div>
+                <div class="day-container-print"><textarea class="editable-notes" rows="2">${notaGiornoCorrente}</textarea></div>
                 <div class="section">
                     <h3>1° DINNER ore 18:30 (Classi: 1A, 1B, 1P, 2A, 2B, 2P, 3P)</h3>
                     <div class="stats-row">
@@ -440,7 +488,7 @@ PERMESSI: Berruti A., Chen, Epicoco no dinner; Casalicchio, Clerin h 18; Menaldi
                     </div>
                     <div class="nomi">Esclusi: ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
                 </div>
-                <div class="no-print"><button onclick="window.print()" style="padding:15px 50px; background:#27ae60; color:white; font-weight:bold; border-radius:8px; border:none; cursor:pointer;">STAMPA ORA</button></div>
+                <div class="no-print"><button onclick="window.print()" style="padding:15px 50px; background:#27ae60; color:white; font-weight:bold; border-radius:8px; border:none; cursor:pointer;">STAMPA </button></div>
             </body>
             </html>
         `);
