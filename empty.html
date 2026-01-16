@@ -8,10 +8,10 @@
         :root {
             --bg:#f0f2f5;
             --primary:#3984a7;
-            --d1:#ff8000ff;
+            --d1:#ff8000f8;
             --d2:#a333d1;
             --ok:#30ec80;
-            --no:#a333d1;
+            --no:#ff0000;
             --wait:#3984a7;
         }
         body{font-family:'Segoe UI',sans-serif;background:var(--bg);padding:20px}
@@ -67,9 +67,9 @@
             background: #fff;
             padding: 10px;
             text-align: center;
-            border-radius: 70px;
+            border-radius: 50px;
             font-size: 0.9em;
-            color: #999;
+            color: #b90000;
             border: 2px solid transparent;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
@@ -80,22 +80,22 @@
             font-weight: bold;
         }
 
-        .controls{background:#fff;padding:20px;border-radius:60px;margin-bottom:20px;box-shadow: 0 2px 5px rgba(0,0,0,0.1)}
+        .controls{background:#ffffff;padding:20px;border-radius:60px;margin-bottom:20px;box-shadow: 0 2px 5px rgba(0,0,0,0.1)}
         
         /* Cerca e Reset */
         .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
-        #searchInput { flex: 1; padding: 12px; border: 1px solid #ccc; border-radius: 50px; }
+        #searchInput { flex: 1; padding: 12px; border: 1px solid #cccccc; border-radius: 50px; }
         .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 15px; border-radius: 50px; cursor: pointer; font-weight: bold; }
 
         .btn-group{display:flex;gap:10px;justify-content:center;margin-bottom:15px}
-        .btn{padding:10px 20px;border:none;border-radius:50px;color:#fff;font-weight:bold;cursor:pointer; transition: 0.2s}
+        .btn{padding:10px 20px;border:none;border-radius:50px;color:#ffffff;font-weight:bold;cursor:pointer; transition: 0.2s}
         .d1{background:var(--d1);opacity:.6}
         .d2{background:var(--d2);opacity:.6}
         .btn.active{opacity:1; transform: scale(1.05)}
         
         .filter-tags{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:15px}
         .tag{padding:5px 12px;background:#dfe6e9;border-radius:200px;cursor:pointer;font-size: 1.1em}
-        .tag.active{background:var(--primary);color:#fff}
+        .tag.active{background:var(--primary);color:#ffffff}
 
         /* Contatore Totale */
         .counter-banner {
