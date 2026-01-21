@@ -154,7 +154,7 @@
             <button class="btn btn-d1" id="btn-d1" onclick="setTurno(1)">18:30</button>
             <button class="btn btn-d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
             <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">Permessi</button>
-            <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔄 Cambi</button>
+            <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔃 Cambi</button>
        
          <button class="btn" style="background:#689e4b;width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
     
@@ -389,7 +389,7 @@
             const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
             r.innerHTML = `<div class="name"><b>${s.cognome}</b> ${s.nome} ${gruppoBadge}</div>
                 <div class="row-actions"><span class="classe-badge">${s.classe}</span>
-                <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔄</button></div>`;
+                <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button></div>`;
             r.onclick = (e) => { if(e.target.tagName !== 'BUTTON') { r.classList.toggle('assente'); aggiornaContatori(); } };
             lista.appendChild(r);
         });
@@ -574,3 +574,4 @@
 </script>
 </body>
 </html>
+
