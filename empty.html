@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -32,28 +31,19 @@
         #todayDate { font-size: 1.2em; text-transform: capitalize; opacity: 0.9; }
         
         .clock-container {
-  display: inline-block;
-  margin-top: 10px;
-  padding: 10px 25px;
-  border-radius: 100px;
-  transition: all 0.5s ease;
-  background: rgba(0,0,0,0.1);
-  font-family: 'Courier New', monospace; font-size: 3em;
-  font-weight: bold;
-}
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 25px;
+            border-radius: 100px;
+            transition: all 0.5s ease;
+            background: rgba(0,0,0,0.1);
+            font-family: 'Courier New', monospace; font-size: 3em;
+            font-weight: bold;
+        }
 
-.clock-blue {
-  background: #4b788d;
-}
-
-.clock-yellow {
-  background: #ffc10759;
-}
-
-.clock-red {
-  background: #dc354559;
-}
-
+        .clock-blue { background: #4b788d; }
+        .clock-yellow { background: #ffc10759; }
+        .clock-red { background: #dc354559; }
 
         .days-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .day-box {
@@ -74,6 +64,14 @@
             background: #ffffff; color: var(--primary); padding: 5px 15px; 
             border-radius: 50px; font-weight: bold; font-size: 0.8em; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+            display: none;
+            animation: pulse 2s infinite; /* Animazione aggiunta */
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255,255,255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255, 0); }
         }
 
         .controls { background: #ffffff; padding: 20px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -153,75 +151,48 @@
     </div>
 
     <div class="controls">
-       
-               
         <div class="search-container">
             <input id="searchInput" placeholder="Cerca studente o classe..." onkeyup="applicaFiltri()">
             <button class="btn-clear" onclick="resetRicerca()">X</button>
         </div>
-                
         
         <div class="filter-tags" id="tagList"><div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte le Classi</div></div>
                 
         <div class="btn-group">
-            
-            <!--    
-       <button class="btn btn-ny" >doppio clic disattiva le query ***> </button>
-            -->
             <button class="btn btn-d1" id="btn-d1" onclick="setTurno(1)">18:30</button>
             <button class="btn btn-d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
             <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">P.P.</button>
             <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔄 Cambi</button>
-     </div>  
+        </div>  
         
         <button class="btn" style="background:#689e4b;width:100%; padding: 12px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
-   
     </div>
 
-    
      <div class="days-container" id="daysHeader">   
         <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio dinner ore 18 / Pignatelli, Menaldino, Chessa dinner ore 20"><b>2IeFP</b></div>
         <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Gaspard, Lunardi dinner ore 20"><b>5A, 5B</b></div>
         <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S., D'Agostino, Giovannelli P., No dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20"><b>2B</b></div>
         <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A., Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Chessa dinner ore 20"><b>2A</b></div>
-     <!--     
-            <button class="btn btn-reset" onclick="resetTotale()">RESET</button>
-        -->
-    
     </div>
-    
     
     <div id="listaStudenti"></div>
 </div>
 
 <script>
-    
     function updateClockColor() {
-  const clock = document.querySelector('.clock-container');
-  const now = new Date();
-  const minutes = now.getHours() * 60 + now.getMinutes();
+        const clock = document.querySelector('.clock-container');
+        const now = new Date();
+        const minutes = now.getHours() * 60 + now.getMinutes();
 
-  clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
+        clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
 
-  if (
-    minutes <= 1110 ||        // 00:00 - 18:30
-    minutes > 1200            // 20:01 - 24:00
-  ) {
-    clock.classList.add('clock-blue');
-  }
-  else if (minutes >= 1111 && minutes <= 1155) {
-    // 18:31 - 19:15
-    clock.classList.add('clock-yellow');
-  }
-  else if (minutes >= 1156 && minutes <= 1200) {
-    // 19:16 - 20:00
-    clock.classList.add('clock-red');
-  }
-}
+        if (minutes <= 1110 || minutes > 1200) { clock.classList.add('clock-blue'); }
+        else if (minutes >= 1111 && minutes <= 1155) { clock.classList.add('clock-yellow'); }
+        else if (minutes >= 1156 && minutes <= 1200) { clock.classList.add('clock-red'); }
+    }
 
-// esegue subito e poi ogni minuto
-updateClockColor();
-setInterval(updateClockColor, 60000);
+    updateClockColor();
+    setInterval(updateClockColor, 60000);
     
     const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
     const OVERRIDE_TURNO_2=['TEBANO'];
@@ -232,7 +203,6 @@ setInterval(updateClockColor, 60000);
                             'CLERIN','LAZIER', 'LUNARDI', 'GASPARD'], 3:['BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','CASALICCHIO',
                             'SAITTA','PIGNATELLI','CHESSA'], 4:['BERRUTI A.','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA'] };
     
-    // Calendario basato sui MARTEDÌ
     const CALENDARIO_GRUPPI = { 
         "20/01/2026": "gr1", "27/01/2026": "gr2", "03/02/2026": "gr1", "10/02/2026": "gr2", 
         "17/02/2026": "gr1", "24/02/2026": "gr2", "03/03/2026": "gr1", "10/03/2026": "gr2", 
@@ -241,14 +211,15 @@ setInterval(updateClockColor, 60000);
         "12/05/2026": "gr1", "19/05/2026": "gr2", "26/05/2026": "gr1" 
     };
 
-    // --- LISTA STUDENTI ---
-    const studenti=[ 
+   const studenti=[ 
+                <!-- Classe 1A -->
         { cognome: "COMMOD", nome: "Gaia", classe: "1A" },
         { cognome: "GASPARD", nome: "Thierry", classe: "1A" },
         { cognome: "JANS", nome: "Giada", classe: "1A" },
         { cognome: "OBETTI", nome: "Virginia", classe: "1A" },
         { cognome: "PETTORALI", nome: "Matilde", classe: "1A" },
         { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A" },
+                <!-- Classe 1B -->
         { cognome: "BLANCHET", nome: "Nadine", classe: "1B" },
         { cognome: "BOMBONATO", nome: "Francesco", classe: "1B" },
         { cognome: "DATTRINO", nome: "Nicolas", classe: "1B" },
@@ -259,6 +230,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "SALVI", nome: "Sophie", classe: "1B" },
         { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B" },
         { cognome: "VILARDO", nome: "Gabriele", classe: "1B" },
+                <!-- Classe 1P -->
         { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P" },
         { cognome: "CHABLOZ", nome: "Annette", classe: "1P" },
         { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P" },
@@ -271,6 +243,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "VINCENT", nome: "Thomas", classe: "1P" },
         { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P" },
         { cognome: "SILVANI", nome: "Amelie", classe: "1P" },
+                <!-- Classe 2A -->
         { cognome: "BARAVALLE", nome: "Andrea", classe: "2A" },
         { cognome: "BERTOT", nome: "Manuele", classe: "2A" },
         { cognome: "BUZZI", nome: "Alessandro", classe: "2A" },
@@ -281,6 +254,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "HERESAZ", nome: "Alyce", classe: "2A" },
         { cognome: "PENNARD", nome: "Serena", classe: "2A" },
         { cognome: "SAITTA", nome: "Asia", classe: "2A" },
+                <!-- Classe 2B -->
         { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B" },
         { cognome: "DELL'AQUILA", nome: "Gabriele", classe: "2B" },
         { cognome: "DUNAND", nome: "Audrey", classe: "2B" },
@@ -290,6 +264,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "MOUNIM", nome: "Yahya", classe: "2B" },
         { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B" },
         { cognome: "TACCONE", nome: "Nicholas", classe: "2B" },
+                <!-- Classe 2P -->
         { cognome: "BERRIAD", nome: "Thierry", classe: "2P" },
         { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P" },
         { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P" },
@@ -303,17 +278,20 @@ setInterval(updateClockColor, 60000);
         { cognome: "STEVENIN", nome: "Joelle", classe: "2P" },
         { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P" },
         { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P" },
+                <!-- Classe 3P -->
         { cognome: "CONSOL", nome: "Gaia", classe: "3P" },
         { cognome: "COSTANZA", nome: "Marcello", classe: "3P" },
         { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P" },
         { cognome: "LLESHI", nome: "Gabriele", classe: "3P" },
         { cognome: "MARRERO", nome: "Lewis", classe: "3P" },
         { cognome: "RONCO", nome: "Angelica", classe: "3P" },
+                <!-- Classe 3A -->
         { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A" },
         { cognome: "FLORIAN", nome: "Gabriele", classe: "3A" },
         { cognome: "MARANGELO", nome: "Giulio", classe: "3A" },
         { cognome: "PEAQUIN", nome: "Linda", classe: "3A" },
         { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A" },
+                <!-- Classe 3B -->
         { cognome: "BLANCHET", nome: "Magalie", classe: "3B" },
         { cognome: "BOGGIA", nome: "Vittoria", classe: "3B" },
         { cognome: "CIRINA", nome: "Lorenzo", classe: "3B" },
@@ -321,6 +299,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "GRANATA", nome: "Gabriele", classe: "3B" },
         { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B" },
         { cognome: "TRIOLO", nome: "Eleonora", classe: "3B" },
+                <!-- Classe 3C -->
         { cognome: "CELESIA M.", nome: "Marta", classe: "3C" },
         { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C" },
         { cognome: "CUMINO", nome: "Lucia", classe: "3C" },
@@ -328,6 +307,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "MERLET", nome: "Cedric", classe: "3C" },
         { cognome: "PALMISANO", nome: "Clarissa", classe: "3C" },
         { cognome: "TARTIN", nome: "Zoe", classe: "3C" },
+                <!-- Classe 4A -->
         { cognome: "CHIADO'", nome: "Diego", classe: "4A" },
         { cognome: "COMIOTTO", nome: "Lucia", classe: "4A" },
         { cognome: "CONTA", nome: "Giovanni", classe: "4A" },
@@ -342,7 +322,9 @@ setInterval(updateClockColor, 60000);
         { cognome: "TAPPELLA", nome: "Luca", classe: "4A" },
         { cognome: "TESSARIN", nome: "Sharon", classe: "4A" },
         { cognome: "VIOT", nome: "Cecilia", classe: "4A" },
-{ cognome: "TEBANO", nome: "Serena", classe: "3P" },
+                <!-- TEBANO 2* DINNER -->
+        { cognome: "TEBANO", nome: "Serena", classe: "3P" },
+                <!-- Classe 4B -->
         { cognome: "CHESSA", nome: "Samuele", classe: "4B" },
         { cognome: "FAVRE", nome: "Emilie", classe: "4B" },
         { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B" },
@@ -352,6 +334,7 @@ setInterval(updateClockColor, 60000);
         { cognome: "NICOLASI", nome: "Ginevra", classe: "4B" },
         { cognome: "SAVELLA", nome: "Ilaria", classe: "4B" },
         { cognome: "SERIO", nome: "Federica", classe: "4B" },
+                <!-- Classe 5A -->
         { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "gr1" },
         { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "gr2" },
         { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "gr2" },
@@ -364,16 +347,16 @@ setInterval(updateClockColor, 60000);
         { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "gr1" },
         { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "gr2" },
         { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "gr1" },
+                <!-- Classe 5B -->
         { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "gr1" },
         { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "gr1" },
-        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "gr2" },
+        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "gr1" },
         { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "gr2" },
         { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "gr1" },
         { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "gr2" },
         { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "gr2" },
         { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "gr1" }
     ];
-
 
     let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false, cambiTurnoManuali = {}; 
 
@@ -385,7 +368,8 @@ setInterval(updateClockColor, 60000);
         if(g >= 1 && g <= 4) document.getElementById('day-'+g).classList.add('active-day');
 
         const tagList=document.getElementById('tagList');
-        [...new Set(studenti.map(s=>s.classe))].sort().forEach(c=>{
+        const classiUniche = [...new Set(studenti.map(s=>s.classe))].sort();
+        classiUniche.forEach(c=>{
             let t=document.createElement('div'); t.className='tag'; t.id='tag-'+c; t.innerText=c;
             t.onclick=()=>setClasse(c); tagList.appendChild(t);
         });
@@ -423,55 +407,41 @@ setInterval(updateClockColor, 60000);
     }
 
     function assenzeAutomatiche(g) {
-    const oggi = new Date();
-    const martedi = new Date(oggi);
-    // Calcolo del martedì corrente
-    const diff = oggi.getDay() === 0 ? -5 : 2 - oggi.getDay(); 
-    martedi.setDate(oggi.getDate() + diff);
-    
-    const dataStr = martedi.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
-    const gruppoInLaboratorio = CALENDARIO_GRUPPI[dataStr]; 
+        const oggi = new Date();
+        const martedi = new Date(oggi);
+        const diff = oggi.getDay() === 0 ? -5 : 2 - oggi.getDay(); 
+        martedi.setDate(oggi.getDate() + diff);
+        const dataStr = martedi.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const gruppoInLaboratorio = CALENDARIO_GRUPPI[dataStr]; 
 
-    // --- BADGE GRUPPO LAB (SOLO MARTEDÌ) ---
-const badge = document.getElementById('activeGroupBadge');
-
-if (g === 2 && gruppoInLaboratorio) {
-    // Martedì → 5A / 5B a turni
-    badge.style.display = 'inline-block';
-    badge.innerText = `LAB: ${gruppoInLaboratorio.toUpperCase()}`;
-} else {
-    // Altri giorni → nessun gruppo LAB 5A/5B
-    badge.style.display = 'none';
-}
-
-
-    document.querySelectorAll('.student-row').forEach(r => {
-        r.classList.remove('assente'); 
-        
-        const classe = r.dataset.classe;
-        const cognome = r.dataset.cognome;
-        const gruppoStudente = r.dataset.gruppo; 
-
-        // Se lo studente fa parte del gruppo in Laboratorio, viene segnato ASSENTE al Dinner
-        if ((classe === '5A' || classe === '5B')) {
-            if (gruppoInLaboratorio && gruppoStudente === gruppoInLaboratorio) {
-                r.classList.add('assente');
-            }
-        } 
-        
-        // Altre assenze per classe (es. 2P al lunedì)
-        if (classe !== '5A' && classe !== '5B') {
-            if (ASSENTI_CLASSI[g]?.includes(classe)) {
-                r.classList.add('assente');
-            }
+        const badge = document.getElementById('activeGroupBadge');
+        if (g === 2 && gruppoInLaboratorio) {
+            badge.style.display = 'inline-block';
+            badge.innerText = `LAB: ${gruppoInLaboratorio.toUpperCase()}`;
+        } else {
+            badge.style.display = 'none';
         }
 
-        // Permessi individuali
-        if (ASSENTI_PERMESSO[g]?.includes(cognome)) {
-            r.classList.add('assente');
-        }
-    });
-  }
+        document.querySelectorAll('.student-row').forEach(r => {
+            r.classList.remove('assente'); 
+            const classe = r.dataset.classe;
+            const cognome = r.dataset.cognome;
+            const gruppoStudente = r.dataset.gruppo; 
+
+            // Logica GR1/GR2: Attiva solo se oggi è MARTEDÌ (g === 2)
+            if (g === 2 && (classe === '5A' || classe === '5B')) {
+                if (gruppoInLaboratorio && gruppoStudente === gruppoInLaboratorio) {
+                    r.classList.add('assente');
+                }
+            } 
+            
+            if (classe !== '5A' && classe !== '5B') {
+                if (ASSENTI_CLASSI[g]?.includes(classe)) { r.classList.add('assente'); }
+            }
+
+            if (ASSENTI_PERMESSO[g]?.includes(cognome)) { r.classList.add('assente'); }
+        });
+    }
 
     function switchTurno(cognome, event) {
         event.stopPropagation();
@@ -523,8 +493,7 @@ if (g === 2 && gruppoInLaboratorio) {
     }
 
     function resetRicerca() { document.getElementById('searchInput').value = ''; filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte'; aggiornaStatoPulsanti(null); setClasse('Tutte'); applicaFiltri(); }
-    function resetTotale() { if (confirm("Reset completo?")) { cambiTurnoManuali = {}; document.querySelectorAll('.student-row').forEach(r => r.classList.remove('assente')); assenzeAutomatiche(new Date().getDay()); resetRicerca(); } }
-
+    
     function generaPopUpStampa() {
         let a1=0, p1=0, a2=0, p2=0, n1=[], n2=[], switch1=[], switch2=[];
         document.querySelectorAll('.student-row').forEach(r=>{
@@ -574,7 +543,6 @@ if (g === 2 && gruppoInLaboratorio) {
                         <span>Assenti: <input type="number" value="${a1}"></span>
                         <span>Presenti: <input type="number" value="${p1}"></span>
                         <span>+ EDU: <input type="number" value="2"></span> + <input type="text" id="altroDettaglioLab1" placeholder="..." style="width: 250px; font-size: 1.0em;">
-                    
                     </div>
                     <div class="nomi"><b>Esclusi:</b> ${n1.length ? n1.join(', ') : 'Nessuno'}</div>
                     <div class="cambi"><b>Cambi Turno:</b> ${switch1.length ? switch1.join(', ') : 'Nessuno'}</div>
@@ -586,7 +554,6 @@ if (g === 2 && gruppoInLaboratorio) {
                         <span>Presenti: <input type="number" value="${p2}"></span>
                         <span>+ EDU: <input type="number" value="2"></span>
                     + <input type="text" id="altroDettaglioLab2" placeholder="..." style="width: 250px; font-size: 1.0em;">
-                    
                     </div>
                     <div class="nomi"><b>Esclusi:</b> ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
                     <div class="cambi"><b>Cambi Turno:</b> ${switch2.length ? switch2.join(', ') : 'Nessuno'}</div>
@@ -597,10 +564,6 @@ if (g === 2 && gruppoInLaboratorio) {
         popup.document.close();
     }
     window.onload = init;
-    
-    
-    
-    
 </script>
 </body>
-</html> 
+</html>
