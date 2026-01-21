@@ -47,14 +47,14 @@
 
         .days-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .day-box {
-            background: #fff; padding: 1.0px; text-align: center; border-radius: 20px;
+            background: #fff; padding: 0.8px; text-align: center; border-radius: 20px;
             font-size: 0.85em; color: #444; border: 2px solid transparent; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
             cursor: help; transition: all 0.3s ease; line-height: 2.5;
         }
         .day-box.active-day { border-color: var(--primary); background: #e4ebff; color: var(--primary); font-weight: bold; }
 
         .counter-banner {
-            background: var(--primary); color: white; padding: 15px; border-radius: 30px;
+            background: var(--primary); color: white; padding: 6px; border-radius: 30px;
             text-align: center; margin-bottom: 15px; display: flex; justify-content: space-around; align-items: center;
         }
         .counter-item { display: flex; flex-direction: column; }
@@ -74,13 +74,13 @@
             100% { box-shadow: 0 0 0 0 rgba(255,255,255, 0); }
         }
 
-        .controls { background: #ffffff; padding: 20px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .controls { background: #ffffff; padding: 15px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
-        #searchInput { flex: 1; padding: 12px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; }
+        #searchInput { flex: 1; padding: 10px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; }
         .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 20px; border-radius: 50px; cursor: pointer; }
 
         .btn-group { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
-        .btn { padding: 10px 18px; border: none; border-radius: 50px; color: #000000; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9em; }
+        .btn { padding: 8px 10px; border: none; border-radius: 50px; color: #000000; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9em; }
         .btn-reset { background: var(--no); opacity: 0.9; }
         .btn-d1 { background: var(--d1); opacity: 0.6; }
         .btn-d2 { background: var(--d2); opacity: 0.6; }
@@ -100,7 +100,7 @@
         }
 
         .student-row {
-            background: var(--card-bg); padding: 15px; border-radius: 20px;
+            background: var(--card-bg); padding: 10px; border-radius: 20px;
             display: flex; flex-direction: column; justify-content: space-between;
             align-items: center; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.06);
             transition: all 0.2s ease; cursor: pointer; border-bottom: 5px solid var(--ok);
@@ -127,7 +127,7 @@
         .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
         .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
 
-        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: 2px 6px; border-radius: 6px; margin-top: 4px; }
+        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: .6px 6px; border-radius: 6px; margin-top: 4px; }
 
         @media (max-width: 480px) { #listaStudenti { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -141,15 +141,7 @@
         <div class="clock-container"><div id="digitalClock">00:00:00</div></div>
     </header>
     
-    <div class="counter-banner">
-        <div class="counter-item"><span>18:30</span><span class="counter-num" id="count1">0</span></div>
-        <div class="counter-item"><span>19:15</span><span class="counter-num" id="count2">0</span></div>
-        
-        <div id="activeGroupBadge">GRUPPO: --</div>
-        
-        <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
-    </div>
-
+    
     <div class="controls">
         <div class="search-container">
             <input id="searchInput" placeholder="Cerca studente o classe..." onkeyup="applicaFiltri()">
@@ -163,10 +155,25 @@
             <button class="btn btn-d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
             <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">P.P.</button>
             <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔄 Cambi</button>
-        </div>  
+       
+         <button class="btn" style="background:#689e4b;width:50%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
+    
         
-        <button class="btn" style="background:#689e4b;width:100%; padding: 12px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
+        </div>  
+        .
+        </div>
+    
+    
+    
+    <div class="counter-banner">
+        <div class="counter-item"><span>18:30</span><span class="counter-num" id="count1">0</span></div>
+        <div class="counter-item"><span>19:15</span><span class="counter-num" id="count2">0</span></div>
+        
+        <div id="activeGroupBadge">GRUPPO: --</div>
+        
+        <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
     </div>
+
 
      <div class="days-container" id="daysHeader">   
         <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio dinner ore 18 / Pignatelli, Menaldino, Chessa dinner ore 20"><b>2IeFP</b></div>
