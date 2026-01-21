@@ -1,3 +1,21 @@
+Conversazione aperta. 1 messaggio da leggere.
+
+Vai ai contenuti
+Utilizzo di Posta di WebEcole con gli screen reader
+
+2 di 2.734
+c
+External
+Posta in arrivo
+
+Maurizio Aquino
+Allegati
+12:01 (1 ora fa)
+a me
+
+c
+ Un allegato
+  •  Scansionato da Gmail
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -31,10 +49,28 @@
         #todayDate { font-size: 1.2em; text-transform: capitalize; opacity: 0.9; }
         
         .clock-container {
-            display: inline-block; margin-top: 10px; padding: 8px 25px;
-            border-radius: 100px; transition: all 0.5s ease; background: rgba(0,0,0,0.1);
-        }
-        #digitalClock { font-family: 'Courier New', monospace; font-size: 2em; font-weight: bold; }
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 25px;
+  border-radius: 100px;
+  transition: all 0.5s ease;
+  background: rgba(0,0,0,0.1);
+  font-family: 'Courier New', monospace; font-size: 3em;
+  font-weight: bold;
+}
+
+.clock-blue {
+  background: rgba(0, 123, 255, 0.25);
+}
+
+.clock-yellow {
+  background: rgba(255, 193, 7, 0.35);
+}
+
+.clock-red {
+  background: rgba(220, 53, 69, 0.35);
+}
+
 
         .days-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .day-box {
@@ -127,7 +163,9 @@
     <div class="counter-banner">
         <div class="counter-item"><span>18:30</span><span class="counter-num" id="count1">0</span></div>
         <div class="counter-item"><span>19:15</span><span class="counter-num" id="count2">0</span></div>
+        
         <div id="activeGroupBadge">GRUPPO: --</div>
+        
         <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
     </div>
 
@@ -174,6 +212,34 @@
 </div>
 
 <script>
+    
+    function updateClockColor() {
+  const clock = document.querySelector('.clock-container');
+  const now = new Date();
+  const minutes = now.getHours() * 60 + now.getMinutes();
+
+  clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
+
+  if (
+    minutes <= 1110 ||        // 00:00 - 18:30
+    minutes > 1200            // 20:01 - 24:00
+  ) {
+    clock.classList.add('clock-blue');
+  }
+  else if (minutes >= 1111 && minutes <= 1155) {
+    // 18:31 - 19:15
+    clock.classList.add('clock-yellow');
+  }
+  else if (minutes >= 1156 && minutes <= 1200) {
+    // 19:16 - 20:00
+    clock.classList.add('clock-red');
+  }
+}
+
+// esegue subito e poi ogni minuto
+updateClockColor();
+setInterval(updateClockColor, 60000);
+    
     const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
     const OVERRIDE_TURNO_2=['TEBANO'];
     const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A'] };
@@ -383,9 +449,18 @@
     const dataStr = martedi.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const gruppoInLaboratorio = CALENDARIO_GRUPPI[dataStr]; 
 
-    // Aggiornamento Badge: LAB: GR1 (indica chi è impegnato altrove)
-    const badge = document.getElementById('activeGroupBadge');
-    badge.innerText = gruppoInLaboratorio ? `LAB: ${gruppoInLaboratorio.toUpperCase()}` : "GRUPPO: N.D.";
+    // --- BADGE GRUPPO LAB (SOLO MARTEDÌ) ---
+const badge = document.getElementById('activeGroupBadge');
+
+if (g === 2 && gruppoInLaboratorio) {
+    // Martedì → 5A / 5B a turni
+    badge.style.display = 'inline-block';
+    badge.innerText = `LAB: ${gruppoInLaboratorio.toUpperCase()}`;
+} else {
+    // Altri giorni → nessun gruppo LAB 5A/5B
+    badge.style.display = 'none';
+}
+
 
     document.querySelectorAll('.student-row').forEach(r => {
         r.classList.remove('assente'); 
@@ -539,6 +614,12 @@
         popup.document.close();
     }
     window.onload = init;
+    
+    
+    
+    
 </script>
 </body>
 </html> 
+Presenze_21_genn.html
+Visualizzazione di Presenze_21_genn.html.
