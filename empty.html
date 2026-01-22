@@ -127,18 +127,7 @@
         .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
         .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
 
-        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: 0.1px 2px; border-radius: 6px; margin-top: 4px; }
-        
-        .room-label { 
-    display: inline-block; 
-    font-size: 0.7em; 
-    color: #4b788d; 
-    background: #e4ebff; 
-    padding: 0.1px 2px; 
-    border-radius: 6px; 
-    margin-top: 4px;
-    font-weight: 600;
-}
+        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: .6px 6px; border-radius: 6px; margin-top: 4px; }
 
         @media (max-width: 480px) { #listaStudenti { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -155,7 +144,7 @@
     
     <div class="controls">
         <div class="search-container">
-            <input id="searchInput" placeholder="Cerca studente, classe, room..." onkeyup="applicaFiltri()">
+            <input id="searchInput" placeholder="Cerca studente o classe..." onkeyup="applicaFiltri()">
             <button class="btn-clear" onclick="resetRicerca()">X</button>
         </div>
         
@@ -214,7 +203,7 @@
     
     const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
     const OVERRIDE_TURNO_2=['TEBANO'];
-    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A'] };
+    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A','5A','5B' ] };
     const TUTTI_PERMESSI = ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','CHEN','COMMOD','CLERIN',
                             'LAZIER','BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','SAITTA','BERRUTI A.','LUNARDI', 'GASPARD'];
     const ASSENTI_PERMESSO={ 1:['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA'], 2:['CHEN','COMMOD','CASALICCHIO',
@@ -222,11 +211,11 @@
                             'SAITTA','PIGNATELLI','CHESSA'], 4:['BERRUTI A.','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA'] };
     
     const CALENDARIO_GRUPPI = { 
-        "20/01/2026": "G1", "27/01/2026": "G2", "03/02/2026": "G1", "10/02/2026": "G2", 
-        "17/02/2026": "G1", "24/02/2026": "G2", "03/03/2026": "G1", "10/03/2026": "G2", 
-        "17/03/2026": "G1", "24/03/2026": "G2", "31/03/2026": "G1", "07/04/2026": "G2", 
-        "14/04/2026": "G1", "21/04/2026": "G2", "28/04/2026": "G1", "05/05/2026": "G2", 
-        "12/05/2026": "G1", "19/05/2026": "G2", "26/05/2026": "G1" 
+        "20/01/2026": "gr1", "22/01/2026": "gr1", "27/01/2026": "gr2", "29/01/2026": "gr2", "03/02/2026": "gr1",  "05/02/2026": "gr1", "10/02/2026": "gr2", "12/02/2026": "gr2",
+        "17/02/2026": "gr1", "19/02/2026": "gr1", "24/02/2026": "gr2", "26/02/2026": "gr2", "03/03/2026": "gr1", "05/03/2026": "gr1", "10/03/2026": "gr2", "12/03/2026": "gr2", 
+        "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
+        "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
+        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" 
     };
 
    const studenti=[ 
@@ -396,25 +385,11 @@
         studenti.forEach(s => {
             let r = document.createElement('div');
             r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome; 
-            r.dataset.gruppo = s.gruppo || ""; r.dataset.camera = s.camera || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
-           
-           const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
-
-// Usa la nuova classe .room-label qui
-const cameraBadge = s.camera ? `<div class="room-label">room ${s.camera}</div>` : "";
-
-r.innerHTML = `
-    <div class="name">
-        <b>${s.cognome}</b> ${s.nome} 
-        ${cameraBadge}
-        ${gruppoBadge}
-    </div>
-    <div class="row-actions">
-        <span class="classe-badge">${s.classe}</span>
-        <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button>
-    </div>`;
-            
-            
+            r.dataset.gruppo = s.gruppo || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
+            const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
+            r.innerHTML = `<div class="name"><b>${s.cognome}</b> ${s.nome} ${gruppoBadge}</div>
+                <div class="row-actions"><span class="classe-badge">${s.classe}</span>
+                <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button></div>`;
             r.onclick = (e) => { if(e.target.tagName !== 'BUTTON') { r.classList.toggle('assente'); aggiornaContatori(); } };
             lista.appendChild(r);
         });
@@ -447,32 +422,40 @@ r.innerHTML = `
         const gruppoInLaboratorio = CALENDARIO_GRUPPI[dataStr]; 
 
         const badge = document.getElementById('activeGroupBadge');
-        if (g === 2 && gruppoInLaboratorio) {
-            badge.style.display = 'inline-block';
-            badge.innerText = `LAB: ${gruppoInLaboratorio.toUpperCase()}`;
-        } else {
-            badge.style.display = 'none';
+        if ((g === 2 || g === 4) && gruppoInLaboratorio) {
+    badge.style.display = 'inline-block';
+    badge.innerText = `Ma/Gi: ${gruppoInLaboratorio.toUpperCase()}`;
+} else {
+    badge.style.display = 'none';
+
         }
 
-        document.querySelectorAll('.student-row').forEach(r => {
-            r.classList.remove('assente'); 
-            const classe = r.dataset.classe;
-            const cognome = r.dataset.cognome;
-            const gruppoStudente = r.dataset.gruppo; 
+       document.querySelectorAll('.student-row').forEach(r => {
+    r.classList.remove('assente'); 
+    const classe = r.dataset.classe;
+    const cognome = r.dataset.cognome;
+    const gruppoStudente = r.dataset.gruppo; 
 
-            // Logica GR1/GR2: Attiva solo se oggi è MARTEDÌ (g === 2)
-            if (g === 2 && (classe === '5A' || classe === '5B')) {
-                if (gruppoInLaboratorio && gruppoStudente === gruppoInLaboratorio) {
-                    r.classList.add('assente');
-                }
-            } 
-            
-            if (classe !== '5A' && classe !== '5B') {
-                if (ASSENTI_CLASSI[g]?.includes(classe)) { r.classList.add('assente'); }
-            }
+    // Logica Laboratorio (GR1/GR2): Attiva il MARTEDÌ (2) e il GIOVEDÌ (4)
+    // Solo per le classi 5A e 5B
+    if ((g === 2 || g === 4) && (classe === '5A' || classe === '5B')) {
+        if (gruppoInLaboratorio && gruppoStudente === gruppoInLaboratorio) {
+            r.classList.add('assente');
+        }
+    } 
+    
+    // Logica assenze per classi intere (esclusa la 5A/5B che è gestita sopra)
+    if (classe !== '5A' && classe !== '5B') {
+        if (ASSENTI_CLASSI[g]?.includes(classe)) { 
+            r.classList.add('assente'); 
+        }
+    }
 
-            if (ASSENTI_PERMESSO[g]?.includes(cognome)) { r.classList.add('assente'); }
-        });
+    // Logica assenze per singoli permessi (cognome)
+    if (ASSENTI_PERMESSO[g]?.includes(cognome)) { 
+        r.classList.add('assente'); 
+    }
+       });
     }
 
     function switchTurno(cognome, event) {
@@ -511,26 +494,18 @@ r.innerHTML = `
     function aggiornaStatoPulsanti(id) { document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); }
     function setClasse(c){ filtroClasse=c; document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active')); document.getElementById(c==='Tutte'?'tag-all':'tag-'+c).classList.add('active'); applicaFiltri(); }
 
- function applicaFiltri(){
-    const s = document.getElementById('searchInput').value.toLowerCase();
-    
-    document.querySelectorAll('.student-row').forEach(r => {
-        const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
-        
-        // Cerca nel Nome, Classe, Camera o Gruppo
-        const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || 
-                   r.dataset.classe.toLowerCase().includes(s) ||
-                   r.dataset.camera.toLowerCase().includes(s) || // Ricerca per camera
-                   r.dataset.gruppo.toLowerCase().includes(s);   // Ricerca per gruppo (G1, G2 o gr1, gr2)
-
-        const mT = filtroDinner ? t === filtroDinner : true;
-        const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
-        const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
-        const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
-        
-        r.style.display = (mS && mT && mC && mP && mCh) ? 'flex' : 'none';
-    });
-}
+    function applicaFiltri(){
+        const s=document.getElementById('searchInput').value.toLowerCase();
+        document.querySelectorAll('.student-row').forEach(r=>{
+            const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
+            const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || r.dataset.classe.toLowerCase().includes(s);
+            const mT = filtroDinner ? t === filtroDinner : true;
+            const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
+            const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
+            const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
+            r.style.display = (mS && mT && mC && mP && mCh) ? 'flex' : 'none';
+        });
+    }
 
     function resetRicerca() { document.getElementById('searchInput').value = ''; filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte'; aggiornaStatoPulsanti(null); setClasse('Tutte'); applicaFiltri(); }
     
