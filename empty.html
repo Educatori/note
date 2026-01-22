@@ -127,7 +127,18 @@
         .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
         .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
 
-        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: .6px 6px; border-radius: 6px; margin-top: 4px; }
+        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: 0.1px 2px; border-radius: 6px; margin-top: 4px; }
+        
+        .room-label { 
+    display: inline-block; 
+    font-size: 0.7em; 
+    color: #4b788d; 
+    background: #e4ebff; 
+    padding: 0.1px 2px; 
+    border-radius: 6px; 
+    margin-top: 4px;
+    font-weight: 600;
+}
 
         @media (max-width: 480px) { #listaStudenti { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -144,7 +155,7 @@
     
     <div class="controls">
         <div class="search-container">
-            <input id="searchInput" placeholder="Cerca studente o classe..." onkeyup="applicaFiltri()">
+            <input id="searchInput" placeholder="Cerca studente, classe, room..." onkeyup="applicaFiltri()">
             <button class="btn-clear" onclick="resetRicerca()">X</button>
         </div>
         
@@ -211,158 +222,158 @@
                             'SAITTA','PIGNATELLI','CHESSA'], 4:['BERRUTI A.','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA'] };
     
     const CALENDARIO_GRUPPI = { 
-        "20/01/2026": "gr1", "27/01/2026": "gr2", "03/02/2026": "gr1", "10/02/2026": "gr2", 
-        "17/02/2026": "gr1", "24/02/2026": "gr2", "03/03/2026": "gr1", "10/03/2026": "gr2", 
-        "17/03/2026": "gr1", "24/03/2026": "gr2", "31/03/2026": "gr1", "07/04/2026": "gr2", 
-        "14/04/2026": "gr1", "21/04/2026": "gr2", "28/04/2026": "gr1", "05/05/2026": "gr2", 
-        "12/05/2026": "gr1", "19/05/2026": "gr2", "26/05/2026": "gr1" 
+        "20/01/2026": "G1", "27/01/2026": "G2", "03/02/2026": "G1", "10/02/2026": "G2", 
+        "17/02/2026": "G1", "24/02/2026": "G2", "03/03/2026": "G1", "10/03/2026": "G2", 
+        "17/03/2026": "G1", "24/03/2026": "G2", "31/03/2026": "G1", "07/04/2026": "G2", 
+        "14/04/2026": "G1", "21/04/2026": "G2", "28/04/2026": "G1", "05/05/2026": "G2", 
+        "12/05/2026": "G1", "19/05/2026": "G2", "26/05/2026": "G1" 
     };
 
    const studenti=[ 
                 <!-- Classe 1A -->
-        { cognome: "COMMOD", nome: "Gaia", classe: "1A" },
-        { cognome: "GASPARD", nome: "Thierry", classe: "1A" },
-        { cognome: "JANS", nome: "Giada", classe: "1A" },
-        { cognome: "OBETTI", nome: "Virginia", classe: "1A" },
-        { cognome: "PETTORALI", nome: "Matilde", classe: "1A" },
-        { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A" },
+        { cognome: "COMMOD", nome: "Gaia", classe: "1A", camera:"218" },
+        { cognome: "GASPARD", nome: "Thierry", classe: "1A", camera:"105" },
+        { cognome: "JANS", nome: "Giada", classe: "1A", camera:"203" },
+        { cognome: "OBETTI", nome: "Virginia", classe: "1A", camera:"203" },
+        { cognome: "PETTORALI", nome: "Matilde", classe: "1A", camera:"203" },
+        { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", camera:"211" },
                 <!-- Classe 1B -->
-        { cognome: "BLANCHET", nome: "Nadine", classe: "1B" },
-        { cognome: "BOMBONATO", nome: "Francesco", classe: "1B" },
-        { cognome: "DATTRINO", nome: "Nicolas", classe: "1B" },
-        { cognome: "GIOVANDO", nome: "Caterina", classe: "1B" },
-        { cognome: "LUNARDI", nome: "Filippo", classe: "1B" },
-        { cognome: "POUJOL", nome: "Chiara", classe: "1B" },
-        { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B" },
-        { cognome: "SALVI", nome: "Sophie", classe: "1B" },
-        { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B" },
-        { cognome: "VILARDO", nome: "Gabriele", classe: "1B" },
+        { cognome: "BLANCHET", nome: "Nadine", classe: "1B", camera:"221" },
+        { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", camera:"104" },
+        { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", camera:"105" },
+        { cognome: "GIOVANDO", nome: "Caterina", classe: "1B", camera:"206" },
+        { cognome: "LUNARDI", nome: "Filippo", classe: "1B", camera:"108" },
+        { cognome: "POUJOL", nome: "Chiara", classe: "1B", camera:"206" },
+        { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B", camera:"104" },
+        { cognome: "SALVI", nome: "Sophie", classe: "1B", camera:"206" },
+        { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", camera:"108" },
+        { cognome: "VILARDO", nome: "Gabriele", classe: "1B", camera:"104" },
                 <!-- Classe 1P -->
-        { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P" },
-        { cognome: "CHABLOZ", nome: "Annette", classe: "1P" },
-        { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P" },
-        { cognome: "FURLAN", nome: "Alessandro", classe: "1P" },
-        { cognome: "GIOVANNELLI P.", nome: "Pietro", classe: "1P" },
-        { cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P" },
-        { cognome: "LAI", nome: "Stefano", classe: "1P" },
-        { cognome: "LAZIER", nome: "Francesco", classe: "1P" },
-        { cognome: "PAONESSA", nome: "Leonardo", classe: "1P" },
-        { cognome: "VINCENT", nome: "Thomas", classe: "1P" },
-        { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P" },
-        { cognome: "SILVANI", nome: "Amelie", classe: "1P" },
+        { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", camera:"107" },
+        { cognome: "CHABLOZ", nome: "Annette", classe: "1P", camera:"213" },
+        { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", camera:"109" },
+        { cognome: "FURLAN", nome: "Alessandro", classe: "1P", camera:"111" },
+        { cognome: "GIOVANNELLI P.", nome: "Pietro", classe: "1P", camera:"106" },
+        { cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P", camera:"105" },
+        { cognome: "LAI", nome: "Stefano", classe: "1P", camera:"106" },
+        { cognome: "LAZIER", nome: "Francesco", classe: "1P", camera:"106" },
+        { cognome: "PAONESSA", nome: "Leonardo", classe: "1P", camera:"107" },
+        { cognome: "VINCENT", nome: "Thomas", classe: "1P", camera:"103" },
+        { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", camera:"212" },
+        { cognome: "SILVANI", nome: "Amelie", classe: "1P", camera:"204" },
                 <!-- Classe 2A -->
-        { cognome: "BARAVALLE", nome: "Andrea", classe: "2A" },
-        { cognome: "BERTOT", nome: "Manuele", classe: "2A" },
-        { cognome: "BUZZI", nome: "Alessandro", classe: "2A" },
-        { cognome: "CASTELLANO", nome: "Martina", classe: "2A" },
-        { cognome: "DA FRE", nome: "Gaia", classe: "2A" },
-        { cognome: "DE GASPER", nome: "Lara", classe: "2A" },
-        { cognome: "GARCIA", nome: "Luis Alberto", classe: "2A" },
-        { cognome: "HERESAZ", nome: "Alyce", classe: "2A" },
-        { cognome: "PENNARD", nome: "Serena", classe: "2A" },
-        { cognome: "SAITTA", nome: "Asia", classe: "2A" },
+        { cognome: "BARAVALLE", nome: "Andrea", classe: "2A", camera:"102" },
+        { cognome: "BERTOT", nome: "Manuele", classe: "2A", camera:"102" },
+        { cognome: "BUZZI", nome: "Alessandro", classe: "2A", camera:"102" },
+        { cognome: "CASTELLANO", nome: "Martina", classe: "2A", camera:"204" },
+        { cognome: "DA FRE", nome: "Gaia", classe: "2A", camera:"207" },
+        { cognome: "DE GASPER", nome: "Lara", classe: "2A", camera:"207" },
+        { cognome: "GARCIA", nome: "Luis Alberto", classe: "2A", camera:"118" },
+        { cognome: "HERESAZ", nome: "Alyce", classe: "2A", camera:"211" },
+        { cognome: "PENNARD", nome: "Serena", classe: "2A", camera:"211" },
+        { cognome: "SAITTA", nome: "Asia", classe: "2A", camera:"207" },
                 <!-- Classe 2B -->
-        { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B" },
-        { cognome: "DELL'AQUILA", nome: "Gabriele", classe: "2B" },
-        { cognome: "DUNAND", nome: "Audrey", classe: "2B" },
-        { cognome: "GHILARDINI", nome: "Leonardo", classe: "2B" },
-        { cognome: "MAINO", nome: "Giada", classe: "2B" },
-        { cognome: "MISERENDINO", nome: "Ludovica", classe: "2B" },
-        { cognome: "MOUNIM", nome: "Yahya", classe: "2B" },
-        { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B" },
-        { cognome: "TACCONE", nome: "Nicholas", classe: "2B" },
+        { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", camera:"103" },
+        { cognome: "DELL'AQUILA", nome: "Gabriele", classe: "2B", camera:"107" },
+        { cognome: "DUNAND", nome: "Audrey", classe: "2B", camera:"218" },
+        { cognome: "GHILARDINI", nome: "Leonardo", classe: "2B", camera:"114" },
+        { cognome: "MAINO", nome: "Giada", classe: "2B", camera:"218" },
+        { cognome: "MISERENDINO", nome: "Ludovica", classe: "2B", camera:"204" },
+        { cognome: "MOUNIM", nome: "Yahya", classe: "2B", camera:"109" },
+        { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", camera:"101" },
+        { cognome: "TACCONE", nome: "Nicholas", classe: "2B", camera:"109" },
                 <!-- Classe 2P -->
-        { cognome: "BERRIAD", nome: "Thierry", classe: "2P" },
-        { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P" },
-        { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P" },
-        { cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P" },
-        { cognome: "CLERIN", nome: "Pietro", classe: "2P" },
-        { cognome: "DONZEL", nome: "Elodie", classe: "2P" },
-        { cognome: "GENS", nome: "Aaron", classe: "2P" },
-        { cognome: "HERRERA", nome: "Alexander", classe: "2P" },
-        { cognome: "MONTERO", nome: "Karen", classe: "2P" },
-        { cognome: "PERRIN", nome: "Annie", classe: "2P" },
-        { cognome: "STEVENIN", nome: "Joelle", classe: "2P" },
-        { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P" },
-        { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P" },
+        { cognome: "BERRIAD", nome: "Thierry", classe: "2P", camera:"121" },
+        { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P", camera:"114" },
+        { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P", camera:"114" },
+        { cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P", camera:"121" },
+        { cognome: "CLERIN", nome: "Pietro", classe: "2P", camera:"110" },
+        { cognome: "DONZEL", nome: "Elodie", classe: "2P", camera:"213" },
+        { cognome: "GENS", nome: "Aaron", classe: "2P", camera:"101" },
+        { cognome: "HERRERA", nome: "Alexander", classe: "2P", camera:"115" },
+        { cognome: "MONTERO", nome: "Karen", classe: "2P", camera:"209" },
+        { cognome: "PERRIN", nome: "Annie", classe: "2P", camera:"213" },
+        { cognome: "STEVENIN", nome: "Joelle", classe: "2P", camera:"208" },
+        { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P", camera:"209" },
+        { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P", camera:"209" },
                 <!-- Classe 3P -->
-        { cognome: "CONSOL", nome: "Gaia", classe: "3P" },
-        { cognome: "COSTANZA", nome: "Marcello", classe: "3P" },
-        { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P" },
-        { cognome: "LLESHI", nome: "Gabriele", classe: "3P" },
-        { cognome: "MARRERO", nome: "Lewis", classe: "3P" },
-        { cognome: "RONCO", nome: "Angelica", classe: "3P" },
+        { cognome: "CONSOL", nome: "Gaia", classe: "3P", camera:"208" },
+        { cognome: "COSTANZA", nome: "Marcello", classe: "3P", camera:"124" },
+        { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", camera:"111" },
+        { cognome: "LLESHI", nome: "Gabriele", classe: "3P", camera:"115" },
+        { cognome: "MARRERO", nome: "Lewis", classe: "3P", camera:"115" },
+        { cognome: "RONCO", nome: "Angelica", classe: "3P", camera:"208" },
                 <!-- Classe 3A -->
-        { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A" },
-        { cognome: "FLORIAN", nome: "Gabriele", classe: "3A" },
-        { cognome: "MARANGELO", nome: "Giulio", classe: "3A" },
-        { cognome: "PEAQUIN", nome: "Linda", classe: "3A" },
-        { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A" },
+        { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", camera:"101" },
+        { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", camera:"118" },
+        { cognome: "MARANGELO", nome: "Giulio", classe: "3A", camera:"118" },
+        { cognome: "PEAQUIN", nome: "Linda", classe: "3A", camera:"214" },
+        { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", camera:"121" },
                 <!-- Classe 3B -->
-        { cognome: "BLANCHET", nome: "Magalie", classe: "3B" },
-        { cognome: "BOGGIA", nome: "Vittoria", classe: "3B" },
-        { cognome: "CIRINA", nome: "Lorenzo", classe: "3B" },
-        { cognome: "DUBLANC", nome: "Nicole", classe: "3B" },
-        { cognome: "GRANATA", nome: "Gabriele", classe: "3B" },
-        { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B" },
-        { cognome: "TRIOLO", nome: "Eleonora", classe: "3B" },
+        { cognome: "BLANCHET", nome: "Magalie", classe: "3B", camera:"214" },
+        { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", camera:"214" },
+        { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", camera:"110" },
+        { cognome: "DUBLANC", nome: "Nicole", classe: "3B", camera:"202" },
+        { cognome: "GRANATA", nome: "Gabriele", classe: "3B", camera:"110" },
+        { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", camera:"116" },
+        { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", camera:"214" },
                 <!-- Classe 3C -->
-        { cognome: "CELESIA M.", nome: "Marta", classe: "3C" },
-        { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C" },
-        { cognome: "CUMINO", nome: "Lucia", classe: "3C" },
-        { cognome: "EPICOCO", nome: "Angelica", classe: "3C" },
-        { cognome: "MERLET", nome: "Cedric", classe: "3C" },
-        { cognome: "PALMISANO", nome: "Clarissa", classe: "3C" },
-        { cognome: "TARTIN", nome: "Zoe", classe: "3C" },
+        { cognome: "CELESIA M.", nome: "Marta", classe: "3C", camera:"215" },
+        { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", camera:"202" },
+        { cognome: "CUMINO", nome: "Lucia", classe: "3C", camera:"205" },
+        { cognome: "EPICOCO", nome: "Angelica", classe: "3C", camera:"205" },
+        { cognome: "MERLET", nome: "Cedric", classe: "3C", camera:"123" },
+        { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", camera:"202" },
+        { cognome: "TARTIN", nome: "Zoe", classe: "3C", camera:"215" },
                 <!-- Classe 4A -->
-        { cognome: "CHIADO'", nome: "Diego", classe: "4A" },
-        { cognome: "COMIOTTO", nome: "Lucia", classe: "4A" },
-        { cognome: "CONTA", nome: "Giovanni", classe: "4A" },
-        { cognome: "CROCE", nome: "Giacomo", classe: "4A" },
-        { cognome: "DANNA", nome: "Gioele", classe: "4A" },
-        { cognome: "DI TRIA", nome: "Alice", classe: "4A" },
-        { cognome: "MANCUSO", nome: "Gaia", classe: "4A" },
-        { cognome: "MARCIANO", nome: "Alberto", classe: "4A" },
-        { cognome: "MENALDINO", nome: "Moreno", classe: "4A" },
-        { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A" },
-        { cognome: "OBERTO", nome: "Debora", classe: "4A" },
-        { cognome: "TAPPELLA", nome: "Luca", classe: "4A" },
-        { cognome: "TESSARIN", nome: "Sharon", classe: "4A" },
-        { cognome: "VIOT", nome: "Cecilia", classe: "4A" },
+        { cognome: "CHIADO'", nome: "Diego", classe: "4A", camera:"113" },
+        { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", camera:"216" },
+        { cognome: "CONTA", nome: "Giovanni", classe: "4A", camera:"125" },
+        { cognome: "CROCE", nome: "Giacomo", classe: "4A", camera:"117" },
+        { cognome: "DANNA", nome: "Gioele", classe: "4A", camera:"119" },
+        { cognome: "DI TRIA", nome: "Alice", classe: "4A", camera:"220" },
+        { cognome: "MANCUSO", nome: "Gaia", classe: "4A", camera:"219" },
+        { cognome: "MARCIANO", nome: "Alberto", classe: "4A", camera:"116" },
+        { cognome: "MENALDINO", nome: "Moreno", classe: "4A", camera:"113" },
+        { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A", camera:"113" },
+        { cognome: "OBERTO", nome: "Debora", classe: "4A", camera:"210" },
+        { cognome: "TAPPELLA", nome: "Luca", classe: "4A", camera:"116" },
+        { cognome: "TESSARIN", nome: "Sharon", classe: "4A", camera:"205" },
+        { cognome: "VIOT", nome: "Cecilia", classe: "4A", camera:"210" },
                 <!-- TEBANO 2* DINNER -->
-        { cognome: "TEBANO", nome: "Serena", classe: "3P" },
+        { cognome: "TEBANO", nome: "Serena", classe: "3P", camera:"212" },
                 <!-- Classe 4B -->
-        { cognome: "CHESSA", nome: "Samuele", classe: "4B" },
-        { cognome: "FAVRE", nome: "Emilie", classe: "4B" },
-        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B" },
-        { cognome: "GORREX", nome: "Valerie", classe: "4B" },
-        { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B" },
-        { cognome: "MEYNET", nome: "Riccardo", classe: "4B" },
-        { cognome: "NICOLASI", nome: "Ginevra", classe: "4B" },
-        { cognome: "SAVELLA", nome: "Ilaria", classe: "4B" },
-        { cognome: "SERIO", nome: "Federica", classe: "4B" },
+        { cognome: "CHESSA", nome: "Samuele", classe: "4B", camera:"111" },
+        { cognome: "FAVRE", nome: "Emilie", classe: "4B", camera:"217" },
+        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B", camera:"117" },
+        { cognome: "GORREX", nome: "Valerie", classe: "4B", camera:"212" },
+        { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B", camera:"117" },
+        { cognome: "MEYNET", nome: "Riccardo", classe: "4B", camera:"113" },
+        { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", camera:"217" },
+        { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", camera:"210" },
+        { cognome: "SERIO", nome: "Federica", classe: "4B", camera:"217" },
                 <!-- Classe 5A -->
-        { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "gr1" },
-        { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "gr2" },
-        { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "gr2" },
-        { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "gr2" },
-        { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "gr2" },
-        { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "gr1" },
-        { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "gr1" },
-        { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "gr2" },
-        { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "gr2" },
-        { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "gr1" },
-        { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "gr2" },
-        { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "gr1" },
+        { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", camera:"201" },
+        { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "G2", camera:"120" },
+        { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", camera:"219" },
+        { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "G2", camera:"123" },
+        { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "G2", camera:"123" },
+        { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "G1", camera:"201" },
+        { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "G1", camera:"201" },
+        { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "G2", camera:"220" },
+        { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "G2", camera:"124" },
+        { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", camera:"120" },
+        { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", camera:"124" },
+        { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", camera:"120" },
                 <!-- Classe 5B -->
-        { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "gr1" },
-        { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "gr1" },
-        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "gr1" },
-        { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "gr2" },
-        { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "gr1" },
-        { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "gr2" },
-        { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "gr2" },
-        { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "gr1" }
+        { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", camera:"221" },
+        { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", camera:"119" },
+        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", camera:"219" },
+        { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "G2", camera:"215" },
+        { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "G1", camera:"216" },
+        { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", camera:"221" },
+        { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", camera:"124" },
+        { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", camera:"119" }
     ];
 
     let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false, cambiTurnoManuali = {}; 
@@ -385,11 +396,25 @@
         studenti.forEach(s => {
             let r = document.createElement('div');
             r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome; 
-            r.dataset.gruppo = s.gruppo || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
-            const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
-            r.innerHTML = `<div class="name"><b>${s.cognome}</b> ${s.nome} ${gruppoBadge}</div>
-                <div class="row-actions"><span class="classe-badge">${s.classe}</span>
-                <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button></div>`;
+            r.dataset.gruppo = s.gruppo || ""; r.dataset.camera = s.camera || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
+           
+           const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
+
+// Usa la nuova classe .room-label qui
+const cameraBadge = s.camera ? `<div class="room-label">room ${s.camera}</div>` : "";
+
+r.innerHTML = `
+    <div class="name">
+        <b>${s.cognome}</b> ${s.nome} 
+        ${cameraBadge}
+        ${gruppoBadge}
+    </div>
+    <div class="row-actions">
+        <span class="classe-badge">${s.classe}</span>
+        <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button>
+    </div>`;
+            
+            
             r.onclick = (e) => { if(e.target.tagName !== 'BUTTON') { r.classList.toggle('assente'); aggiornaContatori(); } };
             lista.appendChild(r);
         });
@@ -486,18 +511,26 @@
     function aggiornaStatoPulsanti(id) { document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); }
     function setClasse(c){ filtroClasse=c; document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active')); document.getElementById(c==='Tutte'?'tag-all':'tag-'+c).classList.add('active'); applicaFiltri(); }
 
-    function applicaFiltri(){
-        const s=document.getElementById('searchInput').value.toLowerCase();
-        document.querySelectorAll('.student-row').forEach(r=>{
-            const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
-            const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || r.dataset.classe.toLowerCase().includes(s);
-            const mT = filtroDinner ? t === filtroDinner : true;
-            const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
-            const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
-            const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
-            r.style.display = (mS && mT && mC && mP && mCh) ? 'flex' : 'none';
-        });
-    }
+ function applicaFiltri(){
+    const s = document.getElementById('searchInput').value.toLowerCase();
+    
+    document.querySelectorAll('.student-row').forEach(r => {
+        const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
+        
+        // Cerca nel Nome, Classe, Camera o Gruppo
+        const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || 
+                   r.dataset.classe.toLowerCase().includes(s) ||
+                   r.dataset.camera.toLowerCase().includes(s) || // Ricerca per camera
+                   r.dataset.gruppo.toLowerCase().includes(s);   // Ricerca per gruppo (G1, G2 o gr1, gr2)
+
+        const mT = filtroDinner ? t === filtroDinner : true;
+        const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
+        const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
+        const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
+        
+        r.style.display = (mS && mT && mC && mP && mCh) ? 'flex' : 'none';
+    });
+}
 
     function resetRicerca() { document.getElementById('searchInput').value = ''; filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte'; aggiornaStatoPulsanti(null); setClasse('Tutte'); applicaFiltri(); }
     
@@ -574,4 +607,3 @@
 </script>
 </body>
 </html>
-
