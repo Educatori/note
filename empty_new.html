@@ -6,421 +6,573 @@
     <title>Registro Dinner Educatori</title>
     <style>
         :root {
-            --bg:#f0f2f5;
-            --primary:#3984a7;
-            --d1:#cba300;
-            --d2:#ff0088;
+            --bg:#c7ede6;
+            --primary:#4b788d;
+            --d1:#ffc10759;
+            --d2:#dc354559;
             --ok:#30ec80;
-            --no:#ff0000;
+            --no:#ff4d4d;
             --wait:#3984a7;
+            --tutti: #228dbf;
             --permessi: #ff8000f8;
-            --tutti: #3984a7;
-            --cambiati: #a333d1;
+            --cambiati: #53b2ef;
             --highlight: #f1c40f;
-        }
-        body{font-family:'Segoe UI',sans-serif;background:var(--bg);padding:20px}
-        .container{max-width:800px;margin:auto}
-
-        header{
-            background:var(--primary); color:#fff; padding:25px; border-radius:80px;
-            text-align:center; margin-bottom:15px; box-shadow: 0 4px 10px #0000001a;
+            --card-bg: #ffffff;
+            --error: #fab1a0;
+            --success: #d4edda;
         }
 
-        #todayDate { font-size: 1.5em; font-weight: 500; margin-top: 8px; text-transform: capitalize; opacity: 0.9; }
+        body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:var(--bg); padding:15px; margin:0; }
+        .container { max-width: 1100px; margin: auto; }
 
+        header {
+            background: var(--primary); color: #fff; padding: 20px; border-radius: 40px;
+            text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #todayDate { font-size: 1.2em; text-transform: capitalize; opacity: 0.9; }
+        
         .clock-container {
-            display: inline-block; margin-top: 15px; padding: 10px 30px;
-            border-radius: 100px; transition: all 0.5s ease; box-shadow: inset 0 0 10px #00000033;
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 25px;
+            border-radius: 100px;
+            transition: all 0.5s ease;
+            background: rgba(0,0,0,0.1);
+            font-family: 'Courier New', monospace; font-size: 3em;
+            font-weight: bold;
         }
 
-        #digitalClock { font-family: 'Courier New', Courier, monospace; font-size: 2.5em; font-weight: bold; }
+        .clock-blue { background: #4b788d; }
+        .clock-yellow { background: #ffc10759; }
+        .clock-red { background: #dc354559; }
 
-        .status-waiting { background: var(--wait); color: white; }
-        .status-dinner1 { background: var(--d1); color: white; }
-        .status-dinner2 { background: var(--no); color: white; }
-        
-        .days-container { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
+        .days-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
+       
+        /* --- LAYOUT A COLONNE AFFIANCATE --- */
+        .main-layout {
+            display: flex;
+            gap: 10px;
+            align-items: stretch; 
+        }
+
+        /* LE 4 COLONNE DEI GIORNI */
+        .days-sidebar-container {
+            display: flex; 
+            gap: 2px;
+            flex-shrink: 0;
+        }
+
         .day-box {
-            background: #fff; padding: 10px; text-align: center; border-radius: 50px;
-            font-size: 0.9em; color: #444; border: 2px solid transparent; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            cursor: help; position: relative; transition: all 0.3s ease;
+            background: #ffffff;
+            width: 10px; /* Leggermente più largo per ospitare il testo orizzontale */
+            padding: 15px 5px;
+            text-align: center;
+            border-radius: 15px;
+            font-size: 0.75em;
+            color: #444;
+            border: 2px solid transparent;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: help;
+            
+            /* NUOVO ALLINEAMENTO: Titolo in alto */
+            display: flex;
+            flex-direction: column; 
+            justify-content: flex-start; /* Spinge il contenuto (il <b>) in alto */
+            align-items: center;
+            
+            transition: 0.3s;
         }
-        .day-box.active-day { border-color: var(--primary); background: #eef2ff; color: var(--primary); font-weight: bold; }
 
-        .day-box[title]:hover::after {
-            content: attr(title);
-            position: absolute; top: 110%; left: 50%; transform: translateX(-50%);
-            background: #333; color: #fff; padding: 10px; border-radius: 15px;
-            font-size: 13px; width: 250px; z-index: 100; box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            line-height: 1.4; font-weight: normal;
+        /* Testo allineato al lato corto (orizzontale) */
+        .day-box b {
+            writing-mode: horizontal-tb; /* Forza orizzontale */
+            transform: none;
+            display: block;
+            line-height: 1.2;
+            word-break: break-word; /* Va a capo se il testo è lungo (es. 2IeFP) */
         }
 
-        .controls{background:#ffffff; padding:20px; border-radius:60px; margin-bottom:20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1)}
-        
-        .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
-        #searchInput { flex: 1; padding: 12px; border: 1px solid #cccccc; border-radius: 50px; outline: none; }
-        .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 15px; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .day-box.active-day { 
+            border-color: var(--primary); 
+            background: #e4ebff; 
+            color: var(--primary); 
+            font-weight: bold;
+        }
 
-        .btn-group{display:flex; gap:10px; justify-content:center; margin-bottom:15px; flex-wrap: wrap;}
-        .btn{padding:10px 20px; border:none; border-radius:50px; color:#ffffff; font-weight:bold; cursor:pointer; transition: 0.2s}
+        /* COLONNA DESTRA */
+        .content-right {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }     
         
-        .btn-reset { background: var(--no) !important; color: white !important; margin-right: 5px; }
-        .btn-reset:hover { transform: scale(1.05); filter: brightness(1.2); }
         
-        .d1{background:var(--d1); opacity:.5}
-        .d2{background:var(--d2); opacity:.5}
-        .btn-permessi{background:var(--permessi); opacity: 0.5;}
-        .btn-cambiati{background:var(--cambiati); opacity: 0.5;}
-        .btn.active{opacity:1; transform: scale(1.15)}
         
-        .filter-tags{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:15px}
-        .tag{padding:5px 12px; background:#dfe6e9; border-radius:200px; cursor:pointer; font-size: 1.1em}
-        .tag.active{background:var(--primary); color:#ffffff}
-
+        
+        
+        
+        
         .counter-banner {
-            background: #3984a7; color: white; padding: 15px; border-radius: 80px;
-            text-align: center; margin-bottom: 15px; display: flex; justify-content: space-around;
+            background: var(--primary); color: white; padding: 6px; border-radius: 30px;
+            text-align: center; margin-bottom: 15px; display: flex; justify-content: space-around; align-items: center;
         }
         .counter-item { display: flex; flex-direction: column; }
-        .counter-num { font-size: 1.4em; font-weight: bold; color: var(--ok); }
-
-        .student-row{
-            background:#fff; margin-bottom:6px; padding:15px; border-radius:80px;
-            display:flex; justify-content:space-between; align-items:center;
-            border-left:10px solid var(--ok); cursor:pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            transition: all 0.3s ease;
+        .counter-num { font-size: 1.5em; font-weight: bold; color: var(--ok); }
+        
+        #activeGroupBadge { 
+            background: #ffffff; color: var(--primary); padding: 5px 15px; 
+            border-radius: 50px; font-weight: bold; font-size: 0.8em; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6);
+            display: none;
+            animation: pulse 2s infinite;
         }
-        .student-row.assente{border-left-color:var(--no); background:#fdf2f2}
-        .student-row.assente .name{text-decoration:line-through; color:#999}
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255,255,255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255, 0); }
+        }
+
+        .controls { background: #ffffff; padding: 15px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
+        #searchInput { flex: 1; padding: 10px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; font-style: normal; }
+        #roomInput { width: 85px; padding: 10px; border: 1px solid #ddd; border-radius: 50px; outline: none; text-align: center; transition: all 0.3s; font-style: normal; }
+        .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 20px; border-radius: 50px; cursor: pointer; }
+
+        .btn-group { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
+        .btn { padding: 8px 10px; border: none; border-radius: 50px; color: #000000; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9em; }
+        .btn-d1 { background: var(--d1); opacity: 0.6; }
+        .btn-d2 { background: var(--d2); opacity: 0.6; }
+        .btn-permessi { background: var(--permessi); opacity: 0.6; }
+        .btn-cambiati { background: var(--cambiati); opacity: 0.6; }
+        .btn.active { opacity: 0.9; transform: scale(1.1); }
+
+        .filter-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 15px; }
+        .tag { padding: 6px 14px; background: #dfe6e9; border-radius: 50px; cursor: pointer; font-size: 0.85em; font-weight: 600; }
+        .tag.active { background: var(--primary); color: #fff; }
+
+        #listaStudenti {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+            gap: 12px;
+            padding-bottom: 100px;
+        }
+
+        .student-row {
+            background: var(--card-bg); padding: 10px; border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            align-items: center; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+            transition: all 0.2s ease; cursor: pointer; border-bottom: 5px solid var(--ok);
+            min-height: 110px;
+        }
+
+        .student-row.assente { border-bottom-color: var(--no); background: #fdf2f2; opacity: 0.6; }
+        .student-row.assente .name { text-decoration: line-through; color: #95a5a6; }
 
         .student-row.highlight-lab {
-            border-color: var(--highlight);
-            background: #fff9e6 !important;
-            transform: scale(1.03);
-            z-index: 5;
-            box-shadow: 0 4px 12px rgba(241, 196, 15, 0.4);
+            border-bottom-color: var(--highlight); background: var(--highlight) !important;
+            transform: scale(1.08); z-index: 10; box-shadow: 0 10px 20px rgba(241, 196, 15, 0.5);
         }
-        
-        .row-actions { display: flex; align-items: center; }
-        .btn-switch {
-            background: #eee; border: none; border-radius: 50%; width: 35px; height: 35px;
-            margin-left: 10px; cursor: pointer; font-size: 1.2em; display: flex; align-items: center; justify-content: center;
-        }
-        .btn-switch.modificato { background: var(--cambiati); color: white; opacity: 0.8; }
 
-        ::placeholder { color: #a3a3a3; font-style: italic; }
+        .name { font-size: 1em; color: #2d3436; margin-bottom: 10px; flex-grow: 1; }
+        .name b { display: block; text-transform: uppercase; font-size: 1.1em; }
+
+        .row-actions {
+            display: flex; width: 100%; justify-content: space-between;
+            align-items: center; border-top: 1px solid #eee; padding-top: 8px;
+        }
+
+        .classe-badge { font-weight: bold; color: var(--primary); font-size: 0.9em; }
+        .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+        .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
+        .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: .6px 6px; border-radius: 6px; margin-top: 4px; }
         
-        /* Stile per l'etichetta del gruppo */
-.group-label {
-    font-size: 0.75em;
-    background: #d1d8e0;
-    color: #4b6584;
-    padding: 2px 8px;
-    border-radius: 10px;
-    margin-left: 8px;
-    vertical-align: middle;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-        
-        
+        @media (max-width: 800px) {
+            .main-layout { flex-direction: column; }
+            .days-sidebar-container { width: 100%; flex-direction: row; height: auto; }
+            .day-box { width: auto; flex: 1; min-height: 50px; }
     </style>
 </head>
-
 <body>
+
 <div class="container">
     <header>
-        <h1>Registro Dinner</h1>
+        <h1 style="margin:0; font-size: 1.8em;">Registro Dinner</h1>
         <div id="todayDate"></div>
-        <div class="clock-container status-waiting">
-            <div id="digitalClock">00:00:00</div>
-        </div>
+        <div class="clock-container"><div id="digitalClock">00:00:00</div></div>
     </header>
-
-    <div class="days-container" id="daysHeader">
-        <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No Dinner / Casalicchio ore 18 / Pignatelli, Menaldino, Chessa ore 20">2IeFP</div>
-        <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod, Epicoco No Dinner / Casalicchio, Clerin ore 18 / Lazier ore 20">5A, 5B</div>
-        <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S., D'Agostino, Epicoco, Giovannelli P. No Dinner / Casalicchio ore 18 / Saitta ore 19 / Pignatelli, Chessa ore 20">2B</div>
-        <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A., Chen, Epicoco No Dinner / Casalicchio, Clerin ore 18 / Menaldino, Lunardi, Chessa ore 20">2A</div>
+    
+    <div class="controls">
+        <div class="search-container">
+            <input id="searchInput" placeholder="Cerca nominativo o classe" onkeyup="applicaFiltri()">
+           <input type="number" id="roomInput" placeholder="Cerca room" 
+       min="101" max="221" 
+       oninput="validaERicerca()" 
+       style="width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 50px;
+              outline: none; text-align: center; transition: all 0.3s; font-weight: bold;">
+            <button class="btn-clear" onclick="resetRicerca()">X</button>
+        </div>
+        
+        <div class="filter-tags" id="tagList"><div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte le Classi</div></div>
+                
+        <div class="btn-group">
+            <button class="btn btn-d1" id="btn-d1" onclick="setTurno(1)">18:30</button>
+            <button class="btn btn-d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
+            <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">Permessi</button>
+            <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔃 Cambi</button>
+            <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
+        </div>  
     </div>
-
+    
     <div class="counter-banner">
         <div class="counter-item"><span>18:30</span><span class="counter-num" id="count1">0</span></div>
         <div class="counter-item"><span>19:15</span><span class="counter-num" id="count2">0</span></div>
-        <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#fff" id="countTot">0</span></div>
+        <div id="activeGroupBadge">GRUPPO: --</div>
+        <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
     </div>
 
-    <div class="controls">
-        <div class="search-container">
-            <input id="searchInput" placeholder="Cerca studente o classe..." onkeyup="applicaFiltri()">
-            <button class="btn-clear" onclick="resetRicerca()">CANCELLA</button>
-        </div>
-        <div class="btn-group">
-            <button class="btn btn-reset" onclick="resetTotale()">RESET</button>
-            <button class="btn d1" id="btn-d1" onclick="setTurno(1)">18:30</button>
-            <button class="btn d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
-            <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">Permessi</button>
-            <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔄 Cambi</button>
-        </div>
-        <div class="filter-tags" id="tagList">
-            <div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte le Classi</div>
-        </div>
-        <button class="btn" style="background:#689e4b;width:100%; font-size: 1.0em; padding: 15px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
-    </div>
-
+     <div class="main-layout">
+    <div class="days-sidebar-container" id="daysHeader">
+                    <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio dinner ore 18 / Pignatelli, Menaldino, Chessa dinner ore 20"><b>LUN<br>2IeFP</b></div>
+                    <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Gaspard, Lunardi dinner ore 20"><b>MAR<br>5A/5B</b></div>
+                    <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S., D'Agostino, Giovannelli P., No dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20"><b>MER<br>2B</b></div>
+                    <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A., Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Chessa dinner ore 20"><b>GIO<br>2A</b></div>
+                    </div>
+    <div class="content-right">
+        
     <div id="listaStudenti"></div>
 </div>
 
 <script>
-    const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
-    const OVERRIDE_TURNO_2=['TEBANO'];
-    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A'] };
-    
-    const TUTTI_PERMESSI = ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','CHEN','COMMOD','EPICOCO','CLERIN','LAZIER','BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','SAITTA','BERRUTI A.','LUNARDI'];
-
-    const ASSENTI_PERMESSO={
-        1:['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA'],
-        2:['CHEN','COMMOD','EPICOCO','CASALICCHIO','CLERIN','LAZIER'],
-        3:['BERRUTI S.','DAGOSTINO','EPICOCO','GIOVANNELLI P.','CASALICCHIO','SAITTA','PIGNATELLI','CHESSA'],
-        4:['BERRUTI A.','CHEN','EPICOCO','CASALICCHIO','CLERIN','MENALDINO','LUNARDI','CHESSA']
-    };
-
-    const CALENDARIO_GRUPPI = {
-        "20/01/2026": "gr1", "27/01/2026": "gr2", 
-        "03/02/2026": "gr1", "10/02/2026": "gr2", "17/02/2026": "gr1",
-        "24/02/2026": "gr2", "03/03/2026": "gr1", "10/03/2026": "gr2",
-        "17/03/2026": "gr1", "24/03/2026": "gr2", "31/03/2026": "gr1",
-        "07/04/2026": "gr2", "14/04/2026": "gr1", "21/04/2026": "gr2",
-        "28/04/2026": "gr1", "05/05/2026": "gr2", "12/05/2026": "gr1",
-        "19/05/2026": "gr2", "26/05/2026": "gr1"
-    };
-
-      const studenti=[ 
+    // --- LISTA STUDENTI INTEGRALE ---
+ 
+    const studenti=[ 
                 <!-- Classe 1A -->
-        { cognome: "COMMOD", nome: "Gaia", classe: "1A" },
-        { cognome: "GASPARD", nome: "Thierry", classe: "1A" },
-        { cognome: "JANS", nome: "Giada", classe: "1A" },
-        { cognome: "OBETTI", nome: "Virginia", classe: "1A" },
-        { cognome: "PETTORALI", nome: "Matilde", classe: "1A" },
-        { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A" },
+            
+        { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
+        { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
+        { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
+        { cognome: "OBETTI", nome: "Virginia", classe: "1A", room:"203" },
+        { cognome: "PETTORALI", nome: "Matilde", classe: "1A", room:"203" },
+        { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", room:"211" },
                 <!-- Classe 1B -->
-        { cognome: "BLANCHET", nome: "Nadine", classe: "1B" },
-        { cognome: "BOMBONATO", nome: "Francesco", classe: "1B" },
-        { cognome: "DATTRINO", nome: "Nicolas", classe: "1B" },
-        { cognome: "GIOVANDO", nome: "Caterina", classe: "1B" },
-        { cognome: "LUNARDI", nome: "Filippo", classe: "1B" },
-        { cognome: "POUJOL", nome: "Chiara", classe: "1B" },
-        { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B" },
-        { cognome: "SALVI", nome: "Sophie", classe: "1B" },
-        { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B" },
-        { cognome: "VILARDO", nome: "Gabriele", classe: "1B" },
+        { cognome: "BLANCHET", nome: "Nadine", classe: "1B", room:"221" },
+        { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", room:"104" },
+        { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", room:"105" },
+        { cognome: "GIOVANDO", nome: "Caterina", classe: "1B", room:"206" },
+        { cognome: "LUNARDI", nome: "Filippo", classe: "1B", room:"108" },
+        { cognome: "POUJOL", nome: "Chiara", classe: "1B", room:"206" },
+        { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B", room:"104" },
+        { cognome: "SALVI", nome: "Sophie", classe: "1B", room:"206" },
+        { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", room:"108" },
+        { cognome: "VILARDO", nome: "Gabriele", classe: "1B", room:"104" },
                 <!-- Classe 1P -->
-        { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P" },
-        { cognome: "CHABLOZ", nome: "Annette", classe: "1P" },
-        { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P" },
-        { cognome: "FURLAN", nome: "Alessandro", classe: "1P" },
-        { cognome: "GIOVANNELLI P.", nome: "Pietro", classe: "1P" },
-        { cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P" },
-        { cognome: "LAI", nome: "Stefano", classe: "1P" },
-        { cognome: "LAZIER", nome: "Francesco", classe: "1P" },
-        { cognome: "PAONESSA", nome: "Leonardo", classe: "1P" },
-        { cognome: "VINCENT", nome: "Thomas", classe: "1P" },
-        { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P" },
-        { cognome: "SILVANI", nome: "Amelie", classe: "1P" },
+        { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", room:"107" },
+        { cognome: "CHABLOZ", nome: "Annette", classe: "1P", room:"213" },
+        { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", room:"109" },
+        { cognome: "FURLAN", nome: "Alessandro", classe: "1P", room:"111" },
+        { cognome: "GIOVANNELLI P.", nome: "Pietro", classe: "1P", room:"106" },
+        { cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P", room:"105" },
+        { cognome: "LAI", nome: "Stefano", classe: "1P", room:"106" },
+        { cognome: "LAZIER", nome: "Francesco", classe: "1P", room:"106" },
+        { cognome: "PAONESSA", nome: "Leonardo", classe: "1P", room:"107" },
+        { cognome: "VINCENT", nome: "Thomas", classe: "1P", room:"103" },
+        { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", room:"212" },
+        { cognome: "SILVANI", nome: "Amelie", classe: "1P", room:"204" },
                 <!-- Classe 2A -->
-        { cognome: "BARAVALLE", nome: "Andrea", classe: "2A" },
-        { cognome: "BERTOT", nome: "Manuele", classe: "2A" },
-        { cognome: "BUZZI", nome: "Alessandro", classe: "2A" },
-        { cognome: "CASTELLANO", nome: "Martina", classe: "2A" },
-        { cognome: "DA FRE", nome: "Gaia", classe: "2A" },
-        { cognome: "DE GASPER", nome: "Lara", classe: "2A" },
-        { cognome: "GARCIA", nome: "Luis Alberto", classe: "2A" },
-        { cognome: "HERESAZ", nome: "Alyce", classe: "2A" },
-        { cognome: "PENNARD", nome: "Serena", classe: "2A" },
-        { cognome: "SAITTA", nome: "Asia", classe: "2A" },
+        { cognome: "BARAVALLE", nome: "Andrea", classe: "2A", room:"102" },
+        { cognome: "BERTOT", nome: "Manuele", classe: "2A", room:"102" },
+        { cognome: "BUZZI", nome: "Alessandro", classe: "2A", room:"102" },
+        { cognome: "CASTELLANO", nome: "Martina", classe: "2A", room:"204" },
+        { cognome: "DA FRE", nome: "Gaia", classe: "2A", room:"207" },
+        { cognome: "DE GASPER", nome: "Lara", classe: "2A", room:"207" },
+        { cognome: "GARCIA", nome: "Luis Alberto", classe: "2A", room:"118" },
+        { cognome: "HERESAZ", nome: "Alyce", classe: "2A", room:"211" },
+        { cognome: "PENNARD", nome: "Serena", classe: "2A", room:"211" },
+        { cognome: "SAITTA", nome: "Asia", classe: "2A", room:"207" },
                 <!-- Classe 2B -->
-        { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B" },
-        { cognome: "DELL'AQUILA", nome: "Gabriele", classe: "2B" },
-        { cognome: "DUNAND", nome: "Audrey", classe: "2B" },
-        { cognome: "GHILARDINI", nome: "Leonardo", classe: "2B" },
-        { cognome: "MAINO", nome: "Giada", classe: "2B" },
-        { cognome: "MISERENDINO", nome: "Ludovica", classe: "2B" },
-        { cognome: "MOUNIM", nome: "Yahya", classe: "2B" },
-        { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B" },
-        { cognome: "TACCONE", nome: "Nicholas", classe: "2B" },
+        { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", room:"103" },
+        { cognome: "DELL'AQUILA", nome: "Gabriele", classe: "2B", room:"107" },
+        { cognome: "DUNAND", nome: "Audrey", classe: "2B", room:"218" },
+        { cognome: "GHILARDINI", nome: "Leonardo", classe: "2B", room:"114" },
+        { cognome: "MAINO", nome: "Giada", classe: "2B", room:"218" },
+        { cognome: "MISERENDINO", nome: "Ludovica", classe: "2B", room:"204" },
+        { cognome: "MOUNIM", nome: "Yahya", classe: "2B", room:"109" },
+        { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", room:"101" },
+        { cognome: "TACCONE", nome: "Nicholas", classe: "2B", room:"109" },
                 <!-- Classe 2P -->
-        { cognome: "BERRIAD", nome: "Thierry", classe: "2P" },
-        { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P" },
-        { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P" },
-        { cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P" },
-        { cognome: "CLERIN", nome: "Pietro", classe: "2P" },
-        { cognome: "DONZEL", nome: "Elodie", classe: "2P" },
-        { cognome: "GENS", nome: "Aaron", classe: "2P" },
-        { cognome: "HERRERA", nome: "Alexander", classe: "2P" },
-        { cognome: "MONTERO", nome: "Karen", classe: "2P" },
-        { cognome: "PERRIN", nome: "Annie", classe: "2P" },
-        { cognome: "STEVENIN", nome: "Joelle", classe: "2P" },
-        { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P" },
-        { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P" },
+        { cognome: "BERRIAD", nome: "Thierry", classe: "2P", room:"121" },
+        { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P", room:"114" },
+        { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P", room:"114" },
+        { cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P", room:"121" },
+        { cognome: "CLERIN", nome: "Pietro", classe: "2P", room:"110" },
+        { cognome: "DONZEL", nome: "Elodie", classe: "2P", room:"213" },
+        { cognome: "GENS", nome: "Aaron", classe: "2P", room:"101" },
+        { cognome: "HERRERA", nome: "Alexander", classe: "2P", room:"115" },
+        { cognome: "MONTERO", nome: "Karen", classe: "2P", room:"209" },
+        { cognome: "PERRIN", nome: "Annie", classe: "2P", room:"213" },
+        { cognome: "STEVENIN", nome: "Joelle", classe: "2P", room:"208" },
+        { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P", room:"209" },
+        { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P", room:"209" },
                 <!-- Classe 3P -->
-        { cognome: "CONSOL", nome: "Gaia", classe: "3P" },
-        { cognome: "COSTANZA", nome: "Marcello", classe: "3P" },
-        { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P" },
-        { cognome: "LLESHI", nome: "Gabriele", classe: "3P" },
-        { cognome: "MARRERO", nome: "Lewis", classe: "3P" },
-        { cognome: "RONCO", nome: "Angelica", classe: "3P" },
+        { cognome: "CONSOL", nome: "Gaia", classe: "3P", room:"208" },
+        { cognome: "COSTANZA", nome: "Marcello", classe: "3P", room:"124" },
+        { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", room:"111" },
+        { cognome: "LLESHI", nome: "Gabriele", classe: "3P", room:"115" },
+        { cognome: "MARRERO", nome: "Lewis", classe: "3P", room:"115" },
+        { cognome: "RONCO", nome: "Angelica", classe: "3P", room:"208" },
                 <!-- Classe 3A -->
-        { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A" },
-        { cognome: "FLORIAN", nome: "Gabriele", classe: "3A" },
-        { cognome: "MARANGELO", nome: "Giulio", classe: "3A" },
-        { cognome: "PEAQUIN", nome: "Linda", classe: "3A" },
-        { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A" },
+        { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", room:"101" },
+        { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", room:"118" },
+        { cognome: "MARANGELO", nome: "Giulio", classe: "3A", room:"118" },
+        { cognome: "PEAQUIN", nome: "Linda", classe: "3A", room:"214" },
+        { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", room:"121" },
                 <!-- Classe 3B -->
-        { cognome: "BLANCHET", nome: "Magalie", classe: "3B" },
-        { cognome: "BOGGIA", nome: "Vittoria", classe: "3B" },
-        { cognome: "CIRINA", nome: "Lorenzo", classe: "3B" },
-        { cognome: "DUBLANC", nome: "Nicole", classe: "3B" },
-        { cognome: "GRANATA", nome: "Gabriele", classe: "3B" },
-        { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B" },
-        { cognome: "TRIOLO", nome: "Eleonora", classe: "3B" },
+        { cognome: "BLANCHET", nome: "Magalie", classe: "3B", room:"214" },
+        { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", room:"214" },
+        { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", room:"110" },
+        { cognome: "DUBLANC", nome: "Nicole", classe: "3B", room:"202" },
+        { cognome: "GRANATA", nome: "Gabriele", classe: "3B", room:"110" },
+        { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", room:"116" },
+        { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", room:"214" },
                 <!-- Classe 3C -->
-        { cognome: "CELESIA M.", nome: "Marta", classe: "3C" },
-        { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C" },
-        { cognome: "CUMINO", nome: "Lucia", classe: "3C" },
-        { cognome: "EPICOCO", nome: "Angelica", classe: "3C" },
-        { cognome: "MERLET", nome: "Cedric", classe: "3C" },
-        { cognome: "PALMISANO", nome: "Clarissa", classe: "3C" },
-        { cognome: "TARTIN", nome: "Zoe", classe: "3C" },
+        { cognome: "CELESIA M.", nome: "Marta", classe: "3C", room:"215" },
+        { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", room:"202" },
+        { cognome: "CUMINO", nome: "Lucia", classe: "3C", room:"205" },
+        { cognome: "EPICOCO", nome: "Angelica", classe: "3C", room:"205" },
+        { cognome: "MERLET", nome: "Cedric", classe: "3C", room:"123" },
+        { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", room:"202" },
+        { cognome: "TARTIN", nome: "Zoe", classe: "3C", room:"215" },
                 <!-- Classe 4A -->
-        { cognome: "CHIADO'", nome: "Diego", classe: "4A" },
-        { cognome: "COMIOTTO", nome: "Lucia", classe: "4A" },
-        { cognome: "CONTA", nome: "Giovanni", classe: "4A" },
-        { cognome: "CROCE", nome: "Giacomo", classe: "4A" },
-        { cognome: "DANNA", nome: "Gioele", classe: "4A" },
-        { cognome: "DI TRIA", nome: "Alice", classe: "4A" },
-        { cognome: "MANCUSO", nome: "Gaia", classe: "4A" },
-        { cognome: "MARCIANO", nome: "Alberto", classe: "4A" },
-        { cognome: "MENALDINO", nome: "Moreno", classe: "4A" },
-        { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A" },
-        { cognome: "OBERTO", nome: "Debora", classe: "4A" },
-        { cognome: "TAPPELLA", nome: "Luca", classe: "4A" },
-        { cognome: "TESSARIN", nome: "Sharon", classe: "4A" },
-        { cognome: "VIOT", nome: "Cecilia", classe: "4A" },
+        { cognome: "CHIADO'", nome: "Diego", classe: "4A", room:"113" },
+        { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", room:"216" },
+        { cognome: "CONTA", nome: "Giovanni", classe: "4A", room:"125" },
+        { cognome: "CROCE", nome: "Giacomo", classe: "4A", room:"117" },
+        { cognome: "DANNA", nome: "Gioele", classe: "4A", room:"119" },
+        { cognome: "DI TRIA", nome: "Alice", classe: "4A", room:"220" },
+        { cognome: "MANCUSO", nome: "Gaia", classe: "4A", room:"219" },
+        { cognome: "MARCIANO", nome: "Alberto", classe: "4A", room:"116" },
+        { cognome: "MENALDINO", nome: "Moreno", classe: "4A", room:"113" },
+        { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A", room:"113" },
+        { cognome: "OBERTO", nome: "Debora", classe: "4A", room:"210" },
+        { cognome: "TAPPELLA", nome: "Luca", classe: "4A", room:"116" },
+        { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
+        { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },
+                       
                 <!-- TEBANO 2* DINNER -->
-        { cognome: "TEBANO", nome: "Serena", classe: "3P" },
+        { cognome: "TEBANO", nome: "Serena", classe: "3P", room:"212" },
                 <!-- Classe 4B -->
-        { cognome: "CHESSA", nome: "Samuele", classe: "4B" },
-        { cognome: "FAVRE", nome: "Emilie", classe: "4B" },
-        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B" },
-        { cognome: "GORREX", nome: "Valerie", classe: "4B" },
-        { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B" },
-        { cognome: "MEYNET", nome: "Riccardo", classe: "4B" },
-        { cognome: "NICOLASI", nome: "Ginevra", classe: "4B" },
-        { cognome: "SAVELLA", nome: "Ilaria", classe: "4B" },
-        { cognome: "SERIO", nome: "Federica", classe: "4B" },
+        { cognome: "CHESSA", nome: "Samuele", classe: "4B", room:"111" },
+        { cognome: "FAVRE", nome: "Emilie", classe: "4B", room:"217" },
+        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B", room:"117" },
+        { cognome: "GORREX", nome: "Valerie", classe: "4B", room:"212" },
+        { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B", room:"117" },
+        { cognome: "MEYNET", nome: "Riccardo", classe: "4B", room:"113" },
+        { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", room:"217" },
+        { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", room:"210" },
+        { cognome: "SERIO", nome: "Federica", classe: "4B", room:"217" },
                 <!-- Classe 5A -->
-        { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "gr1" },
-        { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "gr2" },
-        { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "gr2" },
-        { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "gr2" },
-        { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "gr2" },
-        { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "gr1" },
-        { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "gr1" },
-        { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "gr2" },
-        { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "gr2" },
-        { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "gr1" },
-        { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "gr2" },
-        { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "gr1" },
+        { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
+        { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
+        { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "G2", room:"123" },
+        { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "G2", room:"123" },
+        { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "G2", room:"220" },
+        { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "G2", room:"124" },
+        { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
+        { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
+        { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
                 <!-- Classe 5B -->
-        { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "gr1" },
-        { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "gr1" },
-        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "gr1" },
-        { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "gr2" },
-        { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "gr1" },
-        { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "gr2" },
-        { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "gr2" },
-        { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "gr1" }
+        { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
+        { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
+        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", room:"219" },
+        { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "G2", room:"215" },
+        { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "G1", room:"216" },
+        { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", room:"221" },
+        { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", room:"124" },
+        { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
     ];
 
-    let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false;
-    let cambiTurnoManuali = {}; 
+    const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
+    const OVERRIDE_TURNO_2=['TEBANO'];
+    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A','5A','5B' ] };
+    const TUTTI_PERMESSI = ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','CHEN','COMMOD','CLERIN',
+                            'LAZIER','BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','SAITTA','BERRUTI A.','LUNARDI', 'GASPARD'];
+    const ASSENTI_PERMESSO={ 
+        1:['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA'], 
+        2:['CHEN','COMMOD','CASALICCHIO','CLERIN','LAZIER', 'LUNARDI', 'GASPARD'], 
+        3:['BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','CASALICCHIO','SAITTA','PIGNATELLI','CHESSA'], 
+        4:['BERRUTI A.','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA'] 
+    };
+    
+    const CALENDARIO_GRUPPI = { 
+        "27/01/2026": "gr2", "29/01/2026": "gr2", "03/02/2026": "gr1",  "05/02/2026": "gr1", "10/02/2026": "gr2", "12/02/2026": "gr2",
+        "17/02/2026": "gr1", "19/02/2026": "gr1", "24/02/2026": "gr2", "26/02/2026": "gr2", "03/03/2026": "gr1", "05/03/2026": "gr1", "10/03/2026": "gr2", "12/03/2026": "gr2", 
+        "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
+        "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
+        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" 
+    };
 
-    function updateClock() {
-        const ora = new Date();
-        const h = ora.getHours(), m = ora.getMinutes(), s = ora.getSeconds();
-        document.getElementById('digitalClock').innerText = `${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-        const clockBox = document.querySelector('.clock-container');
-        const totaleMinuti = (h * 60) + m;
-        clockBox.classList.remove('status-waiting', 'status-dinner1', 'status-dinner2');
-        if (totaleMinuti < 1110) clockBox.classList.add('status-waiting');
-        else if (totaleMinuti < 1155) clockBox.classList.add('status-dinner1');
-        else clockBox.classList.add('status-dinner2');
-    }
+    let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false, cambiTurnoManuali = {}; 
 
     function init(){
         const d=new Date(), g=d.getDay();
-        const opzioni = { weekday: 'long', day: 'numeric', month: 'long' };
-        document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', opzioni);
-        updateClock();
-        setInterval(updateClock, 1000);
+        document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+        updateClock(); setInterval(updateClock, 1000);
+        updateClockColor(); setInterval(updateClockColor, 60000);
         if(g >= 1 && g <= 4) document.getElementById('day-'+g).classList.add('active-day');
 
         const tagList=document.getElementById('tagList');
-        [...new Set(studenti.map(s=>s.classe))].sort().forEach(c=>{
-            let t=document.createElement('div');
-            t.className='tag'; t.id='tag-'+c; t.innerText=c;
-            t.onclick=()=>setClasse(c);
-            tagList.appendChild(t);
+        const classiUniche = [...new Set(studenti.map(s=>s.classe))].sort();
+        classiUniche.forEach(c=>{
+            let t=document.createElement('div'); t.className='tag'; t.id='tag-'+c; t.innerText=c;
+            t.onclick=()=>setClasse(c); tagList.appendChild(t);
         });
 
-       const lista = document.getElementById('listaStudenti');
+        const lista = document.getElementById('listaStudenti');
         studenti.forEach(s => {
             let r = document.createElement('div');
-            r.className = 'student-row';
-            r.dataset.classe = s.classe; 
-            r.dataset.cognome = s.cognome; 
-            r.dataset.gruppo = s.gruppo || ""; 
-            r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
-
-            // Crea l'etichetta del gruppo se presente
-            const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
-
+            r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome; 
+            r.dataset.gruppo = s.gruppo || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
+            r.dataset.room = s.room || "";
+            
             r.innerHTML = `
-                <div class="name">
-                    <b>${s.cognome}</b> ${s.nome} ${gruppoBadge}
+                <div class="name"><b>${s.cognome}</b> ${s.nome} 
+                    ${s.gruppo ? `<span class="group-label">${s.gruppo}</span>`:''} 
+                    ${s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">room: ${s.room}</div>`:''}
                 </div>
                 <div class="row-actions">
-                    <span style="font-size:0.9em; color:#666; margin-right:12px">${s.classe}</span>
-                    <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔄</button>
+                    <span class="classe-badge">${s.classe}</span>
+                    <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button>
                 </div>`;
-            
-            r.onclick = (e) => { 
-                if(e.target.tagName !== 'BUTTON') { 
-                    r.classList.toggle('assente'); 
-                    aggiornaContatori(); 
-                }
-            };
+            r.onclick = (e) => { if(e.target.tagName !== 'BUTTON') { r.classList.toggle('assente'); aggiornaContatori(); } };
             lista.appendChild(r);
-      
         });
+        setupHoverGiorno(); assenzeAutomatiche(g); aggiornaContatori();
+    }
+
+    // --- LOGICA STANZE (SALTANDO 126-200) ---
+    
+    // Variabile di stato fuori dalla funzione
+let ultimoValoreStanza = "";
+
+function validaERicerca() {
+    const input = document.getElementById('roomInput');
+    let valStr = input.value;
+    
+    // 1. Gestione campo vuoto: resetta filtri e colore
+    if (!valStr) {
+        ultimoValoreStanza = "";
+        input.style.backgroundColor = "white";
+        applicaFiltri();
+        return;
+    }
+
+    let n = parseInt(valStr);
+    let prec = parseInt(ultimoValoreStanza) || 101;
+
+    // 2. Blocca numeri negativi o inferiori a 1
+    if (n <= 0) {
+        input.value = "";
+        return;
+    }
+
+    // 3. Salto logico tra 125 e 201
+    // Se salgo da 125 -> vado a 201. Se scendo da 201 -> vado a 125.
+    if (n > 125 && n < 201) {
+        if (n > prec) {
+            n = 201; // Salto in avanti
+        } else {
+            n = 125; // Salto all'indietro
+        }
+    }
+
+    // 4. Limiti estremi (Min 101, Max 221)
+    if (valStr.length >= 3) {
+        if (n < 101) n = 101;
+        if (n > 221) n = 221;
+    }
+
+    // Aggiorna il valore dell'input se è stato modificato dalla logica sopra
+    input.value = n;
+    ultimoValoreStanza = n;
+
+    // 5. Validazione visiva (Verde se il numero è nei range validi)
+    const rangeValido = (n >= 101 && n <= 125) || (n >= 201 && n <= 221);
+
+    if (rangeValido) {
+        input.style.backgroundColor = "var(--success)";
+        applicaFiltri();
+    } else {
+        input.style.backgroundColor = "var(--error)";
+    }
+   
+}
+   function applicaFiltri(){
+    const s = document.getElementById('searchInput').value.toLowerCase();
+    const rInput = document.getElementById('roomInput').value;
+    const nInput = parseInt(rInput);
+    
+    // Verifica se la stanza inserita appartiene ai range corretti
+    const stanzaValida = (nInput >= 101 && nInput <= 125) || (nInput >= 201 && nInput <= 221);
+
+    document.querySelectorAll('.student-row').forEach(r => {
+        const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
+        const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || r.dataset.classe.toLowerCase().includes(s);
         
-        setupHoverGiorno();
-        assenzeAutomatiche(g);
-        aggiornaContatori();
+        // Filtra per stanza SOLO SE l'input è valido, altrimenti ignora il filtro stanza
+        const mR = (!rInput || !stanzaValida) ? true : r.dataset.room === rInput;
+        
+        const mT = filtroDinner ? t === filtroDinner : true;
+        const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
+        const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
+        const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
+        
+        r.style.display = (mS && mR && mT && mC && mP && mCh) ? 'flex' : 'none';
+    });
+}
+
+    // --- LOGICA DINAMICA ---
+    function updateClock() { document.getElementById('digitalClock').innerText = new Date().toLocaleTimeString('it-IT'); }
+    function updateClockColor() {
+        const clock = document.querySelector('.clock-container');
+        const m = new Date().getHours() * 60 + new Date().getMinutes();
+        clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
+        if (m <= 1110 || m > 1200) clock.classList.add('clock-blue');
+        else if (m >= 1111 && m <= 1155) clock.classList.add('clock-yellow');
+        else clock.classList.add('clock-red');
     }
 
     function setupHoverGiorno() {
         document.querySelectorAll('.day-box').forEach(box => {
             box.onmouseenter = () => {
-                const idGiorno = box.id.split('-')[1];
-                const nomiGiorno = ASSENTI_PERMESSO[idGiorno] || [];
-                document.querySelectorAll('.student-row').forEach(row => {
-                    if (nomiGiorno.includes(row.dataset.cognome)) row.classList.add('highlight-lab');
-                });
+                const nomi = ASSENTI_PERMESSO[box.id.split('-')[1]] || [];
+                document.querySelectorAll('.student-row').forEach(row => { if (nomi.includes(row.dataset.cognome)) row.classList.add('highlight-lab'); });
             };
-            box.onmouseleave = () => {
-                document.querySelectorAll('.student-row').forEach(row => row.classList.remove('highlight-lab'));
-            };
+            box.onmouseleave = () => document.querySelectorAll('.student-row').forEach(row => row.classList.remove('highlight-lab'));
+        });
+    }
+
+    function assenzeAutomatiche(g) {
+        const oggi = new Date();
+        const martedi = new Date(oggi);
+        const diff = oggi.getDay() === 0 ? -5 : 2 - oggi.getDay(); 
+        martedi.setDate(oggi.getDate() + diff);
+        const dataStr = martedi.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        const gruppoInLaboratorio = CALENDARIO_GRUPPI[dataStr]; 
+        const badge = document.getElementById('activeGroupBadge');
+        if ((g === 2 || g === 4) && gruppoInLaboratorio) { badge.style.display = 'inline-block'; badge.innerText = `Ma/Gi: ${gruppoInLaboratorio.toUpperCase()}`; }
+        else { badge.style.display = 'none'; }
+
+        document.querySelectorAll('.student-row').forEach(r => {
+            const cl = r.dataset.classe, cog = r.dataset.cognome, grS = r.dataset.gruppo;
+            if ((g === 2 || g === 4) && (cl === '5A' || cl === '5B') && gruppoInLaboratorio && grS === gruppoInLaboratorio) r.classList.add('assente');
+            if (cl !== '5A' && cl !== '5B' && ASSENTI_CLASSI[g]?.includes(cl)) r.classList.add('assente');
+            if (ASSENTI_PERMESSO[g]?.includes(cog)) r.classList.add('assente');
         });
     }
 
@@ -428,125 +580,45 @@
         event.stopPropagation();
         const r = document.querySelector(`.student-row[data-cognome="${cognome}"]`);
         const btn = event.currentTarget;
-        let turnoAttuale = turnoStudente(r.dataset.classe, cognome);
-        if (cambiTurnoManuali[cognome]) {
-            delete cambiTurnoManuali[cognome];
-            btn.classList.remove('modificato'); btn.innerHTML = "🔄";
-        } else {
-            cambiTurnoManuali[cognome] = (turnoAttuale === 1) ? 2 : 1;
-            btn.classList.add('modificato'); btn.innerHTML = "✅";
-        }
+        let t = turnoStudente(r.dataset.classe, cognome);
+        if (cambiTurnoManuali[cognome]) { delete cambiTurnoManuali[cognome]; btn.classList.remove('modificato'); }
+        else { cambiTurnoManuali[cognome] = (t === 1) ? 2 : 1; btn.classList.add('modificato'); }
         aggiornaContatori(); applicaFiltri();
-    }
-
-    function assenzeAutomatiche(g){
-        // Calcola la data odierna in formato GG/MM/AAAA per il calendario gruppi
-        const oggi = new Date();
-        const dataStr = oggi.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
-        const gruppoOggi = CALENDARIO_GRUPPI[dataStr];
-
-        document.querySelectorAll('.student-row').forEach(r=>{
-            // Gestione specifica per 5A e 5B basata sul calendario gruppi
-            if ((r.dataset.classe === '5A' || r.dataset.classe === '5B') && gruppoOggi) {
-                if (r.dataset.gruppo !== gruppoOggi) r.classList.add('assente');
-            } else {
-                // Gestione standard per le altre classi
-                if(ASSENTI_CLASSI[g]?.includes(r.dataset.classe)) r.classList.add('assente');
-            }
-            
-            // Gestione permessi del giorno
-            if(ASSENTI_PERMESSO[g]?.includes(r.dataset.cognome)) r.classList.add('assente');
-        });
     }
 
     function aggiornaContatori(){
         let p1=0, p2=0;
         document.querySelectorAll('.student-row').forEach(r=>{
             if(!r.classList.contains('assente')){
-                let t=turnoStudente(r.dataset.classe,r.dataset.cognome);
-                if(t===1) p1++; else p2++;
+                if(turnoStudente(r.dataset.classe,r.dataset.cognome)===1) p1++; else p2++;
             }
         });
-        document.getElementById('count1').innerText = p1;
-        document.getElementById('count2').innerText = p2;
+        document.getElementById('count1').innerText = p1; document.getElementById('count2').innerText = p2;
         document.getElementById('countTot').innerText = p1 + p2; 
     }
 
-    function turnoStudente(cl, cognome){
-        if(cambiTurnoManuali[cognome]) return cambiTurnoManuali[cognome];
-        const d = new Date(), g = d.getDay();
-        if(cognome === "SAITTA" && g === 3) return 2;
-        if(OVERRIDE_TURNO_2.includes(cognome)) return 2;
-        if(TURNI_BASE[1].includes(cl)) return 1;
-        return 2;
+    function turnoStudente(cl, cog){
+        if(cambiTurnoManuali[cog]) return cambiTurnoManuali[cog];
+        const g = new Date().getDay();
+        if(cog === "SAITTA" && g === 3) return 2;
+        if(OVERRIDE_TURNO_2.includes(cog) || !TURNI_BASE[1].includes(cl)) return 2;
+        return 1;
     }
 
-    function togglePermessi() {
-        soloPermessi = !soloPermessi; 
-        filtroDinner = null; soloCambiati = false;
-        aggiornaStatoPulsanti(soloPermessi ? 'btn-perm' : null);
-        applicaFiltri();
+    function setTurno(n){ filtroDinner = (filtroDinner === n) ? null : n; aggiornaStatoPulsanti(filtroDinner ? 'btn-d'+n : null); applicaFiltri(); }
+    function togglePermessi() { soloPermessi = !soloPermessi; aggiornaStatoPulsanti(soloPermessi ? 'btn-perm' : null); applicaFiltri(); }
+    function toggleCambiati() { soloCambiati = !soloCambiati; aggiornaStatoPulsanti(soloCambiati ? 'btn-changed' : null); applicaFiltri(); }
+    function aggiornaStatoPulsanti(id) { document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); }
+    function setClasse(c){ filtroClasse=c; document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active')); document.getElementById(c==='Tutte'?'tag-all':'tag-'+c).classList.add('active'); applicaFiltri(); }
+    
+    function resetRicerca() { 
+        document.getElementById('searchInput').value = ''; 
+        document.getElementById('roomInput').value = '';
+        document.getElementById('roomInput').style.backgroundColor = "white";
+        filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte'; setClasse('Tutte'); aggiornaStatoPulsanti(null); applicaFiltri(); 
     }
 
-    function toggleCambiati() {
-        soloCambiati = !soloCambiati; 
-        filtroDinner = null; soloPermessi = false;
-        aggiornaStatoPulsanti(soloCambiati ? 'btn-changed' : null);
-        applicaFiltri();
-    }
-
-    function setTurno(n){
-        if(filtroDinner === n) filtroDinner = null;
-        else { filtroDinner = n; soloPermessi = false; soloCambiati = false; }
-        aggiornaStatoPulsanti(filtroDinner ? 'btn-d'+n : null);
-        applicaFiltri();
-    }
-
-    function aggiornaStatoPulsanti(idAttivo) {
-        document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active'));
-        if(idAttivo) document.getElementById(idAttivo).classList.add('active');
-    }
-
-    function setClasse(c){
-        filtroClasse=c;
-        document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active'));
-        document.getElementById(c==='Tutte'?'tag-all':'tag-'+c).classList.add('active');
-        applicaFiltri();
-    }
-
-    function applicaFiltri(){
-        const search=searchInput.value.toLowerCase();
-        document.querySelectorAll('.student-row').forEach(r=>{
-            const turno = turnoStudente(r.dataset.classe, r.dataset.cognome);
-            let matchSearch = r.innerText.toLowerCase().includes(search);
-            let matchTurno = filtroDinner ? turno === filtroDinner : true;
-            let matchClasse = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
-            
-            // Filtro Permessi: Mostra tutti quelli in lista anagrafica indipendentemente dal giorno
-            let matchPermessi = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
-            
-            let matchCambiati = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
-            r.style.display = (matchSearch && matchTurno && matchClasse && matchPermessi && matchCambiati) ? 'flex' : 'none';
-        });
-    }
-
-    function resetRicerca() {
-        searchInput.value = ''; filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte';
-        aggiornaStatoPulsanti(null); setClasse('Tutte'); applicaFiltri();
-    }
-
-    function resetTotale() {
-        if (confirm("Reset completo di assenze e cambi turno?")) {
-            cambiTurnoManuali = {};
-            document.querySelectorAll('.student-row').forEach(r => r.classList.remove('assente'));
-            document.querySelectorAll('.btn-switch').forEach(b => {
-                b.classList.remove('modificato'); b.innerHTML = "🔄";
-            });
-            assenzeAutomatiche(new Date().getDay());
-            resetRicerca();
-        }
-    }
-
+    // --- FINESTRA POPUP RIPRISTINATA ---
     function generaPopUpStampa() {
         let a1=0, p1=0, a2=0, p2=0, n1=[], n2=[], switch1=[], switch2=[];
         document.querySelectorAll('.student-row').forEach(r=>{
@@ -566,9 +638,9 @@
         const g = new Date().getDay();
         const testiPermessi = {
             1: "LAB 2IeFP - PERMESSI: Tessarin NO dinner / Casalicchio dinner ore 18 / Pignatelli, Menaldino, Chessa dinner ore 20",
-            2: "LAB 5A-5B - PERMESSI: Chen, Commod, Epicoco NO dinner / Casalicchio, Clerin dinner ore 18 / Lazier dinner ore 20",
-            3: "LAB 2B - PERMESSI: Berruti S., D'Agostino, Epicoco, Giovannelli P. NO dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20",
-            4: "LAB 2A - PERMESSI: Berruti A., Chen, Epicoco NO dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Lunardi, Chessa dinner ore 20"
+            2: "LAB 5A-5B - PERMESSI: Chen, Commod NO dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Lunardi, Gaspard dinner ore 20",
+            3: "LAB 2B - PERMESSI: Berruti S., D'Agostino, Giovannelli P. NO dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20",
+            4: "LAB 2A - PERMESSI: Berruti A., Chen NO dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Chessa dinner ore 20"
         };
         const notaGiornoCorrente = testiPermessi[g] || "";
 
@@ -596,9 +668,8 @@
                         <span>Assenti: <input type="number" value="${a1}"></span>
                         <span>Presenti: <input type="number" value="${p1}"></span>
                         <span>+ EDU: <input type="number" value="2"></span> + <input type="text" id="altroDettaglioLab1" placeholder="..." style="width: 250px; font-size: 1.0em;">
-                    
                     </div>
-                    <div class="nomi"><b>Esclusi:</b> ${n1.length ? n1.join(', ') : 'Nessuno'}</div>
+                    <div class="nomi"><b>Esclusi per assenza, permesso, laboratorio:</b> ${n1.length ? n1.join(', ') : 'Nessuno'}</div>
                     <div class="cambi"><b>Cambi Turno:</b> ${switch1.length ? switch1.join(', ') : 'Nessuno'}</div>
                 </div>
                 <div class="section">
@@ -608,9 +679,8 @@
                         <span>Presenti: <input type="number" value="${p2}"></span>
                         <span>+ EDU: <input type="number" value="2"></span>
                     + <input type="text" id="altroDettaglioLab2" placeholder="..." style="width: 250px; font-size: 1.0em;">
-                    
                     </div>
-                    <div class="nomi"><b>Esclusi:</b> ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
+                    <div class="nomi"><b>Esclusi per assenza, permesso, laboratorio:</b> ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
                     <div class="cambi"><b>Cambi Turno:</b> ${switch2.length ? switch2.join(', ') : 'Nessuno'}</div>
                 </div>
                 <div class="no-print"><button onclick="window.print()" style="padding:15px 50px; background:#27ae60; color:white; font-weight:bold; border-radius:80px; border:none; cursor:pointer;">STAMPA</button></div>
@@ -618,8 +688,7 @@
         `);
         popup.document.close();
     }
-
-    init();
+    window.onload = init;
 </script>
 </body>
 </html>
