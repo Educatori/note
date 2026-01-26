@@ -18,6 +18,8 @@
             --cambiati: #53b2ef;
             --highlight: #f1c40f;
             --card-bg: #ffffff;
+            --error: #fab1a0;
+            --success: #d4edda;
         }
 
         body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:var(--bg); padding:15px; margin:0; }
@@ -65,7 +67,7 @@
             border-radius: 50px; font-weight: bold; font-size: 0.8em; 
             box-shadow: 0 2px 5px rgba(0,0,0,0.6);
             display: none;
-            animation: pulse 2s infinite; /* Animazione aggiunta */
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
@@ -77,11 +79,11 @@
         .controls { background: #ffffff; padding: 15px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
         #searchInput { flex: 1; padding: 10px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; }
+        #roomInput { width: 85px; padding: 10px; border: 1px solid #ddd; border-radius: 50px; outline: none; text-align: center; transition: all 0.3s; font-weight: bold;}
         .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 20px; border-radius: 50px; cursor: pointer; }
 
         .btn-group { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
         .btn { padding: 8px 10px; border: none; border-radius: 50px; color: #000000; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9em; }
-        .btn-reset { background: var(--no); opacity: 0.9; }
         .btn-d1 { background: var(--d1); opacity: 0.6; }
         .btn-d2 { background: var(--d2); opacity: 0.6; }
         .btn-permessi { background: var(--permessi); opacity: 0.6; }
@@ -124,15 +126,9 @@
         }
 
         .classe-badge { font-weight: bold; color: var(--primary); font-size: 0.9em; }
-        
         .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
-    
         .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
-
         .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: .6px 6px; border-radius: 6px; margin-top: 4px; }
-
-        .room-badge { background: #eee; color: #555; font-size: 0.7em; padding: 2px 8px; border-radius: 10px; font-weight: bold; margin-top: 4px;
-}
         
         @media (max-width: 480px) { #listaStudenti { grid-template-columns: repeat(2, 1fr); } }
     </style>
@@ -146,10 +142,14 @@
         <div class="clock-container"><div id="digitalClock">00:00:00</div></div>
     </header>
     
-    
     <div class="controls">
         <div class="search-container">
-            <input id="searchInput" placeholder="Cerca studente, classe, room" onkeyup="applicaFiltri()">
+            <input id="searchInput" placeholder="Cerca studente o classe" onkeyup="applicaFiltri()">
+           <input type="number" id="roomInput" placeholder="Cerca room" 
+       min="101" max="221" 
+       oninput="validaERicerca()" 
+       style="width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 50px;
+              outline: none; text-align: center; transition: all 0.3s; font-weight: bold;">
             <button class="btn-clear" onclick="resetRicerca()">X</button>
         </div>
         
@@ -160,25 +160,16 @@
             <button class="btn btn-d2" id="btn-d2" onclick="setTurno(2)">19:15</button>
             <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">Permessi</button>
             <button class="btn btn-cambiati" id="btn-changed" onclick="toggleCambiati()">🔃 Cambi</button>
-       
-         <button class="btn" style="background:#689e4b;width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
-    
-        
+            <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
         </div>  
-        .
-        </div>
-    
-    
+    </div>
     
     <div class="counter-banner">
         <div class="counter-item"><span>18:30</span><span class="counter-num" id="count1">0</span></div>
         <div class="counter-item"><span>19:15</span><span class="counter-num" id="count2">0</span></div>
-        
         <div id="activeGroupBadge">GRUPPO: --</div>
-        
         <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
     </div>
-
 
      <div class="days-container" id="daysHeader">   
         <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner [esce.entra] / Casalicchio dinner ore 18 [esce.entra] / Pignatelli, Menaldino, Chessa dinner ore 20"><b>2IeFP</b></div>
@@ -191,40 +182,11 @@
 </div>
 
 <script>
-    function updateClockColor() {
-        const clock = document.querySelector('.clock-container');
-        const now = new Date();
-        const minutes = now.getHours() * 60 + now.getMinutes();
-
-        clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
-
-        if (minutes <= 1110 || minutes > 1200) { clock.classList.add('clock-blue'); }
-        else if (minutes >= 1111 && minutes <= 1155) { clock.classList.add('clock-yellow'); }
-        else if (minutes >= 1156 && minutes <= 1200) { clock.classList.add('clock-red'); }
-    }
-
-    updateClockColor();
-    setInterval(updateClockColor, 60000);
-    
-    const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
-    const OVERRIDE_TURNO_2=['TEBANO'];
-    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A','5A','5B' ] };
-    const TUTTI_PERMESSI = ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','CHEN','COMMOD','CLERIN',
-                            'LAZIER','BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','SAITTA','BERRUTI A.','LUNARDI', 'GASPARD'];
-    const ASSENTI_PERMESSO={ 1:['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA'], 2:['CHEN','COMMOD','CASALICCHIO',
-                            'CLERIN','LAZIER', 'LUNARDI', 'GASPARD'], 3:['BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','CASALICCHIO',
-                            'SAITTA','PIGNATELLI','CHESSA'], 4:['BERRUTI A.','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA'] };
-    
-    const CALENDARIO_GRUPPI = { 
-        "20/01/2026": "gr1", "22/01/2026": "gr1", "27/01/2026": "gr2", "29/01/2026": "gr2", "03/02/2026": "gr1",  "05/02/2026": "gr1", "10/02/2026": "gr2", "12/02/2026": "gr2",
-        "17/02/2026": "gr1", "19/02/2026": "gr1", "24/02/2026": "gr2", "26/02/2026": "gr2", "03/03/2026": "gr1", "05/03/2026": "gr1", "10/03/2026": "gr2", "12/03/2026": "gr2", 
-        "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
-        "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
-        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" 
-    };
-
+    // --- LISTA STUDENTI INTEGRALE ---
+ 
    const studenti=[ 
                 <!-- Classe 1A -->
+            
         { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
         { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
         { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
@@ -334,6 +296,7 @@
         { cognome: "TAPPELLA", nome: "Luca", classe: "4A", room:"116" },
         { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
         { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },
+                       
                 <!-- TEBANO 2* DINNER -->
         { cognome: "TEBANO", nome: "Serena", classe: "3P", room:"212" },
                 <!-- Classe 4B -->
@@ -370,13 +333,33 @@
         { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
     ];
 
+    const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
+    const OVERRIDE_TURNO_2=['TEBANO'];
+    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A','5A','5B' ] };
+    const TUTTI_PERMESSI = ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','CHEN','COMMOD','CLERIN',
+                            'LAZIER','BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','SAITTA','BERRUTI A.','LUNARDI', 'GASPARD'];
+    const ASSENTI_PERMESSO={ 
+        1:['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA'], 
+        2:['CHEN','COMMOD','CASALICCHIO','CLERIN','LAZIER', 'LUNARDI', 'GASPARD'], 
+        3:['BERRUTI S.','DAGOSTINO','GIOVANNELLI P.','CASALICCHIO','SAITTA','PIGNATELLI','CHESSA'], 
+        4:['BERRUTI A.','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA'] 
+    };
+    
+    const CALENDARIO_GRUPPI = { 
+        "20/01/2026": "gr1", "22/01/2026": "gr1", "27/01/2026": "gr2", "29/01/2026": "gr2", "03/02/2026": "gr1",  "05/02/2026": "gr1", "10/02/2026": "gr2", "12/02/2026": "gr2",
+        "17/02/2026": "gr1", "19/02/2026": "gr1", "24/02/2026": "gr2", "26/02/2026": "gr2", "03/03/2026": "gr1", "05/03/2026": "gr1", "10/03/2026": "gr2", "12/03/2026": "gr2", 
+        "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
+        "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
+        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" 
+    };
+
     let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false, cambiTurnoManuali = {}; 
 
     function init(){
         const d=new Date(), g=d.getDay();
-        const opzioni = { weekday: 'long', day: 'numeric', month: 'long' };
-        document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', opzioni);
+        document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
         updateClock(); setInterval(updateClock, 1000);
+        updateClockColor(); setInterval(updateClockColor, 60000);
         if(g >= 1 && g <= 4) document.getElementById('day-'+g).classList.add('active-day');
 
         const tagList=document.getElementById('tagList');
@@ -386,54 +369,124 @@
             t.onclick=()=>setClasse(c); tagList.appendChild(t);
         });
 
-       const lista = document.getElementById('listaStudenti');
+        const lista = document.getElementById('listaStudenti');
         studenti.forEach(s => {
             let r = document.createElement('div');
-            r.className = 'student-row'; 
-            r.dataset.classe = s.classe; 
-            r.dataset.cognome = s.cognome; 
-            r.dataset.gruppo = s.gruppo || ""; 
-            r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
+            r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome; 
+            r.dataset.gruppo = s.gruppo || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
             r.dataset.room = s.room || "";
             
-            // Gestione badge dinamici
-            const gruppoBadge = s.gruppo ? `<span class="group-label">${s.gruppo}</span>` : "";
-            const roomBadge = s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">room: ${s.room}</div>` : "";
-
             r.innerHTML = `
-                <div class="name">
-                    <b>${s.cognome}</b> ${s.nome} 
-                    ${gruppoBadge}
-                    ${roomBadge}
+                <div class="name"><b>${s.cognome}</b> ${s.nome} 
+                    ${s.gruppo ? `<span class="group-label">${s.gruppo}</span>`:''} 
+                    ${s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">room: ${s.room}</div>`:''}
                 </div>
                 <div class="row-actions">
                     <span class="classe-badge">${s.classe}</span>
                     <button class="btn-switch" onclick="switchTurno('${s.cognome}', event)">🔃</button>
                 </div>`;
-                
-            r.onclick = (e) => { 
-                if(e.target.tagName !== 'BUTTON') { 
-                    r.classList.toggle('assente'); 
-                    aggiornaContatori(); 
-                } 
-            };
+            r.onclick = (e) => { if(e.target.tagName !== 'BUTTON') { r.classList.toggle('assente'); aggiornaContatori(); } };
             lista.appendChild(r);
-       
         });
-
         setupHoverGiorno(); assenzeAutomatiche(g); aggiornaContatori();
     }
 
-    function updateClock() {
-        const ora = new Date();
-        document.getElementById('digitalClock').innerText = ora.toLocaleTimeString('it-IT');
+    // --- LOGICA STANZE (SALTANDO 126-200) ---
+    
+    // Variabile di stato fuori dalla funzione
+let ultimoValoreStanza = "";
+
+function validaERicerca() {
+    const input = document.getElementById('roomInput');
+    let valStr = input.value;
+    
+    // 1. Gestione campo vuoto: resetta filtri e colore
+    if (!valStr) {
+        ultimoValoreStanza = "";
+        input.style.backgroundColor = "white";
+        applicaFiltri();
+        return;
+    }
+
+    let n = parseInt(valStr);
+    let prec = parseInt(ultimoValoreStanza) || 101;
+
+    // 2. Blocca numeri negativi o inferiori a 1
+    if (n <= 0) {
+        input.value = "";
+        return;
+    }
+
+    // 3. Salto logico tra 125 e 201
+    // Se salgo da 125 -> vado a 201. Se scendo da 201 -> vado a 125.
+    if (n > 125 && n < 201) {
+        if (n > prec) {
+            n = 201; // Salto in avanti
+        } else {
+            n = 125; // Salto all'indietro
+        }
+    }
+
+    // 4. Limiti estremi (Min 101, Max 221)
+    if (valStr.length >= 3) {
+        if (n < 101) n = 101;
+        if (n > 221) n = 221;
+    }
+
+    // Aggiorna il valore dell'input se è stato modificato dalla logica sopra
+    input.value = n;
+    ultimoValoreStanza = n;
+
+    // 5. Validazione visiva (Verde se il numero è nei range validi)
+    const rangeValido = (n >= 101 && n <= 125) || (n >= 201 && n <= 221);
+
+    if (rangeValido) {
+        input.style.backgroundColor = "var(--success)";
+        applicaFiltri();
+    } else {
+        input.style.backgroundColor = "var(--error)";
+    }
+   
+}
+   function applicaFiltri(){
+    const s = document.getElementById('searchInput').value.toLowerCase();
+    const rInput = document.getElementById('roomInput').value;
+    const nInput = parseInt(rInput);
+    
+    // Verifica se la stanza inserita appartiene ai range corretti
+    const stanzaValida = (nInput >= 101 && nInput <= 125) || (nInput >= 201 && nInput <= 221);
+
+    document.querySelectorAll('.student-row').forEach(r => {
+        const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
+        const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || r.dataset.classe.toLowerCase().includes(s);
+        
+        // Filtra per stanza SOLO SE l'input è valido, altrimenti ignora il filtro stanza
+        const mR = (!rInput || !stanzaValida) ? true : r.dataset.room === rInput;
+        
+        const mT = filtroDinner ? t === filtroDinner : true;
+        const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
+        const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
+        const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
+        
+        r.style.display = (mS && mR && mT && mC && mP && mCh) ? 'flex' : 'none';
+    });
+}
+
+    // --- LOGICA DINAMICA ---
+    function updateClock() { document.getElementById('digitalClock').innerText = new Date().toLocaleTimeString('it-IT'); }
+    function updateClockColor() {
+        const clock = document.querySelector('.clock-container');
+        const m = new Date().getHours() * 60 + new Date().getMinutes();
+        clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
+        if (m <= 1110 || m > 1200) clock.classList.add('clock-blue');
+        else if (m >= 1111 && m <= 1155) clock.classList.add('clock-yellow');
+        else clock.classList.add('clock-red');
     }
 
     function setupHoverGiorno() {
         document.querySelectorAll('.day-box').forEach(box => {
             box.onmouseenter = () => {
-                const idG = box.id.split('-')[1];
-                const nomi = ASSENTI_PERMESSO[idG] || [];
+                const nomi = ASSENTI_PERMESSO[box.id.split('-')[1]] || [];
                 document.querySelectorAll('.student-row').forEach(row => { if (nomi.includes(row.dataset.cognome)) row.classList.add('highlight-lab'); });
             };
             box.onmouseleave = () => document.querySelectorAll('.student-row').forEach(row => row.classList.remove('highlight-lab'));
@@ -447,42 +500,16 @@
         martedi.setDate(oggi.getDate() + diff);
         const dataStr = martedi.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
         const gruppoInLaboratorio = CALENDARIO_GRUPPI[dataStr]; 
-
         const badge = document.getElementById('activeGroupBadge');
-        if ((g === 2 || g === 4) && gruppoInLaboratorio) {
-    badge.style.display = 'inline-block';
-    badge.innerText = `Ma/Gi: ${gruppoInLaboratorio.toUpperCase()}`;
-} else {
-    badge.style.display = 'none';
+        if ((g === 2 || g === 4) && gruppoInLaboratorio) { badge.style.display = 'inline-block'; badge.innerText = `Ma/Gi: ${gruppoInLaboratorio.toUpperCase()}`; }
+        else { badge.style.display = 'none'; }
 
-        }
-
-       document.querySelectorAll('.student-row').forEach(r => {
-    r.classList.remove('assente'); 
-    const classe = r.dataset.classe;
-    const cognome = r.dataset.cognome;
-    const gruppoStudente = r.dataset.gruppo; 
-
-    // Logica Laboratorio (GR1/GR2): Attiva il MARTEDÌ (2) e il GIOVEDÌ (4)
-    // Solo per le classi 5A e 5B
-    if ((g === 2 || g === 4) && (classe === '5A' || classe === '5B')) {
-        if (gruppoInLaboratorio && gruppoStudente === gruppoInLaboratorio) {
-            r.classList.add('assente');
-        }
-    } 
-    
-    // Logica assenze per classi intere (esclusa la 5A/5B che è gestita sopra)
-    if (classe !== '5A' && classe !== '5B') {
-        if (ASSENTI_CLASSI[g]?.includes(classe)) { 
-            r.classList.add('assente'); 
-        }
-    }
-
-    // Logica assenze per singoli permessi (cognome)
-    if (ASSENTI_PERMESSO[g]?.includes(cognome)) { 
-        r.classList.add('assente'); 
-    }
-       });
+        document.querySelectorAll('.student-row').forEach(r => {
+            const cl = r.dataset.classe, cog = r.dataset.cognome, grS = r.dataset.gruppo;
+            if ((g === 2 || g === 4) && (cl === '5A' || cl === '5B') && gruppoInLaboratorio && grS === gruppoInLaboratorio) r.classList.add('assente');
+            if (cl !== '5A' && cl !== '5B' && ASSENTI_CLASSI[g]?.includes(cl)) r.classList.add('assente');
+            if (ASSENTI_PERMESSO[g]?.includes(cog)) r.classList.add('assente');
+        });
     }
 
     function switchTurno(cognome, event) {
@@ -502,8 +529,7 @@
                 if(turnoStudente(r.dataset.classe,r.dataset.cognome)===1) p1++; else p2++;
             }
         });
-        document.getElementById('count1').innerText = p1;
-        document.getElementById('count2').innerText = p2;
+        document.getElementById('count1').innerText = p1; document.getElementById('count2').innerText = p2;
         document.getElementById('countTot').innerText = p1 + p2; 
     }
 
@@ -515,34 +541,20 @@
         return 1;
     }
 
-    function setTurno(n){ filtroDinner = (filtroDinner === n) ? null : n; soloPermessi = false; soloCambiati = false; aggiornaStatoPulsanti(filtroDinner ? 'btn-d'+n : null); applicaFiltri(); }
-    function togglePermessi() { soloPermessi = !soloPermessi; filtroDinner = null; soloCambiati = false; aggiornaStatoPulsanti(soloPermessi ? 'btn-perm' : null); applicaFiltri(); }
-    function toggleCambiati() { soloCambiati = !soloCambiati; filtroDinner = null; soloPermessi = false; aggiornaStatoPulsanti(soloCambiati ? 'btn-changed' : null); applicaFiltri(); }
+    function setTurno(n){ filtroDinner = (filtroDinner === n) ? null : n; aggiornaStatoPulsanti(filtroDinner ? 'btn-d'+n : null); applicaFiltri(); }
+    function togglePermessi() { soloPermessi = !soloPermessi; aggiornaStatoPulsanti(soloPermessi ? 'btn-perm' : null); applicaFiltri(); }
+    function toggleCambiati() { soloCambiati = !soloCambiati; aggiornaStatoPulsanti(soloCambiati ? 'btn-changed' : null); applicaFiltri(); }
     function aggiornaStatoPulsanti(id) { document.querySelectorAll('.btn-group .btn').forEach(b => b.classList.remove('active')); if(id) document.getElementById(id).classList.add('active'); }
     function setClasse(c){ filtroClasse=c; document.querySelectorAll('.tag').forEach(t=>t.classList.remove('active')); document.getElementById(c==='Tutte'?'tag-all':'tag-'+c).classList.add('active'); applicaFiltri(); }
-
-    function applicaFiltri(){
-    const s = document.getElementById('searchInput').value.toLowerCase();
-    document.querySelectorAll('.student-row').forEach(r => {
-        const t = turnoStudente(r.dataset.classe, r.dataset.cognome);
-        
-        // Logica di ricerca: Nome/Cognome OR Classe OR Stanza
-        const mS = r.dataset.nomeCompleto.toLowerCase().includes(s) || 
-                   r.dataset.classe.toLowerCase().includes(s) ||
-                   r.dataset.room.toLowerCase().includes(s); // <--- NUOVO CONTROLLO
-        
-        const mT = filtroDinner ? t === filtroDinner : true;
-        const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
-        const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
-        const mCh = soloCambiati ? cambiTurnoManuali[r.dataset.cognome] != undefined : true;
-        
-        r.style.display = (mS && mT && mC && mP && mCh) ? 'flex' : 'none';
-    });
-}
-   
-
-    function resetRicerca() { document.getElementById('searchInput').value = ''; filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte'; aggiornaStatoPulsanti(null); setClasse('Tutte'); applicaFiltri(); }
     
+    function resetRicerca() { 
+        document.getElementById('searchInput').value = ''; 
+        document.getElementById('roomInput').value = '';
+        document.getElementById('roomInput').style.backgroundColor = "white";
+        filtroDinner=null; soloPermessi=false; soloCambiati=false; filtroClasse='Tutte'; setClasse('Tutte'); aggiornaStatoPulsanti(null); applicaFiltri(); 
+    }
+
+    // --- FINESTRA POPUP RIPRISTINATA ---
     function generaPopUpStampa() {
         let a1=0, p1=0, a2=0, p2=0, n1=[], n2=[], switch1=[], switch2=[];
         document.querySelectorAll('.student-row').forEach(r=>{
@@ -593,7 +605,7 @@
                         <span>Presenti: <input type="number" value="${p1}"></span>
                         <span>+ EDU: <input type="number" value="2"></span> + <input type="text" id="altroDettaglioLab1" placeholder="..." style="width: 250px; font-size: 1.0em;">
                     </div>
-                    <div class="nomi"><b>Esclusi:</b> ${n1.length ? n1.join(', ') : 'Nessuno'}</div>
+                    <div class="nomi"><b>Esclusi per assenza, permesso, laboratorio:</b> ${n1.length ? n1.join(', ') : 'Nessuno'}</div>
                     <div class="cambi"><b>Cambi Turno:</b> ${switch1.length ? switch1.join(', ') : 'Nessuno'}</div>
                 </div>
                 <div class="section">
@@ -604,7 +616,7 @@
                         <span>+ EDU: <input type="number" value="2"></span>
                     + <input type="text" id="altroDettaglioLab2" placeholder="..." style="width: 250px; font-size: 1.0em;">
                     </div>
-                    <div class="nomi"><b>Esclusi:</b> ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
+                    <div class="nomi"><b>Esclusi per assenza, permesso, laboratorio:</b> ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
                     <div class="cambi"><b>Cambi Turno:</b> ${switch2.length ? switch2.join(', ') : 'Nessuno'}</div>
                 </div>
                 <div class="no-print"><button onclick="window.print()" style="padding:15px 50px; background:#27ae60; color:white; font-weight:bold; border-radius:80px; border:none; cursor:pointer;">STAMPA</button></div>
