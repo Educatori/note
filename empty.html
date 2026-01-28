@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Dinner Educatori</title>
+    <title>Registro Dinner</title>
     <style>
         :root {
             --bg:#c7ede6;
@@ -43,9 +44,9 @@
             font-weight: bold;
         }
 
-        .clock-blue { background: #4b788d; }
-        .clock-yellow { background: #ffc10759; }
-        .clock-red { background: #dc354559; }
+        .clock-blue { background: #ffffff21; }
+        .clock-yellow { background: #ffc10730; }
+        .clock-red { background: #dc354534; }
 
         .days-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
         .day-box {
@@ -582,7 +583,7 @@ function validaERicerca() {
 
         const popup = window.open('', '_blank', 'width=900,height=800');
         popup.document.write(`
-            <html><head><title>Conteggi Dinner</title><style>
+            <html><head><title>Riepilogo Dinner</title><style>
                 body { font-family: sans-serif; padding: 40px; }
                 h2 { text-align: center; text-transform: uppercase; }
                 .date { text-align: center; font-size: 1.2em; margin-bottom: 20px;}
@@ -595,7 +596,7 @@ function validaERicerca() {
                 .no-print { margin-top: 30px; display: flex; justify-content: center; }
                 @media print { .no-print { display: none; } .editable-notes { border: none; } }
             </style></head><body>
-                <h2>Conteggi Dinner</h2>
+                <h2>Riepilogo Dinner</h2>
                 <div class="date">${dataStampa}</div>
                 <textarea class="editable-notes" rows="2">${notaGiornoCorrente}</textarea>
                 <div class="section">
