@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Presenze</title>
+    <style>
+        :root {
+            --bg:#fed3ffb3;
+            --primary:#693495d4;
+            --d1:#ffc10759;
+            --d2:#dc354559;
+            --ok:#30ec80;
+            --no:#ff4d4d;
+            --wait:#693495d4;
+            --tutti: #228dbf;
+            --permessi: #ff8000b9;
+            --cambiati: #53b2ef;
+            --highlight: #f1c40f;
+            --card-bg: #ffffff;
+            --error: #fab1a0;
+            --success: #d4eaed;
+        }
+
+        body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:var(--bg); padding:15px; margin:0; }
+        .container { max-width: 1100px; margin: auto; }
+
+        header {
+            background: var(--primary); color: #fff; padding: 20px; border-radius: 40px;
+            text-align: center; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        #todayDate { font-size: 1.2em; text-transform: capitalize; opacity: 0.9; }
+        
+        .clock-container {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 25px;
+            border-radius: 100px;
+            transition: all 0.5s ease;
+            background: rgba(0,0,0,0.1);
+            font-family: 'Courier New', monospace; font-size: 3em;
+            font-weight: bold;
+        }
+
+        .clock-blue { background: #69349500; }
+        .clock-yellow { background: #69349500; }
+        .clock-red { background: #69349500; }
+
+        .main-layout { display: flex; gap: 10px; align-items: stretch; }
+
+        .days-sidebar-container { display: flex; gap: 2px; flex-shrink: 0; }
+
+        .day-box {
+            background: #ffffff; width: 10px; padding: 15px 5px; text-align: center;
+            border-radius: 15px; font-size: 0.75em; color: #444; border: 2px solid transparent;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: help; display: flex;
+            flex-direction: column; justify-content: flex-start; align-items: center; transition: 0.3s;
+        }
+
+        .day-box b { writing-mode: horizontal-tb; transform: none; display: block; line-height: 1.2; word-break: break-word; }
+        .day-box.active-day { border-color: var(--primary); background: #e4ebff; color: var(--primary); font-weight: bold; }
+
+        .content-right { flex-grow: 1; display: flex; flex-direction: column; gap: 15px; }     
+        
+        .counter-banner {
+            background: var(--primary); color: white; padding: 6px; border-radius: 30px;
+            text-align: center; margin-bottom: 15px; display: flex; justify-content: space-around; align-items: center;
+        }
+        .counter-item { display: flex; flex-direction: column; }
+        .counter-num { font-size: 1.5em; font-weight: bold; color: var(--ok); }
+        
+        #activeGroupBadge { 
+            background: #ffffff; color: var(--primary); padding: 5px 15px; 
+            border-radius: 50px; font-weight: bold; font-size: 0.8em; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.6); display: none; animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255,255,255, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255,255,255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255,255,255, 0); }
+        }
+
+        .controls { background: #ffffff; padding: 15px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
+        #searchInput { flex: 1; padding: 10px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; }
+        #roomInput { width: 100px; padding: 10px; border: 1px solid #ddd; border-radius: 50px; outline: none; text-align: center; font-weight: bold; }
+        .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 20px; border-radius: 50px; cursor: pointer; }
+
+        .btn-group { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
+        .btn { padding: 8px 10px; border: none; border-radius: 50px; color: #000; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9em; }
+        .btn-d1 { background: var(--d1); opacity: 0.6; }
+        .btn-d2 { background: var(--d2); opacity: 0.6; }
+        .btn-permessi { background: var(--permessi); opacity: 0.6; }
+        .btn-cambiati { background: var(--cambiati); opacity: 0.6; }
+        .btn.active { opacity: 0.9; transform: scale(1.1); }
+
+        .filter-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 15px; }
+        .tag { padding: 6px 14px; background: #dfe6e9; border-radius: 50px; cursor: pointer; font-size: 0.85em; font-weight: 600; }
+        .tag.active { background: var(--primary); color: #fff; }
+
+        #listaStudenti { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; padding-bottom: 100px; }
+
+        .student-row {
+            background: var(--card-bg); padding: 10px; border-radius: 20px;
+            display: flex; flex-direction: column; justify-content: space-between;
+            align-items: center; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.06);
+            transition: all 0.2s ease; border-bottom: 5px solid var(--ok); min-height: 140px;
+        }
+
+        .student-row.assente { border-bottom-color: var(--no); background: #fdf2f2; opacity: 0.6; }
+        .student-row.assente .name { text-decoration: line-through; color: #95a5a6; }
+
+        .name { font-size: 1em; color: #2d3436; margin-bottom: 5px; cursor: pointer; width: 100%; }
+        .name b { display: block; text-transform: uppercase; font-size: 1.1em; }
+
+        .time-inputs { display: flex; gap: 5px; justify-content: center; margin-top: 10px; }
+        .time-inputs input { width: 50px; font-size: 0.8em; border: 1px solid #ccc; text-align: center; border-radius: 5px; padding: 2px; }
+            
+
+        .row-actions { display: flex; width: 100%; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 8px; }
+        .classe-badge { font-weight: bold; color: var(--primary); font-size: 0.9em; }
+        .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
+        .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
+
+        @media (max-width: 800px) {
+            .main-layout { flex-direction: column; }
+            .days-sidebar-container { width: 100%; flex-direction: row; height: auto; }
+            .day-box { width: auto; flex: 1; min-height: 50px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1 style="margin:0; font-size: 1.8em;">Registro Presenze</h1>
+        <div id="todayDate"></div>
+        <div class="clock-container"><div id="digitalClock">00:00:00</div></div>
+    </header>
+    
+    <div class="controls">
+        <div class="search-container">
+            <input id="searchInput" placeholder="Nominativo o classe" onkeyup="applicaFiltri()">
+            <input type="number" id="roomInput" placeholder="Room" min="101" max="221" oninput="validaERicerca()">
+            <button class="btn-clear" onclick="resetRicerca()">X</button>
+            
+            
+            <button onclick="togglePanel()" style="position:fixed; bottom:500px; right:20px; z-index:100; padding:15px; border-radius:50%; background:var(--permessi); color:white; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer;">⚙️AGGIUNGI⚙️</button>
+
+<div id="sidePanel" style="position:fixed; top:0; right:-350px; width:300px; height:100%; background:white; z-index:1000; transition:0.3s; padding:20px; overflow-y:auto; box-shadow: -5px 0 15px rgba(0,0,0,0.1);">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
+        <h3 style="margin:0;">LISTA PERMESSI</h3>
+        <button onclick="togglePanel()" style="border:none; background:none; font-size:1.5em; cursor:pointer;">&times;</button>
+    </div>
+
+    <div style="background:#f0f7ff; padding:10px; border-radius:10px; margin-bottom:15px; font-size:0.9em;">
+        <b style="display:block; margin-bottom:5px;">Aggiungi permesso GIORNALIERO</b>
+        <input type="text" id="nuovoCognome" placeholder="COGNOME" style="width:100%; margin-bottom:5px; padding:5px; border:1px solid #ccc; border-radius:4px; text-transform:uppercase;">
+        <div style="display:flex; gap:5px; align-items:center;">
+            <select id="nuovoGiorno" style="padding:4px;">
+                <option value="1">LU</option><option value="2">MA</option>
+                <option value="3">ME</option><option value="4">GI</option>
+            </select>
+            <input type="text" id="nuovoOut" placeholder="Out" style="width:45px; padding:4px;">
+            <input type="text" id="nuovoIn" placeholder="In" style="width:45px; padding:4px;">
+            <button onclick="aggiungiNuovoPP()" style="background:var(--primary); color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">+</button>
+        </div>
+    </div>
+
+    <button onclick="salvaPP()" style="width:100%; margin-bottom:20px; padding:12px; background:var(--ok); border:none; border-radius:10px; font-weight:bold; cursor:pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💾 SALVA PER OGGI</button>
+
+    <div id="ppEditorList">
+        </div>
+</div>
+            
+            
+            
+            
+        </div>
+        
+        <div class="filter-tags" id="tagList"><div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte le Classi</div></div>
+                
+        <div class="btn-group">
+          
+            <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">NO NOTTE</button>
+           
+            <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 EXCEL A3</button>
+        </div>  
+    </div>
+    
+    <div class="counter-banner">
+      
+        
+        <!--
+         <div class="counter-item"><span>18:30</span><span class="counter-num" id="count1">0</span></div>
+        <div class="counter-item"><span>19:15</span><span class="counter-num" id="count2">0</span></div>
+        -->     
+        
+        
+        <div id="activeGroupBadge">GRUPPO: --</div>
+        <div class="counter-item"><span>TOTALE PRESENTI</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
+    </div>
+
+    <div class="main-layout">
+        <div class="days-sidebar-container" id="daysHeader">
+                    <div class="day-box" id="day-1" title="Lunedì - PERMESSI NO RIENTRO: Tessarin No dinner (SOSPESO)"><b>LU<br>2P</b></div>
+                    <div class="day-box" id="day-2" title="Martedì - PERMESSI NO RIENTRO: Chen No dinner"><b>MA<br>5A<br>/<br>5B</b></div>
+                    <div class="day-box" id="day-3" title="Mercoledì - PERMESSI NO RIENTRO: Berruti S. No dinner"><b>ME<br>2B</b></div>
+                    <div class="day-box" id="day-4" title="Giovedì - PERMESSI  NO RIENTRO: Berruti A., Chen, No dinner"><b>GI<br>2A</b></div>
+                    </div>
+        <div class="content-right">
+            <div id="listaStudenti"></div>
+            
+        </div>
+    </div>
+</div>
+
+<script>
+    
+  function togglePanel() {
+    const panel = document.getElementById('sidePanel');
+    if (panel.style.right === "0px") {
+        panel.style.right = "-350px";
+    } else {
+        popolaEditorPP();
+        panel.style.right = "0px";
+    }
+}
+
+function aggiungiNuovoPP() {
+    const cognome = document.getElementById('nuovoCognome').value.toUpperCase().trim();
+    const giorno = document.getElementById('nuovoGiorno').value;
+    const out = document.getElementById('nuovoOut').value || "15:00";
+    const ins = document.getElementById('nuovoIn').value || "19:00";
+
+    if (!cognome) return alert("Inserisci un cognome");
+
+    if (!ORARI_PP[cognome]) ORARI_PP[cognome] = {};
+    ORARI_PP[cognome][giorno] = { out: out, in: ins };
+    
+    // Pulisce i campi e rinfresca la lista
+    document.getElementById('nuovoCognome').value = "";
+    popolaEditorPP();
+}
+
+function popolaEditorPP() {
+    const container = document.getElementById('ppEditorList');
+    container.innerHTML = "<b style='display:block; margin-bottom:10px;'>PERMESSI PERMANENTI:</b>";
+    
+    for (let cognome in ORARI_PP) {
+        let div = document.createElement('div');
+        div.style.cssText = "margin-bottom:10px; padding:8px; background:#f9f9f9; border-radius:8px; border-left:4px solid var(--primary);";
+        div.innerHTML = `<div style="font-weight:bold; font-size:0.9em; margin-bottom:5px;">${cognome}</div>`;
+        
+        for (let giorno in ORARI_PP[cognome]) {
+            const gNome = giorno == 1 ? "LU" : giorno == 2 ? "MA" : giorno == 3 ? "ME" : "GI";
+            div.innerHTML += `
+                <div style="display:flex; gap:5px; align-items:center; margin-bottom:3px; font-size:0.8em;">
+                    <span style="width:25px;">${gNome}:</span>
+                    <input type="text" value="${ORARI_PP[cognome][giorno].out}" id="out-${cognome}-${giorno}" style="width:50px; border:1px solid #ddd;">
+                    <input type="text" value="${ORARI_PP[cognome][giorno].in}" id="in-${cognome}-${giorno}" style="width:50px; border:1px solid #ddd;">
+                    <button onclick="rimuoviGiornoPP('${cognome}', ${giorno})" style="border:none; background:none; color:red; cursor:pointer; font-size:1.2em; padding:0 5px;">&times;</button>
+                </div>`;
+        }
+        container.appendChild(div);
+    }
+}
+
+function rimuoviGiornoPP(cognome, giorno) {
+    delete ORARI_PP[cognome][giorno];
+    if (Object.keys(ORARI_PP[cognome]).length === 0) delete ORARI_PP[cognome];
+    popolaEditorPP();
+}
+
+function salvaPP() {
+    // Legge tutti i valori dagli input generati
+    for (let cognome in ORARI_PP) {
+        for (let giorno in ORARI_PP[cognome]) {
+            const outVal = document.getElementById(`out-${cognome}-${giorno}`).value;
+            const inVal = document.getElementById(`in-${cognome}-${giorno}`).value;
+            ORARI_PP[cognome][giorno].out = outVal;
+            ORARI_PP[cognome][giorno].in = inVal;
+        }
+    }
+    alert("Dati pronti per la stampa!");
+    togglePanel();
+}
+    
+    
+    
+    
+     const studenti=[ 
+                <!-- Classe 1A -->
+            
+        { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
+        { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
+        { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
+        { cognome: "OBETTI", nome: "Virginia", classe: "1A", room:"203" },
+        { cognome: "PETTORALI", nome: "Matilde", classe: "1A", room:"203" },
+        { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", room:"211" },
+                <!-- Classe 1B -->
+        { cognome: "BLANCHET N.", nome: "Nadine", classe: "1B", room:"221" },
+        { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", room:"104" },
+        { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", room:"105" },
+        { cognome: "GIOVANDO", nome: "Caterina", classe: "1B", room:"206" },
+        { cognome: "LUNARDI", nome: "Filippo", classe: "1B", room:"108" },
+        { cognome: "POUJOL", nome: "Chiara", classe: "1B", room:"206" },
+        { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B", room:"104" },
+        { cognome: "SALVI", nome: "Sophie", classe: "1B", room:"206" },
+        { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", room:"108" },
+        { cognome: "VILARDO", nome: "Gabriele", classe: "1B", room:"104" },
+                <!-- Classe 1P -->
+        { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", room:"107" },
+        { cognome: "CHABLOZ", nome: "Annette", classe: "1P", room:"213" },
+        { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", room:"109" },
+        { cognome: "FURLAN", nome: "Alessandro", classe: "1P", room:"111" },
+        { cognome: "GIOVANNELLI P.", nome: "Pietro", classe: "1P", room:"106" },
+        { cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P", room:"105" },
+        { cognome: "LAI", nome: "Stefano", classe: "1P", room:"106" },
+        { cognome: "LAZIER", nome: "Francesco", classe: "1P", room:"106" },
+        { cognome: "PAONESSA", nome: "Leonardo", classe: "1P", room:"107" },
+        { cognome: "VINCENT", nome: "Thomas", classe: "1P", room:"103" },
+        { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", room:"212" },
+        { cognome: "SILVANI", nome: "Amelie", classe: "1P", room:"204" },
+                <!-- Classe 2A -->
+        { cognome: "BARAVALLE", nome: "Andrea", classe: "2A", room:"102" },
+        { cognome: "BERTOT", nome: "Manuele", classe: "2A", room:"102" },
+        { cognome: "BUZZI", nome: "Alessandro", classe: "2A", room:"102" },
+        { cognome: "CASTELLANO", nome: "Martina", classe: "2A", room:"204" },
+        { cognome: "DA FRE", nome: "Gaia", classe: "2A", room:"207" },
+        { cognome: "DE GASPER", nome: "Lara", classe: "2A", room:"207" },
+        { cognome: "GARCIA", nome: "Luis Alberto", classe: "2A", room:"118" },
+        { cognome: "HERESAZ", nome: "Alyce", classe: "2A", room:"211" },
+        { cognome: "PENNARD", nome: "Serena", classe: "2A", room:"211" },
+        { cognome: "SAITTA", nome: "Asia", classe: "2A", room:"207" },
+                <!-- Classe 2B -->
+        { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", room:"103" },
+        { cognome: "DELL'AQUILA", nome: "Gabriele", classe: "2B", room:"107" },
+        { cognome: "DUNAND", nome: "Audrey", classe: "2B", room:"218" },
+        { cognome: "GHILARDINI", nome: "Leonardo", classe: "2B", room:"114" },
+        { cognome: "MAINO", nome: "Giada", classe: "2B", room:"218" },
+        { cognome: "MISERENDINO", nome: "Ludovica", classe: "2B", room:"204" },
+        { cognome: "MOUNIM", nome: "Yahya", classe: "2B", room:"109" },
+        { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", room:"101" },
+        { cognome: "TACCONE", nome: "Nicholas", classe: "2B", room:"109" },
+                <!-- Classe 2P -->
+        { cognome: "BERRIAD", nome: "Thierry", classe: "2P", room:"121" },
+        { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P", room:"114" },
+        { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P", room:"114" },
+        { cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P", room:"121" },
+        { cognome: "CLERIN", nome: "Pietro", classe: "2P", room:"110" },
+        { cognome: "DONZEL", nome: "Elodie", classe: "2P", room:"213" },
+        { cognome: "GENS", nome: "Aaron", classe: "2P", room:"101" },
+        { cognome: "HERRERA", nome: "Alexander", classe: "2P", room:"115" },
+        { cognome: "MONTERO", nome: "Karen", classe: "2P", room:"209" },
+        { cognome: "PERRIN", nome: "Annie", classe: "2P", room:"213" },
+        { cognome: "STEVENIN", nome: "Joelle", classe: "2P", room:"208" },
+        { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P", room:"209" },
+        { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P", room:"209" },
+                <!-- Classe 3P -->
+        { cognome: "CONSOL", nome: "Gaia", classe: "3P", room:"208" },
+        { cognome: "COSTANZA", nome: "Marcello", classe: "3P", room:"124" },
+        { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", room:"111" },
+        { cognome: "LLESHI", nome: "Gabriele", classe: "3P", room:"115" },
+        { cognome: "MARRERO", nome: "Lewis", classe: "3P", room:"115" },
+        { cognome: "RONCO", nome: "Angelica", classe: "3P", room:"208" },
+                <!-- Classe 3A -->
+        { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", room:"101" },
+        { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", room:"118" },
+        { cognome: "MARANGELO", nome: "Giulio", classe: "3A", room:"118" },
+        { cognome: "PEAQUIN", nome: "Linda", classe: "3A", room:"214" },
+        { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", room:"121" },
+                <!-- Classe 3B -->
+        { cognome: "BLANCHET M.", nome: "Magalie", classe: "3B", room:"214" },
+        { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", room:"214" },
+        { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", room:"110" },
+        { cognome: "DUBLANC", nome: "Nicole", classe: "3B", room:"202" },
+        { cognome: "GRANATA", nome: "Gabriele", classe: "3B", room:"110" },
+        { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", room:"116" },
+        { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", room:"214" },
+                <!-- Classe 3C -->
+        { cognome: "CELESIA M.", nome: "Marta", classe: "3C", room:"215" },
+        { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", room:"202" },
+        { cognome: "CUMINO", nome: "Lucia", classe: "3C", room:"205" },
+        { cognome: "EPICOCO", nome: "Angelica", classe: "3C", room:"205" },
+        { cognome: "MERLET", nome: "Cedric", classe: "3C", room:"123" },
+        { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", room:"202" },
+        { cognome: "TARTIN", nome: "Zoe", classe: "3C", room:"215" },
+                <!-- Classe 4A -->
+        { cognome: "CHIADO'", nome: "Diego", classe: "4A", room:"113" },
+        { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", room:"216" },
+        { cognome: "CONTA", nome: "Giovanni", classe: "4A", room:"125" },
+        { cognome: "CROCE", nome: "Giacomo", classe: "4A", room:"117" },
+        { cognome: "DANNA", nome: "Gioele", classe: "4A", room:"119" },
+        { cognome: "DI TRIA", nome: "Alice", classe: "4A", room:"220" },
+        { cognome: "MANCUSO", nome: "Gaia", classe: "4A", room:"219" },
+        { cognome: "MARCIANO", nome: "Alberto", classe: "4A", room:"116" },
+        { cognome: "MENALDINO", nome: "Moreno", classe: "4A", room:"113" },
+        { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A", room:"113" },
+        { cognome: "OBERTO", nome: "Debora", classe: "4A", room:"210" },
+        { cognome: "TAPPELLA", nome: "Luca", classe: "4A", room:"116" },
+        { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
+        { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },
+                       
+                <!-- TEBANO 2* DINNER -->
+        { cognome: "TEBANO", nome: "Serena", classe: "3P", room:"212" },
+                <!-- Classe 4B -->
+        { cognome: "CHESSA", nome: "Samuele", classe: "4B", room:"111" },
+        { cognome: "FAVRE", nome: "Emilie", classe: "4B", room:"217" },
+        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B", room:"117" },
+        { cognome: "GORREX", nome: "Valerie", classe: "4B", room:"212" },
+        { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B", room:"117" },
+        { cognome: "MEYNET", nome: "Riccardo", classe: "4B", room:"113" },
+        { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", room:"217" },
+        { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", room:"210" },
+        { cognome: "SERIO", nome: "Federica", classe: "4B", room:"217" },
+                <!-- Classe 5A -->
+        { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
+        { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
+        { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "G2", room:"123" },
+        { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "G2", room:"123" },
+        { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "G2", room:"220" },
+        { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "G2", room:"124" },
+        { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
+        { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
+        { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
+                <!-- Classe 5B -->
+        { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
+        { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
+        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", room:"219" },
+        { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "G2", room:"215" },
+        { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "G1", room:"216" },
+        { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", room:"221" },
+        { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", room:"124" },
+        { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
+    ];
+
+
+    // Configurazione orari PP predefiniti (Giorno: 1=Lun, 2=Mar, 3=Mer, 4=Gio)
+    const ORARI_PP = {
+    "COMMOD": { 1: { out: "16:40", in: "21:30" } },
+    "BOMBONATO": { 1: { out: "17:00", in: "18:45" }, 3: { out: "17:00", in: "18:45" }, 4: { out: "17:00", in: "18:45" } },
+    "BERRUTI S.": { 3: { out: "14:00", in: "NO" }},
+    "BERRUTI A.": { 4: { out: "13:30", in: "NO" }},    
+    "BUZZI": { 1: { out: "16:40", in: "18:00" }, 2: { out: "15:50", in: "18:00" }, 3: { out: "14:00", in: "16:30" } },
+    "CASALICCHIO": { 1: { out: "18:00", in: "21:30" }, 2: { out: "18:00", in: "21:30" }, 3: { out: "18:00", in: "21:30" }, 4: { out: "18:00", in: "21:30" } },
+    "CATTARINUSSI": { 2: { out: "15:00", in: "16:30" }, 3: { out: "15:15", in: "16:45" }, 4: { out: "17:30", in: "19:00" } },
+    "CHEN": { 2: { out: "16:30", in: "NO" }, 4: { out: "16:30", in: "NO" } },
+    "CHESSA": { 1: { out: "17:00", in: "21:30" }, 3: { out: "17:00", in: "21:30" }, 4: { out: "17:00", in: "21:30" } }, 
+    "CHIADO'": { 1: { out: "16:30", in: "18:45" }, 2: { out: "16:30", in: "18:45" }, 3: { out: "16:30", in: "18:45" }, 4: { out: "16:30", in: "18:45" } },
+    "CLERIN": { 2: { out: "18:00", in: "21:30" }, 4: { out: "18:00", in: "21:30" } }, 
+    "COMIOTTO": { 1: { out: "20:00", in: "21:30" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "17:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" } },
+    "CONTA": { 1: { out: "15:00", in: "21:00" }, 2: { out: "15:00", in: "21:00" }, 3: { out: "15:00", in: "21:00" }, 4: { out: "15:00", in: "21:00" } },
+    "DAGOSTINO": { 3: { out: "16:00", in: "21:30" }},
+    "DI TRIA": { 1: { out: "16:40", in: "19:00" },  2: { out: "15:50", in: "19:00" }, 3: { out: "16:40", in: "19:00" }}, 
+    "DUBLANC": { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" }, 4: { out: "15:00", in: "17:00" }},
+    "EPICOCO": { 2: { out: "17:40", in: "20:00" },  3: { out: "17:40", in: "20:00" }, 4: { out:  "17:40", in: "20:00" }},
+    "FLORIAN":  { 1: { out: "16:50", in: "19:00" }, 2: { out: "15:00", in: "18:00" }, 4: { out: "16:50", in: "19:00" }},
+    "GARPARD":  { 2: { out: "17:15", in: "20:00" },  4: { out: "17:15", in: "20:00" }},  
+    "GIOVANNELLI P.": { 3: { out: "17:30", in: "21:30" }},
+    "LAZIER": { 2: { out: "17:00", in: "20:00" }},
+    "LUNARDI":  { 2: { out: "17:00", in: "20:00" },  4: { out: "17:00", in: "20:00" }},     
+    "MARANGELO": { 1: { out: "17:00", in: "19:00" },  2: { out: "14:45", in: "17:00" },  4: { out: "16:00", in: "19:00" }},      
+    "MERLET":  { 1: { out: "16:00", in: "18:00" }, 2: { out: "16:00", in: "18:00" }, 3: { out: "16:00", in: "18:00" }, 4: { out: "16:00", in: "18:00" } },  
+    "OBERT": { 1: { out: "16:00", in: "19:15" }, 2: { out: "16:00", in: "19:15" }, 3: { out: "16:00", in: "19:15" }, 4: { out: "16:00", in: "19:15" } },
+    "OBERTO":  { 1: { out: "16:00", in: "19:00" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "16:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" } },   
+    "PAONESSA": { 1: { out: "16:30", in: "19:00" }, 2: { out: "16:30", in: "19:00" }, 3: { out: "16:30", in: "19:00" }, 4: { out: "16:30", in: "19:00" } },    
+    "PETRIS":  { 1: { out: "15:40", in: "19:00" }, 3: { out: "15:40", in: "19:00" }, 4: { out: "15:40", in: "19:00" }},  
+    "PIGNATELLI":  { 1: { out: "17:00", in: "20:00" }, 3: { out: "17:00", in: "20:00" } }, 
+    "QUERIO GIANETTO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }, 4: { out: "17:00", in: "18:30" }},   
+    "SAITTA": { 1: { out: "19:20", in: "20:40" }, 3: { out: "15:45", in: "18:45" }},   
+    "SALVI":  { 1: { out: "17:00", in: "18:30" },  3: { out: "17:00", in: "18:30" }},
+    "SCHIRRU":  { 1: { out: "16:40", in: "18:30" },   2: { out: "16:40", in: "18:30" },  3: { out: "16:40", in: "18:30" }},
+    "SORRENTI":  { 1: { out: "18:00", in: "19:00" }, 2: { out: "18:00", in: "19:00" }, 3: { out: "18:00", in: "19:00" }, 4: { out: "18:00", in: "19:00" }},
+    "MENALDINO":  { 1: { out: "18:00", in: "20:15" },   4: { out: "18:00", in: "20:15" } },   
+    "TAPPELLA":   { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" },  3: { out: "17:00", in: "19:00" },  4: { out: "16:00", in: "18:00" }},  
+    "TESSARIN":   { 1: { out: "16:40", in: "NO" },  3: { out: "16:40", in: "NO" }},  
+    "VILARDO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }, 4: { out: "17:00", in: "18:30"  } },
+        
+        
+        
+    
+    };
+
+    const TURNI_BASE = { 1: ['1A', '1B', '1P', '2A', '2B', '2P', '3P'], 2: ['3A', '3B', '3C', '4A', '4B', '5A', '5B'] };
+    const ASSENTI_CLASSI = { 1: [''], 2: [''], 3: [''], 4: ['', '5A', '5B'] };
+    
+    
+    const TUTTI_PERMESSI = ['BERRUTI S.', 'BERRUTI A.', 'CHEN'];
+    const ASSENTI_PERMESSO = { 1: [''], 2: [''], 3: [''], 4: ['', ''] };
+    
+    
+    
+    let filtroClasse = 'Tutte', soloPermessi = false, cambiTurnoManuali = {};
+
+    function init() {
+        const d = new Date(), g = d.getDay();
+        document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
+        updateClock(); setInterval(updateClock, 1000);
+        updateClockColor(); setInterval(updateClockColor, 60000);
+        if (g >= 1 && g <= 4) document.getElementById('day-' + g).classList.add('active-day');
+
+        const classiUniche = [...new Set(studenti.map(s => s.classe))].sort();
+        classiUniche.forEach(c => {
+            let t = document.createElement('div'); t.className = 'tag'; t.id = 'tag-' + c; t.innerText = c;
+            t.onclick = () => setClasse(c); document.getElementById('tagList').appendChild(t);
+        });
+
+        const lista = document.getElementById('listaStudenti');
+        studenti.forEach(s => {
+            let r = document.createElement('div');
+            r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome;
+            r.dataset.room = s.room || "";
+            r.innerHTML = `
+                <div class="name" onclick="toggleAssenza(this.parentElement)">
+                    <b>${s.cognome}</b> ${s.nome}
+                    <div style="font-size:0.75em; color:#666;">room: ${s.room || '--'}</div>
+                </div>
+                <div class="time-inputs">
+                    <input type="text" placeholder="uscita" class="in-u" title="Uscita">
+                    <input type="text" placeholder="ingresso" class="in-i" title="Ingresso">
+                </div>
+                <div class="row-actions">
+                    <span class="classe-badge">${s.classe}</span>
+                </div>`;
+            lista.appendChild(r);
+        });
+        assenzeAutomatiche(g); aggiornaContatori();
+    }
+
+    function toggleAssenza(card) { card.classList.toggle('assente'); aggiornaContatori(); }
+
+    function validaERicerca() {
+        const input = document.getElementById('roomInput');
+        let n = parseInt(input.value);
+        if (n > 125 && n < 201) input.value = (n > 125) ? 201 : 125;
+        applicaFiltri();
+    }
+
+    function applicaFiltri() {
+        const s = document.getElementById('searchInput').value.toLowerCase();
+        const rInput = document.getElementById('roomInput').value;
+        document.querySelectorAll('.student-row').forEach(r => {
+            const mS = (r.dataset.cognome + ' ' + r.dataset.classe).toLowerCase().includes(s);
+            const mR = !rInput || r.dataset.room === rInput;
+            const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
+            const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
+            r.style.display = (mS && mR && mC && mP) ? 'flex' : 'none';
+        });
+    }
+
+    function updateClock() { document.getElementById('digitalClock').innerText = new Date().toLocaleTimeString('it-IT'); }
+    function updateClockColor() {
+        const clock = document.querySelector('.clock-container'), m = new Date().getHours() * 60 + new Date().getMinutes();
+        clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
+        if (m <= 1110 || m > 1200) clock.classList.add('clock-blue');
+        else if (m >= 1111 && m <= 1155) clock.classList.add('clock-yellow');
+        else clock.classList.add('clock-red');
+    }
+
+    function assenzeAutomatiche(g) {
+        document.querySelectorAll('.student-row').forEach(r => {
+            const cl = r.dataset.classe, cog = r.dataset.cognome;
+            if (ASSENTI_CLASSI[g]?.includes(cl) || ASSENTI_PERMESSO[g]?.includes(cog)) r.classList.add('assente');
+        });
+    }
+
+    function aggiornaContatori() {
+        let tot = 0;
+        document.querySelectorAll('.student-row').forEach(r => {
+            if (!r.classList.contains('assente')) tot++;
+        });
+        document.getElementById('countTot').innerText = tot;
+    }
+
+    function togglePermessi() { soloPermessi = !soloPermessi; applicaFiltri(); }
+    function setClasse(c) { filtroClasse = c; applicaFiltri(); }
+    function resetRicerca() {
+        document.getElementById('searchInput').value = ''; document.getElementById('roomInput').value = '';
+        soloPermessi = false; filtroClasse = 'Tutte'; applicaFiltri();
+    }
+
+    function generaPopUpStampa() {
+        const dataStampa = document.getElementById('todayDate').innerText;
+        const giornoSettimana = new Date().getDay();
+        const camere = {};
+
+        document.querySelectorAll('.student-row').forEach(r => {
+            const room = r.dataset.room || "---";
+            const cognome = r.dataset.cognome;
+            
+            // Verifica se ci sono orari PP predefiniti per oggi
+            let ppOut = "", ppIn = "";
+            if (ORARI_PP[cognome] && ORARI_PP[cognome][giornoSettimana]) {
+                ppOut = ORARI_PP[cognome][giornoSettimana].out;
+                ppIn = ORARI_PP[cognome][giornoSettimana].in;
+            }
+
+            if (!camere[room]) camere[room] = [];
+            camere[room].push({
+                classe: r.dataset.classe,
+                cognome: cognome,
+                presente: !r.classList.contains('assente'),
+                oraU: r.querySelector('.in-u').value,
+                oraI: r.querySelector('.in-i').value,
+                ppOut: ppOut,
+                ppIn: ppIn
+            });
+        });
+
+        const camereOrdinate = Object.keys(camere).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+        const popup = window.open('', '_blank', 'width=1200,height=800');
+
+        popup.document.write(`
+            <html>
+            <head>
+                <title>Riepilogo - ${dataStampa}</title>
+                <style>
+                    @page { size: A3 portrait; margin: 0.3cm; }
+                    body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; color: #000; }
+                    h2 { text-align: center; text-transform: uppercase; font-size: 1.1em; margin: 6px 0; }
+                    table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 10px; }
+                    th, td { border: 1px solid #000; padding: 4px 2px; text-align: center; font-size: 0.62em; overflow: hidden; }
+                    th { background: #f2f2f2; font-weight: bold; }
+                    .room-header { background: #eee; font-weight: bold; width: 45px; }
+                    .col-cognome { text-align: left; width: 130px; padding-left: 5px; text-transform: uppercase; }
+                    .page-break { page-break-after: always; }
+                    .no-print { display: block; text-align: center; margin: 20px; }
+                    @media print { .no-print { display: none; } }
+                </style>
+            </head>
+            <body>
+                <div class="no-print"><button onclick="window.print()" style="padding:10px 30px; cursor:pointer;">STAMPA REGISTRO</button></div>
+                <h2>Registro Piano 1 - ${dataStampa}</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
+                            <th>Pres.</th><th>Ass.</th><th>Uscita</th><th>Ingresso</th>
+                            <th>PP out</th><th>PP in</th><th>Notte SI</th><th>Notte NO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${camereOrdinate.map((room) => {
+                            let html = "";
+                            html += camere[room].map((s, idx) => `
+                                <tr>
+                                    ${idx === 0 ? `<td rowspan="${camere[room].length}" class="room-header">${room}</td>` : ''}
+                                    <td>${s.classe}</td>
+                                    <td class="col-cognome"><b>${s.cognome}</b></td>
+                                    <td>${s.presente ? 'X' : ''}</td>
+                                    <td>${!s.presente ? 'X' : ''}</td>
+                                    <td>${s.oraU}</td>
+                                    <td>${s.oraI}</td>
+                                    <td style="background:#f9f9f9"><b>${s.ppOut}</b></td>
+                                    <td style="background:#f9f9f9"><b>${s.ppIn}</b></td>
+                                    <td></td><td></td>
+                                </tr>`).join('');
+
+                            if (room === "125") {
+                                html += `</tbody></table><div class="page-break"></div>
+                                         <h2>Registro Piano 2 - ${dataStampa}</h2>
+                                         <table><thead><tr>
+                                            <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
+                                            <th>Pres.</th><th>Ass.</th><th>Uscita</th><th>Ingresso</th>
+                                            <th>PP out</th><th>PP in</th><th>Notte SI</th><th>Notte NO</th>
+                                         </tr></thead><tbody>`;
+                            }
+                            return html;
+                        }).join('')}
+                    </tbody>
+                </table>
+            </body>
+            </html>`);
+        popup.document.close();
+    }
+    window.onload = init;
+</script></body>
+</html>
