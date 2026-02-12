@@ -1,4 +1,6 @@
 
+
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -122,6 +124,18 @@
 
         .row-actions { display: flex; width: 100%; justify-content: space-between; align-items: center; border-top: 1px solid #eee; padding-top: 8px; }
         .classe-badge { font-weight: bold; color: var(--primary); font-size: 0.9em; }
+        
+        
+        .badge-gruppo {
+    font-size: 0.7em;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--primary);
+    color: white;
+    margin-top: 3px;
+    display: inline-block;
+}
+        
         .btn-switch { background: #f1f2f6; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; }
         .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
 
@@ -148,44 +162,34 @@
             <button class="btn-clear" onclick="resetRicerca()">X</button>
             
             
-            <button onclick="togglePanel()" style="position:fixed; bottom:500px; right:20px; z-index:100; padding:15px; border-radius:50%; background:var(--permessi); color:white; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer;">⚙️AGGIUNGI⚙️</button>
+            <button onclick="togglePanel()" style="position:fixed; bottom:500px; right:20px; z-index:100; padding:15px; border-radius:50%; background:var(--permessi); color:white; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer;">Permessi Permanenti</button>
 
 <div id="sidePanel" style="position:fixed; top:0; right:-350px; width:300px; height:100%; background:white; z-index:1000; transition:0.3s; padding:20px; overflow-y:auto; box-shadow: -5px 0 15px rgba(0,0,0,0.1);">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
-        <h3 style="margin:0;">LISTA PERMESSI</h3>
+        <h3 style="margin:0;">Lista aggiornata al 12 febbraio</h3>
         <button onclick="togglePanel()" style="border:none; background:none; font-size:1.5em; cursor:pointer;">&times;</button>
     </div>
-
-    <div style="background:#f0f7ff; padding:10px; border-radius:10px; margin-bottom:15px; font-size:0.9em;">
-        <b style="display:block; margin-bottom:5px;">Aggiungi permesso (sparisce al refresh)</b>
-        <input type="text" id="nuovoCognome" placeholder="COGNOME" style="width:100%; margin-bottom:5px; padding:5px; border:1px solid #ccc; border-radius:4px; text-transform:uppercase;">
-        <div style="display:flex; gap:5px; align-items:center;">
-            <select id="nuovoGiorno" style="padding:4px;">
-                <option value="1">LU</option><option value="2">MA</option>
-                <option value="3">ME</option><option value="4">GI</option>
-            </select>
-            <input type="text" id="nuovoOut" placeholder="Out" style="width:45px; padding:4px;">
-            <input type="text" id="nuovoIn" placeholder="In" style="width:45px; padding:4px;">
-            <button onclick="aggiungiNuovoPP()" style="background:var(--primary); color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;">+</button>
-        </div>
-    </div>
-
-    <button onclick="salvaPP()" style="width:100%; margin-bottom:20px; padding:12px; background:var(--ok); border:none; border-radius:10px; font-weight:bold; cursor:pointer; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">💾 SALVA PER OGGI</button>
 
     <div id="ppEditorList">
         </div>
 </div>
-            
-            
-            
+
             
         </div>
         
-        <div class="filter-tags" id="tagList"><div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte le Classi</div></div>
+        <div class="filter-tags" id="tagList">
+    <div class="tag active" id="tag-all" onclick="setClasse('Tutte')">Tutte le Classi</div>
+   <!--
+            <div class="tag" id="tag-G1" onclick="setGruppo('G1')">G1</div>
+            <div class="tag" id="tag-G2" onclick="setGruppo('G2')">G2</div>
+ -->      
+ </div>
                 
         <div class="btn-group">
-          
-            <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">NO NOTTE</button>
+          <!--
+            <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">PP senza rientro</button>
+            -->
+            <button id="btnGiovedi" class="btn" style="display:none; background:var(--highlight); color:black;" onclick="toggleTurnoGiovedi()">GIOVEDI G1/G2</button>
            
             <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 EXCEL A3</button>
         </div>  
@@ -220,79 +224,55 @@
 
 <script>
     
-  function togglePanel() {
-    const panel = document.getElementById('sidePanel');
-    if (panel.style.right === "0px") {
-        panel.style.right = "-350px";
-    } else {
+ let filtroGruppo = 'Tutti'; 
+    let statoGruppoGiovedi = 0; // 0: Tutti, 1: G1, 2: G2
+
+    function setGruppo(g) {
+        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        if(document.getElementById('tag-' + g)) document.getElementById('tag-' + g).classList.add('active');
+        filtroGruppo = g;
+        filtroClasse = 'Tutte'; 
+        applicaFiltri();
+    }
+    
+    function togglePanel() {
+        const panel = document.getElementById('sidePanel');
+        if (panel.style.right === "0px") {
+            panel.style.right = "-350px";
+        } else {
+            popolaEditorPP();
+            panel.style.right = "0px";
+        }
+    }
+
+    function popolaEditorPP() {
+        const container = document.getElementById('ppEditorList');
+        container.innerHTML = "<b style='display:block; margin-bottom:10px;'>PERMESSI PERMANENTI:</b>";
+        for (let cognome in ORARI_PP) {
+            let div = document.createElement('div');
+            div.style.cssText = "margin-bottom:10px; padding:8px; background:#f9f9f9; border-radius:8px; border-left:4px solid var(--primary);";
+            div.innerHTML = `<div style="font-weight:bold; font-size:0.9em; margin-bottom:5px;">${cognome}</div>`;
+            for (let giorno in ORARI_PP[cognome]) {
+                const gNome = giorno == 1 ? "LU" : giorno == 2 ? "MA" : giorno == 3 ? "ME" : "GI";
+                div.innerHTML += `
+                    <div style="display:flex; gap:5px; align-items:center; margin-bottom:3px; font-size:0.8em;">
+                        <span style="width:25px;">${gNome}:</span>
+                        <input type="text" value="${ORARI_PP[cognome][giorno].out}" id="out-${cognome}-${giorno}" style="width:50px; border:1px solid #ddd;">
+                        <input type="text" value="${ORARI_PP[cognome][giorno].in}" id="in-${cognome}-${giorno}" style="width:50px; border:1px solid #ddd;">
+                        <button onclick="rimuoviGiornoPP('${cognome}', ${giorno})" style="border:none; background:none; color:red; cursor:pointer; font-size:1.2em; padding:0 5px;">&times;</button>
+                    </div>`;
+            }
+            container.appendChild(div);
+        }
+    }
+
+    function rimuoviGiornoPP(cognome, giorno) {
+        delete ORARI_PP[cognome][giorno];
+        if (Object.keys(ORARI_PP[cognome]).length === 0) delete ORARI_PP[cognome];
         popolaEditorPP();
-        panel.style.right = "0px";
     }
-}
 
-function aggiungiNuovoPP() {
-    const cognome = document.getElementById('nuovoCognome').value.toUpperCase().trim();
-    const giorno = document.getElementById('nuovoGiorno').value;
-    const out = document.getElementById('nuovoOut').value || "15:00";
-    const ins = document.getElementById('nuovoIn').value || "19:00";
-
-    if (!cognome) return alert("Inserisci un cognome");
-
-    if (!ORARI_PP[cognome]) ORARI_PP[cognome] = {};
-    ORARI_PP[cognome][giorno] = { out: out, in: ins };
-    
-    // Pulisce i campi e rinfresca la lista
-    document.getElementById('nuovoCognome').value = "";
-    popolaEditorPP();
-}
-
-function popolaEditorPP() {
-    const container = document.getElementById('ppEditorList');
-    container.innerHTML = "<b style='display:block; margin-bottom:10px;'>PERMESSI PERMANENTI:</b>";
-    
-    for (let cognome in ORARI_PP) {
-        let div = document.createElement('div');
-        div.style.cssText = "margin-bottom:10px; padding:8px; background:#f9f9f9; border-radius:8px; border-left:4px solid var(--primary);";
-        div.innerHTML = `<div style="font-weight:bold; font-size:0.9em; margin-bottom:5px;">${cognome}</div>`;
-        
-        for (let giorno in ORARI_PP[cognome]) {
-            const gNome = giorno == 1 ? "LU" : giorno == 2 ? "MA" : giorno == 3 ? "ME" : "GI";
-            div.innerHTML += `
-                <div style="display:flex; gap:5px; align-items:center; margin-bottom:3px; font-size:0.8em;">
-                    <span style="width:25px;">${gNome}:</span>
-                    <input type="text" value="${ORARI_PP[cognome][giorno].out}" id="out-${cognome}-${giorno}" style="width:50px; border:1px solid #ddd;">
-                    <input type="text" value="${ORARI_PP[cognome][giorno].in}" id="in-${cognome}-${giorno}" style="width:50px; border:1px solid #ddd;">
-                    <button onclick="rimuoviGiornoPP('${cognome}', ${giorno})" style="border:none; background:none; color:red; cursor:pointer; font-size:1.2em; padding:0 5px;">&times;</button>
-                </div>`;
-        }
-        container.appendChild(div);
-    }
-}
-
-function rimuoviGiornoPP(cognome, giorno) {
-    delete ORARI_PP[cognome][giorno];
-    if (Object.keys(ORARI_PP[cognome]).length === 0) delete ORARI_PP[cognome];
-    popolaEditorPP();
-}
-
-function salvaPP() {
-    // Legge tutti i valori dagli input generati
-    for (let cognome in ORARI_PP) {
-        for (let giorno in ORARI_PP[cognome]) {
-            const outVal = document.getElementById(`out-${cognome}-${giorno}`).value;
-            const inVal = document.getElementById(`in-${cognome}-${giorno}`).value;
-            ORARI_PP[cognome][giorno].out = outVal;
-            ORARI_PP[cognome][giorno].in = inVal;
-        }
-    }
-    alert("Dati pronti per la stampa!");
-    togglePanel();
-}
-    
-    
-    
-    
-     const studenti=[ 
+    const studenti=[ 
                 <!-- Classe 1A -->
             
         { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
@@ -444,19 +424,23 @@ function salvaPP() {
 
     // Configurazione orari PP predefiniti (Giorno: 1=Lun, 2=Mar, 3=Mer, 4=Gio)
     const ORARI_PP = {
-    "COMMOD": { 1: { out: "16:40", in: "21:30" }},
-    "BOMBONATO": { 1: { out: "17:00", in: "18:45" }, 3: { out: "17:00", in: "18:45" }, 4: { out: "17:00", in: "18:45" }},
-    "BERRUTI S.": { 3: { out: "14:00", in: "NO" }},
-    "BERRUTI A.": { 4: { out: "13:30", in: "NO" }},    
+   
+    "BERRUTI A.": { 4: { out: "13:30", in: "NO rientro" }},     
+    "BERRUTI S.": { 3: { out: "14:00", in: "NO rientro" }},
+    "BOMBONATO": { 1: { out: "17:00", in: "18:45" }, 3: { out: "17:00", in: "18:45" }, 4: { out: "17:00", in: "18:45" }},    
     "BUZZI": { 1: { out: "16:40", in: "18:00" }, 2: { out: "15:50", in: "18:00" }, 3: { out: "14:00", in: "16:30" }},
     "CASALICCHIO": { 1: { out: "18:00", in: "21:30" }, 2: { out: "18:00", in: "21:30" }, 3: { out: "18:00", in: "21:30" }, 4: { out: "18:00", in: "21:30" }},
     "CATTARINUSSI": { 2: { out: "15:00", in: "16:30" }, 3: { out: "15:15", in: "16:45" }, 4: { out: "17:30", in: "19:00" }},
-    "CHEN": { 2: { out: "16:30", in: "NO" }, 4: { out: "16:30", in: "NO" } },
+    "CHEN": { 2: { out: "16:30", in: "NO rientro" }, 4: { out: "16:30", in: "NO rientro" } },
     "CHESSA": { 1: { out: "17:00", in: "21:30" }, 3: { out: "17:00", in: "21:30" }, 4: { out: "17:00", in: "21:30" }}, 
     "CHIADO'": { 1: { out: "16:30", in: "18:45" }, 2: { out: "16:30", in: "18:45" }, 3: { out: "16:30", in: "18:45" }, 4: { out: "16:30", in: "18:45" }},
     "CLERIN": { 2: { out: "18:00", in: "21:30" }, 4: { out: "18:00", in: "21:30" }}, 
     "COMIOTTO": { 1: { out: "20:00", in: "21:30" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "17:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" }},
+    "COMMOD": { 1: { out: "16:40", in: "21:30" }},  
     "DAGOSTINO": { 3: { out: "16:00", in: "21:30" }},
+
+    "DATTRINO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }}, 
+      
     "DI TRIA": { 1: { out: "16:40", in: "19:00" },  2: { out: "15:50", in: "19:00" }, 3: { out: "16:40", in: "19:00" }}, 
     "DUBLANC": { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" }, 4: { out: "15:00", in: "17:00" }},
     "EPICOCO": { 2: { out: "17:40", in: "20:00" },  3: { out: "17:40", in: "20:00" }, 4: { out:  "17:40", in: "20:00" }},
@@ -465,7 +449,8 @@ function salvaPP() {
     "GIOVANNELLI P.": { 3: { out: "17:30", in: "21:30" }},
     "LAZIER": { 2: { out: "17:00", in: "20:00" }},
     "LUNARDI":  { 2: { out: "17:00", in: "20:00" },  4: { out: "17:00", in: "20:00" }},     
-    "MARANGELO": { 1: { out: "17:00", in: "19:00" },  2: { out: "14:45", in: "17:00" },  4: { out: "16:00", in: "19:00" }},      
+    "MARANGELO": { 1: { out: "17:00", in: "19:00" },  2: { out: "14:45", in: "17:00" },  4: { out: "16:00", in: "19:00" }},   
+    "MENALDINO":  { 1: { out: "18:00", in: "20:15" },   4: { out: "18:00", in: "20:15" } },     
     "MERLET":  { 1: { out: "16:00", in: "18:00" }, 2: { out: "16:00", in: "18:00" }, 3: { out: "16:00", in: "18:00" }, 4: { out: "16:00", in: "18:00" }},  
     "OBERT": { 1: { out: "16:00", in: "19:15" }, 2: { out: "16:00", in: "19:15" }, 3: { out: "16:00", in: "19:15" }, 4: { out: "16:00", in: "19:15" }},
     "OBERTO":  { 1: { out: "16:00", in: "19:00" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "16:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" }},   
@@ -477,7 +462,6 @@ function salvaPP() {
     "SALVI":  { 1: { out: "17:00", in: "18:30" },  3: { out: "17:00", in: "18:30" }},
     "SCHIRRU":  { 1: { out: "16:40", in: "18:30" },   2: { out: "16:40", in: "18:30" },  3: { out: "16:40", in: "18:30" }},
     "SORRENTI":  { 1: { out: "18:00", in: "19:00" }, 2: { out: "18:00", in: "19:00" }, 3: { out: "18:00", in: "19:00" }, 4: { out: "18:00", in: "19:00" }},
-    "MENALDINO":  { 1: { out: "18:00", in: "20:15" },   4: { out: "18:00", in: "20:15" } },   
     "TAPPELLA":   { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" },  3: { out: "17:00", in: "19:00" },  4: { out: "16:00", in: "18:00" }},  
     "TESSARIN":   { 1: { out: "16:40", in: "NO" },  3: { out: "16:40", in: "NO" }},  
     "VILARDO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }, 4: { out: "17:00", in: "18:30"  }},
@@ -487,16 +471,11 @@ function salvaPP() {
     
     };
 
-    const TURNI_BASE = { 1: ['1A', '1B', '1P', '2A', '2B', '2P', '3P'], 2: ['3A', '3B', '3C', '4A', '4B', '5A', '5B'] };
     const ASSENTI_CLASSI = { 1: [''], 2: [''], 3: [''], 4: ['', '', ''] };
-    
-    
     const TUTTI_PERMESSI = ['BERRUTI S.', 'BERRUTI A.', 'CHEN'];
     const ASSENTI_PERMESSO = { 1: [''], 2: [''], 3: [''], 4: ['', ''] };
     
-    
-    
-    let filtroClasse = 'Tutte', soloPermessi = false, cambiTurnoManuali = {};
+    let filtroClasse = 'Tutte', soloPermessi = false;
 
     function init() {
         const d = new Date(), g = d.getDay();
@@ -515,30 +494,44 @@ function salvaPP() {
         studenti.forEach(s => {
             let r = document.createElement('div');
             r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome;
-            r.dataset.room = s.room || "";
+            r.dataset.room = s.room || ""; r.dataset.gruppo = s.gruppo || ""; 
+            const badgeGruppo = s.gruppo ? `<span class="badge-gruppo">${s.gruppo}</span>` : "";
             r.innerHTML = `
                 <div class="name" onclick="toggleAssenza(this.parentElement)">
                     <b>${s.cognome}</b> ${s.nome}
-                    <div style="font-size:0.75em; color:#666;">room: ${s.room || '--'}</div>
+                    <div style="font-size:0.75em; color:#666;">room: ${s.room || '--'} ${badgeGruppo}</div>
                 </div>
                 <div class="time-inputs">
-                    <input type="text" placeholder="uscita" class="in-u" title="Uscita">
-                    <input type="text" placeholder="ingresso" class="in-i" title="Ingresso">
+                    <input type="text" placeholder="ESCE" class="in-u">
+                    <input type="text" placeholder="ENTRA" class="in-i">
                 </div>
-                <div class="row-actions">
-                    <span class="classe-badge">${s.classe}</span>
-                </div>`;
+                <div class="row-actions"><span class="classe-badge">${s.classe}</span></div>`;
             lista.appendChild(r);
         });
         assenzeAutomatiche(g); aggiornaContatori();
+        
+        // MOSTRA TASTO GIOVEDI (Giorno 4)
+        if (new Date().getDay() === 4) {
+            document.getElementById('btnGiovedi').style.display = 'inline-block';
+        }
     }
 
-    function toggleAssenza(card) { card.classList.toggle('assente'); aggiornaContatori(); }
-
-    function validaERicerca() {
-        const input = document.getElementById('roomInput');
-        let n = parseInt(input.value);
-        if (n > 125 && n < 201) input.value = (n > 125) ? 201 : 125;
+    function toggleTurnoGiovedi() {
+        const btn = document.getElementById('btnGiovedi');
+        statoGruppoGiovedi = (statoGruppoGiovedi + 1) % 3;
+        if (statoGruppoGiovedi === 0) {
+            btn.innerText = "TUTTI"; btn.style.background = "var(--highlight)"; btn.style.color = "black";
+            filtroGruppo = 'Tutti';
+        } else if (statoGruppoGiovedi === 1) {
+            btn.innerText = "G1"; btn.style.background = "#3498db"; btn.style.color = "white";
+            filtroGruppo = 'G1';
+        } else {
+            btn.innerText = "G2"; btn.style.background = "#e67e22"; btn.style.color = "white";
+            filtroGruppo = 'G2';
+        }
+        filtroClasse = 'Tutte';
+        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        document.getElementById('tag-all').classList.add('active');
         applicaFiltri();
     }
 
@@ -550,39 +543,38 @@ function salvaPP() {
             const mR = !rInput || r.dataset.room === rInput;
             const mC = filtroClasse === 'Tutte' || r.dataset.classe === filtroClasse;
             const mP = soloPermessi ? TUTTI_PERMESSI.includes(r.dataset.cognome) : true;
-            r.style.display = (mS && mR && mC && mP) ? 'flex' : 'none';
+            const mG = (filtroGruppo === 'Tutti') || (r.dataset.gruppo === filtroGruppo);
+            r.style.display = (mS && mR && mC && mP && mG) ? 'flex' : 'none';
         });
+        aggiornaContatori();
     }
 
+    function toggleAssenza(card) { card.classList.toggle('assente'); aggiornaContatori(); }
+    function validaERicerca() { applicaFiltri(); }
     function updateClock() { document.getElementById('digitalClock').innerText = new Date().toLocaleTimeString('it-IT'); }
-    function updateClockColor() {
-        const clock = document.querySelector('.clock-container'), m = new Date().getHours() * 60 + new Date().getMinutes();
-        clock.classList.remove('clock-blue', 'clock-yellow', 'clock-red');
-        if (m <= 1110 || m > 1200) clock.classList.add('clock-blue');
-        else if (m >= 1111 && m <= 1155) clock.classList.add('clock-yellow');
-        else clock.classList.add('clock-red');
-    }
-
+    function updateClockColor() { /* ... codice esistente ... */ }
     function assenzeAutomatiche(g) {
         document.querySelectorAll('.student-row').forEach(r => {
             const cl = r.dataset.classe, cog = r.dataset.cognome;
             if (ASSENTI_CLASSI[g]?.includes(cl) || ASSENTI_PERMESSO[g]?.includes(cog)) r.classList.add('assente');
         });
     }
-
     function aggiornaContatori() {
         let tot = 0;
-        document.querySelectorAll('.student-row').forEach(r => {
-            if (!r.classList.contains('assente')) tot++;
-        });
+        document.querySelectorAll('.student-row').forEach(r => { if (r.style.display !== 'none' && !r.classList.contains('assente')) tot++; });
         document.getElementById('countTot').innerText = tot;
     }
-
     function togglePermessi() { soloPermessi = !soloPermessi; applicaFiltri(); }
-    function setClasse(c) { filtroClasse = c; applicaFiltri(); }
+    function setClasse(c) { 
+        filtroClasse = c; 
+        filtroGruppo = 'Tutti'; // Reset gruppo quando selezioni una classe specifica
+        document.querySelectorAll('.tag').forEach(t => t.classList.remove('active'));
+        document.getElementById('tag-' + (c === 'Tutte' ? 'all' : c)).classList.add('active');
+        applicaFiltri(); 
+    }
     function resetRicerca() {
         document.getElementById('searchInput').value = ''; document.getElementById('roomInput').value = '';
-        soloPermessi = false; filtroClasse = 'Tutte'; applicaFiltri();
+        soloPermessi = false; filtroClasse = 'Tutte'; filtroGruppo = 'Tutti'; applicaFiltri();
     }
 
     function generaPopUpStampa() {
@@ -593,30 +585,25 @@ function salvaPP() {
         document.querySelectorAll('.student-row').forEach(r => {
             const room = r.dataset.room || "---";
             const cognome = r.dataset.cognome;
-            
-            // Verifica se ci sono orari PP predefiniti per oggi
             let ppOut = "", ppIn = "";
             if (ORARI_PP[cognome] && ORARI_PP[cognome][giornoSettimana]) {
                 ppOut = ORARI_PP[cognome][giornoSettimana].out;
                 ppIn = ORARI_PP[cognome][giornoSettimana].in;
             }
-
             if (!camere[room]) camere[room] = [];
             camere[room].push({
-                classe: r.dataset.classe,
-                cognome: cognome,
+                classe: r.dataset.classe, cognome: cognome,
                 presente: !r.classList.contains('assente'),
-                oraU: r.querySelector('.in-u').value,
-                oraI: r.querySelector('.in-i').value,
-                ppOut: ppOut,
-                ppIn: ppIn
+                oraU: r.querySelector('.in-u').value, oraI: r.querySelector('.in-i').value,
+                ppOut: ppOut, ppIn: ppIn, gruppo: r.dataset.gruppo
             });
         });
 
         const camereOrdinate = Object.keys(camere).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
         const popup = window.open('', '_blank', 'width=1200,height=800');
+        let alternato = false;
 
-        popup.document.write(`
+         popup.document.write(`
             <html>
             <head>
                 <title>Riepilogo - ${dataStampa}</title>
@@ -626,9 +613,14 @@ function salvaPP() {
                     h2 { text-align: center; text-transform: uppercase; font-size: 1.1em; margin: 6px 0; }
                     table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 10px; }
                     th, td { border: 1px solid #000; padding: 4px 2px; text-align: center; font-size: 0.62em; overflow: hidden; }
+            /* Linea più marcata per separare le camere */
+                   
+.border-bottom-bold { border-bottom: 2.5px solid #000 !important; }
+.border-dashed { border-bottom: 1px dashed #999 !important; } /* Riga tratteggiata */
+                    
                     th { background: #f2f2f2; font-weight: bold; }
                     .room-header { background: #eee; font-weight: bold; width: 45px; }
-                    .col-cognome { text-align: left; width: 130px; padding-left: 5px; text-transform: uppercase; }
+                    .col-cognome { text-align: center; width: 130px; padding-left: 5px; text-transform: uppercase; }
                     .page-break { page-break-after: always; }
                     .no-print { display: block; text-align: center; margin: 20px; }
                     @media print { .no-print { display: none; } }
@@ -648,27 +640,36 @@ function salvaPP() {
                     <tbody>
                         ${camereOrdinate.map((room) => {
                             let html = "";
-                            html += camere[room].map((s, idx) => `
-                                <tr>
-                                    ${idx === 0 ? `<td rowspan="${camere[room].length}" class="room-header">${room}</td>` : ''}
-                                    <td>${s.classe}</td>
-                                    <td class="col-cognome"><b>${s.cognome}</b></td>
-                                    <td>${s.presente ? 'X' : ''}</td>
-                                    <td>${!s.presente ? 'X' : ''}</td>
-                                    <td>${s.oraU}</td>
-                                    <td>${s.oraI}</td>
-                                    <td style="background:#f9f9f9"><b>${s.ppOut}</b></td>
-                                    <td style="background:#f9f9f9"><b>${s.ppIn}</b></td>
-                                    <td></td><td></td>
-                                </tr>`).join('');
+                          html += camere[room].map((s, idx) => {
+    // Verifica se è l'ultima riga della camera corrente
+    const isLastRow = idx === camere[room].length - 1;
+    
+    // Se è l'ultima riga mette il bordo spesso, altrimenti mette il tratteggio
+    const borderClass = isLastRow ? 'class="border-bottom-bold"' : 'class="border-dashed"';
+
+    return `
+        <tr>
+            ${idx === 0 ? `<td rowspan="${camere[room].length}" class="room-header border-bottom-bold">${room}</td>` : ''}
+            <td ${borderClass}>${s.classe}</td>
+            <td ${borderClass} class="col-cognome"><b>${s.cognome}</b> ${s.gruppo ? '('+s.gruppo+')' : ''}</td>
+            <td ${borderClass}>${s.presente ? 'X' : ''}</td>
+            <td ${borderClass}>${!s.presente ? 'X' : ''}</td>
+            <td ${borderClass}>${s.oraU}</td>
+            <td ${borderClass}>${s.oraI}</td>
+            <td ${borderClass} style="background:#f9f9f9"><b>${s.ppOut}</b></td>
+            <td ${borderClass} style="background:#f9f9f9"><b>${s.ppIn}</b></td>
+            <td ${borderClass}></td>
+            <td ${borderClass}></td>
+        </tr>`;
+                                }).join('');
 
                             if (room === "125") {
                                 html += `</tbody></table><div class="page-break"></div>
                                          <h2>Registro Piano 2 - ${dataStampa}</h2>
                                          <table><thead><tr>
                                             <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
-                                            <th>Pres.</th><th>Ass.</th><th>Uscita</th><th>Ingresso</th>
-                                            <th>PP out</th><th>PP in</th><th>Notte SI</th><th>Notte NO</th>
+                                            <th>Presente</th><th>Assente</th><th>Uscita</th><th>Ingresso</th>
+                                            <th>PP uscita</th><th>PP ingresso</th><th>Notte SI</th><th>Notte NO</th>
                                          </tr></thead><tbody>`;
                             }
                             return html;
