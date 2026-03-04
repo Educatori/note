@@ -356,12 +356,15 @@
 
     let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false, cambiTurnoManuali = {}; 
 
-    function init(){
+   function init(){
         const d=new Date(), g=d.getDay();
         document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
         updateClock(); setInterval(updateClock, 1000);
         updateClockColor(); setInterval(updateClockColor, 60000);
         if(g >= 1 && g <= 4) document.getElementById('day-'+g).classList.add('active-day');
+
+        // Mappatura laboratori per emoji
+        const LAB_OGGI = { 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A'] }[g] || [];
 
         const tagList=document.getElementById('tagList');
         const classiUniche = [...new Set(studenti.map(s=>s.classe))].sort();
@@ -377,10 +380,15 @@
             r.dataset.gruppo = s.gruppo || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
             r.dataset.room = s.room || "";
             
+            // Emoji laboratorio se è il giorno della classe
+            const labEmoji = LAB_OGGI.includes(s.classe) ? '<span style="color:red;">LAB</span> ' : '';
+            
+            
+           
             r.innerHTML = `
                 <div class="name"><b>${s.cognome}</b> ${s.nome} 
                     ${s.gruppo ? `<span class="group-label">${s.gruppo}</span>`:''} 
-                    ${s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">room: ${s.room}</div>`:''}
+                    ${s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">${labEmoji}room: ${s.room}</div>`:''}
                 </div>
                 <div class="row-actions">
                     <span class="classe-badge">${s.classe}</span>
@@ -629,6 +637,5 @@ function validaERicerca() {
 </script>
 </body>
 </html>
-
 
 
