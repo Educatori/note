@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Dinner Educatori</title>
+    <title>Registro Dinner</title>
     <style>
         :root {
             --bg:#c7ede6;
@@ -43,77 +44,18 @@
             font-weight: bold;
         }
 
-        .clock-blue { background: #4b788d; }
-        .clock-yellow { background: #ffc10759; }
-        .clock-red { background: #dc354559; }
+        .clock-blue { background: #ffffff21; }
+        .clock-yellow { background: #ffc10730; }
+        .clock-red { background: #dc354534; }
 
         .days-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-bottom: 20px; }
-       
-        /* --- LAYOUT A COLONNE AFFIANCATE --- */
-        .main-layout {
-            display: flex;
-            gap: 10px;
-            align-items: stretch; 
-        }
-
-        /* LE 4 COLONNE DEI GIORNI */
-        .days-sidebar-container {
-            display: flex; 
-            gap: 2px;
-            flex-shrink: 0;
-        }
-
         .day-box {
-            background: #ffffff;
-            width: 10px; /* Leggermente più largo per ospitare il testo orizzontale */
-            padding: 15px 5px;
-            text-align: center;
-            border-radius: 15px;
-            font-size: 0.75em;
-            color: #444;
-            border: 2px solid transparent;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            cursor: help;
-            
-            /* NUOVO ALLINEAMENTO: Titolo in alto */
-            display: flex;
-            flex-direction: column; 
-            justify-content: flex-start; /* Spinge il contenuto (il <b>) in alto */
-            align-items: center;
-            
-            transition: 0.3s;
+            background: #fff; padding: 0.8px; text-align: center; border-radius: 20px;
+            font-size: 0.85em; color: #444; border: 2px solid transparent; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            cursor: help; transition: all 0.3s ease; line-height: 2.5;
         }
+        .day-box.active-day { border-color: var(--primary); background: #e4ebff; color: var(--primary); font-weight: bold; }
 
-        /* Testo allineato al lato corto (orizzontale) */
-        .day-box b {
-            writing-mode: horizontal-tb; /* Forza orizzontale */
-            transform: none;
-            display: block;
-            line-height: 1.2;
-            word-break: break-word; /* Va a capo se il testo è lungo (es. 2IeFP) */
-        }
-
-        .day-box.active-day { 
-            border-color: var(--primary); 
-            background: #e4ebff; 
-            color: var(--primary); 
-            font-weight: bold;
-        }
-
-        /* COLONNA DESTRA */
-        .content-right {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }     
-        
-        
-        
-        
-        
-        
-        
         .counter-banner {
             background: var(--primary); color: white; padding: 6px; border-radius: 30px;
             text-align: center; margin-bottom: 15px; display: flex; justify-content: space-around; align-items: center;
@@ -137,8 +79,8 @@
 
         .controls { background: #ffffff; padding: 15px; border-radius: 30px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
         .search-container { display: flex; gap: 10px; margin-bottom: 15px; }
-        #searchInput { flex: 1; padding: 10px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; font-style: normal; }
-        #roomInput { width: 85px; padding: 10px; border: 1px solid #ddd; border-radius: 50px; outline: none; text-align: center; transition: all 0.3s; font-style: normal; }
+        #searchInput { flex: 1; padding: 10px 20px; border: 1px solid #ddd; border-radius: 50px; outline: none; }
+        #roomInput { width: 85px; padding: 10px; border: 1px solid #ddd; border-radius: 50px; outline: none; text-align: center; transition: all 0.3s; font-weight: bold;}
         .btn-clear { background: #95a5a6; color: white; border: none; padding: 0 20px; border-radius: 50px; cursor: pointer; }
 
         .btn-group { display: flex; gap: 8px; justify-content: center; margin-bottom: 15px; flex-wrap: wrap; }
@@ -189,10 +131,7 @@
         .btn-switch.modificato { background: var(--cambiati); color: #ffffff; }
         .group-label { display: inline-block; font-size: 0.7em; background: #d1d8e0; color: #4b6584; padding: .6px 6px; border-radius: 6px; margin-top: 4px; }
         
-        @media (max-width: 800px) {
-            .main-layout { flex-direction: column; }
-            .days-sidebar-container { width: 100%; flex-direction: row; height: auto; }
-            .day-box { width: auto; flex: 1; min-height: 50px; }
+        @media (max-width: 480px) { #listaStudenti { grid-template-columns: repeat(2, 1fr); } }
     </style>
 </head>
 <body>
@@ -233,22 +172,20 @@
         <div class="counter-item"><span>TOTALE</span><span class="counter-num" style="color:#f7ff00" id="countTot">0</span></div>
     </div>
 
-     <div class="main-layout">
-    <div class="days-sidebar-container" id="daysHeader">
-                    <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio dinner ore 18 / Pignatelli, Menaldino, Chessa dinner ore 20"><b>LUN<br>2IeFP</b></div>
-                    <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Gaspard, Lunardi dinner ore 20"><b>MAR<br>5A/5B</b></div>
-                    <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S., D'Agostino, Giovannelli P., No dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20"><b>MER<br>2B</b></div>
-                    <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A., Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Chessa dinner ore 20"><b>GIO<br>2A</b></div>
-                    </div>
-    <div class="content-right">
-        
+     <div class="days-container" id="daysHeader">   
+        <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner [esce.entra] / Casalicchio dinner ore 18 [esce.entra] / Pignatelli, Menaldino, Chessa dinner ore 20"><b>2IeFP</b></div>
+        <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Gaspard, Lunardi dinner ore 20"><b>5A, 5B</b></div>
+        <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S., D'Agostino, Giovannelli P., No dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20"><b>2B</b></div>
+        <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A., Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Chessa dinner ore 20"><b>2A</b></div>
+    </div>
+    
     <div id="listaStudenti"></div>
 </div>
 
 <script>
     // --- LISTA STUDENTI INTEGRALE ---
  
-    const studenti=[ 
+   const studenti=[ 
                 <!-- Classe 1A -->
             
         { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
@@ -410,7 +347,7 @@
     };
     
     const CALENDARIO_GRUPPI = { 
-        "27/01/2026": "gr2", "29/01/2026": "gr2", "03/02/2026": "gr1",  "05/02/2026": "gr1", "10/02/2026": "gr2", "12/02/2026": "gr2",
+        "20/01/2026": "gr1", "22/01/2026": "gr1", "27/01/2026": "gr2", "29/01/2026": "gr2", "03/02/2026": "gr1",  "05/02/2026": "gr1", "10/02/2026": "gr2", "12/02/2026": "gr2",
         "17/02/2026": "gr1", "19/02/2026": "gr1", "24/02/2026": "gr2", "26/02/2026": "gr2", "03/03/2026": "gr1", "05/03/2026": "gr1", "10/03/2026": "gr2", "12/03/2026": "gr2", 
         "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
         "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
@@ -419,12 +356,15 @@
 
     let filtroDinner=null, filtroClasse='Tutte', soloPermessi=false, soloCambiati=false, cambiTurnoManuali = {}; 
 
-    function init(){
+   function init(){
         const d=new Date(), g=d.getDay();
         document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long' });
         updateClock(); setInterval(updateClock, 1000);
         updateClockColor(); setInterval(updateClockColor, 60000);
         if(g >= 1 && g <= 4) document.getElementById('day-'+g).classList.add('active-day');
+
+        // Mappatura laboratori per emoji
+        const LAB_OGGI = { 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A'] }[g] || [];
 
         const tagList=document.getElementById('tagList');
         const classiUniche = [...new Set(studenti.map(s=>s.classe))].sort();
@@ -440,10 +380,15 @@
             r.dataset.gruppo = s.gruppo || ""; r.dataset.nomeCompleto = s.cognome + ' ' + s.nome;
             r.dataset.room = s.room || "";
             
+            // Emoji laboratorio se è il giorno della classe
+            const labEmoji = LAB_OGGI.includes(s.classe) ? '<span style="color:red;">LAB</span> ' : '';
+            
+            
+           
             r.innerHTML = `
                 <div class="name"><b>${s.cognome}</b> ${s.nome} 
                     ${s.gruppo ? `<span class="group-label">${s.gruppo}</span>`:''} 
-                    ${s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">room: ${s.room}</div>`:''}
+                    ${s.room ? `<div style="font-size:0.8em; color:#666; font-weight:bold; margin-top:5px;">${labEmoji}room: ${s.room}</div>`:''}
                 </div>
                 <div class="row-actions">
                     <span class="classe-badge">${s.classe}</span>
@@ -638,7 +583,7 @@ function validaERicerca() {
         const g = new Date().getDay();
         const testiPermessi = {
             1: "LAB 2IeFP - PERMESSI: Tessarin NO dinner / Casalicchio dinner ore 18 / Pignatelli, Menaldino, Chessa dinner ore 20",
-            2: "LAB 5A-5B - PERMESSI: Chen, Commod NO dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Lunardi, Gaspard dinner ore 20",
+            2: "LAB 5A-5B - PERMESSI: Chen, Commod NO dinner / Casalicchio, Clerin dinner ore 18 / Lazier, Lunardi, Paonessa, Gaspard dinner ore 20",
             3: "LAB 2B - PERMESSI: Berruti S., D'Agostino, Giovannelli P. NO dinner / Casalicchio dinner ore 18 / Saitta dinner ore 19 / Pignatelli, Chessa dinner ore 20",
             4: "LAB 2A - PERMESSI: Berruti A., Chen NO dinner / Casalicchio, Clerin dinner ore 18 / Menaldino, Chessa dinner ore 20"
         };
@@ -646,7 +591,7 @@ function validaERicerca() {
 
         const popup = window.open('', '_blank', 'width=900,height=800');
         popup.document.write(`
-            <html><head><title>Conteggi Dinner</title><style>
+            <html><head><title>Riepilogo Dinner</title><style>
                 body { font-family: sans-serif; padding: 40px; }
                 h2 { text-align: center; text-transform: uppercase; }
                 .date { text-align: center; font-size: 1.2em; margin-bottom: 20px;}
@@ -659,7 +604,7 @@ function validaERicerca() {
                 .no-print { margin-top: 30px; display: flex; justify-content: center; }
                 @media print { .no-print { display: none; } .editable-notes { border: none; } }
             </style></head><body>
-                <h2>Conteggi Dinner</h2>
+                <h2>Riepilogo Dinner</h2>
                 <div class="date">${dataStampa}</div>
                 <textarea class="editable-notes" rows="2">${notaGiornoCorrente}</textarea>
                 <div class="section">
@@ -692,3 +637,5 @@ function validaERicerca() {
 </script>
 </body>
 </html>
+
+
