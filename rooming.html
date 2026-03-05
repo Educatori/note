@@ -2,12 +2,13 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Rooming List 2025/26</title>
+    <title>Rooming List 2025/26 - Logo e Colori</title>
     <style>
         :root {
-            --bg-page: #eef2f7; /* Azzurro tenue di sfondo */
-            --bg-header: #2c3e50; /* Blu intenso per i titoli */
+            --bg-page: #eef2f7; /* Azzurro tenue sfondo */
+            --bg-header: #1a3a5a; /* Blu intenso per titoli piani */
             --bg-room: #ffffff;
+            --accent-color: #2c3e50;
         }
 
         body { 
@@ -16,35 +17,66 @@
             padding: 10px; 
             font-size: 10.5px; 
             line-height: 1.1; 
-            background-color: var(--bg-page); /* Colore sfondo pagina */
+            background-color: var(--bg-page);
         }
 
-        header { 
-            text-align: center; 
-            border-bottom: 2px solid var(--bg-header); 
-            margin-bottom: 8px; 
-            color: var(--bg-header);
+        /* Layout Intestazione con Logo */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            border-bottom: 2px solid var(--bg-header);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            min-height: 60px;
         }
-        
-        h1 { margin: 2px; font-size: 15px; text-transform: uppercase; }
 
+        .logo-space {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 80px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-space img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-size: 16px; 
+            text-transform: uppercase; 
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        /* Griglia a 3 colonne */
         .grid-container { 
             display: grid; 
             grid-template-columns: repeat(3, 1fr); 
             gap: 3px; 
         }
 
+        /* Titoli Piani più intensi */
         .section-title { 
             grid-column: span 3; 
-            background: var(--bg-header); /* Colore intenso per Piano 1 / Piano 2 */
+            background: var(--bg-header);
             color: white; 
-            padding: 4px; 
+            padding: 5px; 
             text-align: center; 
             font-weight: bold; 
             text-transform: uppercase;
-            margin-top: 6px;
-            font-size: 11px;
+            margin-top: 8px;
+            font-size: 11.5px;
             border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
         }
 
         .room-box { 
@@ -55,12 +87,11 @@
             min-height: 32px;
             background: var(--bg-room);
             border-radius: 2px;
-            box-shadow: 1px 1px 3px rgba(0,0,0,0.05);
         }
 
         .room-info { 
             width: 32px; 
-            background: #dfe6ed; 
+            background: #d1d9e0; 
             border-right: 1px solid #000;
             display: flex;
             flex-direction: column;
@@ -87,23 +118,23 @@
         .student-details { 
             margin-left: 5px; 
             font-size: 9px; 
-            color: #2c3e50; 
+            color: #1a3a5a; 
             font-weight: bold;
         }
 
         .no-print { text-align: center; margin: 10px; }
         .btn { 
-            padding: 8px 20px; 
+            padding: 8px 25px; 
             background: var(--bg-header); 
             color: white; 
             border: none; 
             cursor: pointer; 
-            border-radius: 20px; 
+            border-radius: 30px; 
             font-weight: bold;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: 0.3s;
         }
+        .btn:hover { background: #2c3e50; transform: scale(1.05); }
 
-        /* Istruzioni specifiche per la stampa dei colori */
         @media print {
             body { 
                 background-color: var(--bg-page) !important; 
@@ -122,26 +153,22 @@
 <body>
 
 <div class="no-print">
-    <button class="btn" onclick="window.print()">🖨️ STAMPA</button>
+    <button class="btn" onclick="window.print()">🖨️ STAMPA </button>
 </div>
 
-<header>
+<div class="header-container">
+    <div class="logo-space">
+        <img src="logo.png" alt="Logo Istituto">
+    </div>
     <h1>Rooming a.a. 2025/26</h1>
-</header>
+</div>
 
 <div class="grid-container" id="mainGrid">
     </div>
 
 <script>
- const studenti = [
-                <!-- EXTRA -->
-        { cognome: "EDUCATORI", nome: "", classe: "", room:"112" },
-        { cognome: "FOR", nome: "M1", classe: "", room:"125" },
-        { cognome: "FOR", nome: "M2", classe: "", room:"125" }, 
-        { cognome: "FOR", nome: "F1", classe: "", room:"213" },
-        { cognome: "FOR", nome: "F2", classe: "", room:"216" },
-        { cognome: "FOR", nome: "F3", classe: "", room:"220" },
-               <!-- Classe 1A -->
+     const studenti=[ 
+                <!-- Classe 1A -->
         { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
         { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
         { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
@@ -288,6 +315,7 @@
         { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
     ];
 
+
     function generaGriglia() {
         const grid = document.getElementById('mainGrid');
         const stanze = {};
@@ -324,12 +352,8 @@
             }).join('');
 
             box.innerHTML = `
-                <div class="room-info">
-                    <div>${num}</div>
-                </div>
-                <div class="occupants-list">
-                    ${occupantiHtml}
-                </div>
+                <div class="room-info"><div>${num}</div></div>
+                <div class="occupants-list">${occupantiHtml}</div>
             `;
             grid.appendChild(box);
         });
