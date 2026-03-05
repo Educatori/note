@@ -189,9 +189,10 @@
           <!--
             <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">PP senza rientro</button>
             -->
-            <button id="btnGiovedi" class="btn" style="display:none; background:var(--highlight); color:black;" onclick="toggleTurnoGiovedi()">GIOVEDI G1/G2</button>
            
-            <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 EXCEL A3</button>
+            <button id="btnGiovedi" class="btn" style="display:none; background:var(--highlight); color:black;" onclick="toggleTurnoGiovedi()">GIOVEDI</button>
+           
+            <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
         </div>  
     </div>
     
@@ -438,9 +439,7 @@
     "COMIOTTO": { 1: { out: "20:00", in: "21:30" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "17:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" }},
     "COMMOD": { 1: { out: "16:40", in: "21:30" }},  
     "DAGOSTINO": { 3: { out: "16:00", in: "21:30" }},
-
     "DATTRINO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }}, 
-      
     "DI TRIA": { 1: { out: "16:40", in: "19:00" },  2: { out: "15:50", in: "19:00" }, 3: { out: "16:40", in: "19:00" }}, 
     "DUBLANC": { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" }, 4: { out: "15:00", in: "17:00" }},
     "EPICOCO": { 2: { out: "17:40", in: "20:00" },  3: { out: "17:40", in: "20:00" }, 4: { out:  "17:40", in: "20:00" }},
@@ -627,8 +626,8 @@
                 </style>
             </head>
             <body>
-                <div class="no-print"><button onclick="window.print()" style="padding:10px 30px; cursor:pointer;">STAMPA REGISTRO</button></div>
-                <h2>Registro Piano 1 - ${dataStampa}</h2>
+                <div class="no-print"><button onclick="window.print()" style="padding:10px 30px; cursor:pointer;">STAMPA IN FORMATO A3</button></div>
+                <h2>MASCHILE - piano 1° - ${dataStampa}</h2>
                 <table>
                     <thead>
                         <tr>
@@ -665,7 +664,7 @@
 
                             if (room === "125") {
                                 html += `</tbody></table><div class="page-break"></div>
-                                         <h2>Registro Piano 2 - ${dataStampa}</h2>
+                                         <h2>FEMMINILE - piano 2° - ${dataStampa}</h2>
                                          <table><thead><tr>
                                             <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
                                             <th>Presente</th><th>Assente</th><th>Uscita</th><th>Ingresso</th>
