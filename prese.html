@@ -150,7 +150,7 @@
 
 <div class="container">
     <header>
-        <h1 style="margin:0; font-size: 1.8em;">Registro Presenze</h1>
+        <h1 style="margin:0; font-size: 1.8em;">Registro Presenze Convitto</h1>
         <div id="todayDate"></div>
         <div class="clock-container"><div id="digitalClock">00:00:00</div></div>
     </header>
@@ -158,7 +158,9 @@
     <div class="controls">
         <div class="search-container">
             <input id="searchInput" placeholder="Nominativo o classe" onkeyup="applicaFiltri()">
-            <input type="number" id="roomInput" placeholder="Room" min="101" max="221" oninput="validaERicerca()">
+            <input type="number" id="roomInput" placeholder="Room" min="101" max="221" 
+       onfocus="this.oldValue = this.value;" 
+       oninput="gestisciSaltoStanze(this); validaERicerca();">
             <button class="btn-clear" onclick="resetRicerca()">X</button>
             
             
@@ -275,7 +277,6 @@
 
     const studenti=[ 
                 <!-- Classe 1A -->
-            
         { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
         { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
         { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
@@ -475,6 +476,46 @@
     const ASSENTI_PERMESSO = { 1: [''], 2: [''], 3: [''], 4: ['', ''] };
     
     let filtroClasse = 'Tutte', soloPermessi = false;
+    
+    /** * FUNZIONE DA AGGIUNGERE: 
+ * Gestisce il salto logico tra il piano 1 (fino a 125) e il piano 2 (da 201)
+ */
+function gestisciSaltoStanze(input) {
+    let n = parseInt(input.value);
+    let prec = parseInt(input.oldValue) || 0;
+    let valStr = input.value;
+
+    if (!valStr) {
+        input.oldValue = "";
+        return;
+    }
+
+    // 1. Blocca numeri negativi o inferiori a 1
+    if (n <= 0) {
+        input.value = "";
+        return;
+    }
+
+    // 2. Salto logico tra 125 e 201
+    if (n > 125 && n < 201) {
+        if (n > prec) {
+            n = 201; // Salto in avanti (Piano 2)
+        } else {
+            n = 125; // Salto all'indietro (Piano 1)
+        }
+    }
+
+    // 3. Limiti estremi (Min 101, Max 221)
+    if (valStr.length >= 3) {
+        if (n < 101) n = 101;
+        if (n > 221) n = 221;
+    }
+
+    input.value = n;
+    input.oldValue = n; // Memorizza per il prossimo cambio
+}
+    
+    
 
     function init() {
         const d = new Date(), g = d.getDay();
@@ -550,6 +591,10 @@
 
     function toggleAssenza(card) { card.classList.toggle('assente'); aggiornaContatori(); }
     function validaERicerca() { applicaFiltri(); }
+    
+    
+    
+    
     function updateClock() { document.getElementById('digitalClock').innerText = new Date().toLocaleTimeString('it-IT'); }
     function updateClockColor() { /* ... codice esistente ... */ }
     function assenzeAutomatiche(g) {
