@@ -1,182 +1,162 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<title>Rooming List 2025/26</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rooming List 2025/26</title>
 
-<style>
+    <style>
+        :root {
+            --bg-page: #f4f7f9; /* Grigio chiarissimo per stancare meno la vista */
+            --bg-header: #6083a5;
+            --bg-room: #ffffff;
+            --accent-color: #2c3e50;
+            --touch-feedback: #e8f0fe;
+        }
 
-:root {
-    --bg-page: #ffffff;
-    --bg-header: #6083a5;
-    --bg-room: #ffffff;
-    --accent-color: #000000;
-}
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.2;
+            background-color: var(--bg-page);
+            -webkit-tap-highlight-color: transparent; /* Rimuove il flash blu di sistema su mobile */
+        }
 
-body {
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    padding: 10px;
-    font-size: 10.5px;
-    line-height: 1.1;
-    background-color: var(--bg-page);
-}
+        /* Header più moderno */
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 3px solid var(--bg-header);
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
 
-.header-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    border-bottom: 2px solid var(--bg-header);
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    min-height: 60px;
-}
+        h1 {
+            margin: 0;
+            font-size: 18px;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
 
-.logo-space {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 80px;
-    height: 60px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        /* Griglia Adattiva: si adatta alla larghezza del tablet */
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+        }
 
-.logo-space img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
+        .section-title {
+            grid-column: 1 / -1;
+            background: var(--bg-header);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
 
-h1 {
-    margin: 0;
-    font-size: 16px;
-    text-transform: uppercase;
-    color: var(--accent-color);
-}
+        .room-box {
+            border: 1px solid #c0c0c0;
+            display: flex;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 3px;
-}
+        .room-info {
+            width: 40px; /* Più largo per facilitare la lettura */
+            background: #e2e8f0;
+            border-right: 1px solid #c0c0c0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
 
-.section-title {
-    grid-column: span 3;
-    background: var(--bg-header);
-    color: white;
-    padding: 5px;
-    text-align: center;
-    font-weight: bold;
-    margin-top: 8px;
-}
+        .occupants-list {
+            flex-grow: 1;
+        }
 
-.room-box {
-    border: 1px solid #000;
-    display: flex;
-    flex-direction: row;
-    min-height: 32px;
-    background: white;
-}
+        .row-student {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 10px; /* Padding aumentato per il tocco */
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
 
-.room-info {
-    width: 32px;
-    background: #d1d9e0;
-    border-right: 1px solid #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-}
+        .row-student:last-child { border-bottom: none; }
 
-.occupants-list {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: column;
-}
+        /* Feedback visivo al tocco */
+        .row-student:active {
+            background-color: var(--touch-feedback);
+        }
 
-.row-student {
-    display: flex;
-    justify-content: space-between;
-    padding: 2px 4px;
-    cursor: pointer;
-}
+        .row-student.assente {
+            background: #dfe4e8;
+            text-decoration: line-through;
+            color: #7f8c8d;
+            opacity: 0.7;
+        }
 
-.row-student.assente {
-    background: #8f8c8c;
-    text-decoration: line-through;
-    color: #fffefe;
-}
+        .student-name { flex: 1; font-size: 11.5px; }
+        .student-details { font-size: 9.5px; color: #666; font-weight: bold; }
 
-.student-name {
-    flex: 1;
-}
+        /* Bottoni grandi per le dita */
+        .no-print {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
 
-.student-details {
-    font-size: 9px;
-    font-weight: bold;
-}
+        .btn {
+            padding: 12px 30px;
+            background: var(--bg-header);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
 
-.no-print {
-    text-align: center;
-    margin: 10px;
-}
-
-.btn {
-    padding: 8px 25px;
-    background: var(--bg-header);
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 30px;
-    font-weight: bold;
-    margin: 3px;
-}
-
-@media print {
-
-    .no-print {
-        display: none;
-    }
-
-    @page {
-        size: A4 portrait;
-        margin: 0.4cm;
-    }
-
-}
-
-</style>
+        @media print {
+            .no-print { display: none; }
+            body { background: white; padding: 0; }
+            .grid-container { grid-template-columns: repeat(3, 1fr); }
+            .room-box { box-shadow: none; }
+        }
+    </style>
 </head>
-
 <body>
 
 <div class="no-print">
-<button class="btn" onclick="window.print()">STAMPA</button>
-<button class="btn" onclick="resetAssenze()">RESET</button>
+     
+    <button class="btn" onclick="window.print()">STAMPA PDF</button>
+    
+    <button class="btn" style="background:#95a5a6" onclick="resetAssenze()">RESET LISTA</button>
 </div>
-
 
 <div class="header-container">
-
-<div class="logo-space">
-<img src="logo.png">
+    <h1>Rooming List 2025/26</h1>
 </div>
-
-<h1>Rooming a.a. 2025/26</h1>
-
-</div>
-
 
 <div class="grid-container" id="mainGrid"></div>
 
-
-
 <script>
-
-const studenti = [
+    const studenti = [
                 <!-- EXTRA -->
         { cognome: "EDUCATORI", nome: "", classe: "", room:"112" },
         { cognome: "---", nome: " ", classe: "Foresteria", room:"125" },
@@ -331,170 +311,94 @@ const studenti = [
         { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
     ];
 
+    let pressTimer = null;
 
-let pressTimer = null;
-let pressId = null;
-
-function getAssenti() {
-    return JSON.parse(localStorage.getItem("assenti") || "[]");
-}
-
-function salvaAssenti(lista) {
-    localStorage.setItem("assenti", JSON.stringify(lista));
-}
-
-function toggleAssente(id) {
-
-    let assenti = getAssenti();
-
-    if (assenti.includes(id)) {
-
-        assenti = assenti.filter(x => x !== id);
-
-    } else {
-
-        assenti.push(id);
-
+    function getAssenti() {
+        return JSON.parse(localStorage.getItem("assenti") || "[]");
     }
 
-    salvaAssenti(assenti);
+    function salvaAssenti(lista) {
+        localStorage.setItem("assenti", JSON.stringify(lista));
+    }
 
-    generaGriglia();
-}
-
-function resetAssenze() {
-
-    localStorage.removeItem("assenti");
-
-    generaGriglia();
-}
-
-
-
-
-function generaGriglia() {
-
-    const grid = document.getElementById("mainGrid");
-
-    grid.innerHTML = "";
-
-    const stanze = {};
-
-    studenti.forEach(s => {
-
-        if (!stanze[s.room]) stanze[s.room] = [];
-
-        stanze[s.room].push(s);
-
-    });
-
-
-    const numeriStanze = Object.keys(stanze).sort((a,b)=>a-b);
-
-    let piano = "";
-
-    const assenti = getAssenti();
-
-
-    numeriStanze.forEach(num => {
-
-        const r = parseInt(num);
-
-        if (r >= 100 && r < 200 && piano !== "M") {
-
-            grid.innerHTML += `<div class="section-title">Piano 1 - Maschile</div>`;
-
-            piano = "M";
-
+    function toggleAssente(id) {
+        let assenti = getAssenti();
+        if (assenti.includes(id)) {
+            assenti = assenti.filter(x => x !== id);
+        } else {
+            assenti.push(id);
         }
+        salvaAssenti(assenti);
+        generaGriglia();
+    }
 
-        if (r >= 200 && piano !== "F") {
-
-            grid.innerHTML += `<div class="section-title">Piano 2 - Femminile</div>`;
-
-            piano = "F";
-
+    function resetAssenze() {
+        if(confirm("Vuoi resettare tutte le assenze?")) {
+            localStorage.removeItem("assenti");
+            generaGriglia();
         }
+    }
 
+    function generaGriglia() {
+        const grid = document.getElementById("mainGrid");
+        grid.innerHTML = "";
+        const stanze = {};
 
-        const box = document.createElement("div");
+        studenti.forEach(s => {
+            if (!stanze[s.room]) stanze[s.room] = [];
+            stanze[s.room].push(s);
+        });
 
-        box.className = "room-box";
+        const numeriStanze = Object.keys(stanze).sort((a,b) => parseInt(a) - parseInt(b));
+        let piano = "";
+        const assenti = getAssenti();
 
+        numeriStanze.forEach(num => {
+            const r = parseInt(num);
+            if (r >= 100 && r < 200 && piano !== "M") {
+                grid.innerHTML += `<div class="section-title">PIANO 1 - MASCHILE</div>`;
+                piano = "M";
+            }
+            if (r >= 200 && piano !== "F") {
+                grid.innerHTML += `<div class="section-title">PIANO 2 - FEMMINILE</div>`;
+                piano = "F";
+            }
 
-        let occupantiHtml = stanze[num].map(s => {
+            const box = document.createElement("div");
+            box.className = "room-box";
 
-            const id = s.cognome + "_" + s.nome + "_" + num;
+            let occupantiHtml = stanze[num].map(s => {
+                const id = `${s.cognome}_${s.nome}_${num}`;
+                const infoGruppo = s.gruppo ? ` [${s.gruppo}]` : "";
+                const isAssente = assenti.includes(id);
+                
+                return `
+                <div class="row-student ${isAssente ? 'assente' : ''}" 
+                     onclick="handleTouch('${id}')">
+                    <span class="student-name">
+                        <b>${s.cognome}</b> ${s.nome}
+                    </span>
+                    <span class="student-details">
+                        ${s.classe}${infoGruppo}
+                    </span>
+                </div>`;
+            }).join("");
 
-            const infoGruppo = s.gruppo ? ` [${s.gruppo}]` : "";
-
-            const classe = assenti.includes(id)
-                ? "row-student assente"
-                : "row-student";
-
-            return `
-            <div class="${classe}"
-            onmousedown="startPress('${id}')"
-            onmouseup="endPress()"
-            ontouchstart="startPress('${id}')"
-            ontouchend="endPress()">
- 
-  
-                <span class="student-name">
-                    <b>${s.cognome}</b> ${s.nome}
-                </span>
-
-                <span class="student-details">
-                    ${s.classe}${infoGruppo}
-                </span>
-            </div>
+            box.innerHTML = `
+                <div class="room-info">${num}</div>
+                <div class="occupants-list">${occupantiHtml}</div>
             `;
+            grid.appendChild(box);
+        });
+    }
 
-        }).join("");
+    // Semplificato per Tablet: un click/tap normale per segnare l'assenza
+    // Il "long press" su tablet spesso interferisce con il menu contestuale del browser
+    function handleTouch(id) {
+        toggleAssente(id);
+    }
 
-        
-        
-
-        box.innerHTML = `
-
-        <div class="room-info">${num}</div>
-
-        <div class="occupants-list">
-
-        ${occupantiHtml}
-
-        </div>
-
-        `;
-
-
-        grid.appendChild(box);
-
-    });
-
-}
-
-function startPress(id) {
-
-    pressId = id;
-
-    pressTimer = setTimeout(() => {
-
-        toggleAssente(pressId);
-
-    }, 400);
-
-}
-
-function endPress() {
-
-    clearTimeout(pressTimer);
-
-}
-
-window.onload = generaGriglia;
-
-
+    window.onload = generaGriglia;
 </script>
 
 </body>
