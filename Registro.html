@@ -1,4 +1,12 @@
-<script type="module">
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    </head>
+<body>
+    <script type="module">
+
+
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
   import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
@@ -11,7 +19,7 @@
   messagingSenderId: "955413485941",
   appId: "1:955413485941:web:e878ea05b066dd78bd9b3c",
   measurementId: "G-NSGBDTEJNQ",
-    databaseURL: "https://rooms-2ff73-default-rtdb.europe-west1.firebasedatabase.app",
+  databaseURL: "https://rooms-2ff73-default-rtdb.europe-west1.firebasedatabase.app",
   };
 
   // Inizializzazione
@@ -21,19 +29,167 @@
 
   // I tuoi dati statici (rimangono invariati)
   const studenti = [
-    { cognome: "EDUCATORI", nome: "", classe: "", room:"112" },
-    { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", room:"221" },
-    { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", room:"124" },
-    { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
-    // ... aggiungi tutti gli altri qui
-  ];
+                <!-- EXTRA -->
+        { cognome: "EDUCATORI", nome: "", classe: "", room:"112" },
+        { cognome: ".--", nome: " ", classe: "Foresteria", room:"125" },
+        { cognome: "-.-", nome: " ", classe: "Foresteria", room:"125" }, 
+        { cognome: "--.", nome: " ", classe: "Foresteria", room:"213" },
+        { cognome: "-.--", nome: " ", classe: "Foresteria", room:"216" },
+        { cognome: "--.-", nome: " ", classe: "Foresteria", room:"220" },
+               <!-- Classe 1A -->
+        { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
+        { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
+        { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
+        { cognome: "OBETTI", nome: "Virginia", classe: "1A", room:"203" },
+        { cognome: "PETTORALI", nome: "Matilde", classe: "1A", room:"203" },
+        { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", room:"211" },
+                <!-- Classe 1B -->
+        { cognome: "BLANCHET N.", nome: "Nadine", classe: "1B", room:"221" },
+        { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", room:"104" },
+        { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", room:"105" },
+        { cognome: "GIOVANDO", nome: "Caterina", classe: "1B", room:"206" },
+        { cognome: "LUNARDI", nome: "Filippo", classe: "1B", room:"108" },
+        { cognome: "POUJOL", nome: "Chiara", classe: "1B", room:"206" },
+        { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B", room:"104" },
+        { cognome: "SALVI", nome: "Sophie", classe: "1B", room:"206" },
+        { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", room:"108" },
+        { cognome: "VILARDO", nome: "Gabriele", classe: "1B", room:"104" },
+                <!-- Classe 1P -->
+        { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", room:"107" },
+        { cognome: "CHABLOZ", nome: "Annette", classe: "1P", room:"213" },
+        { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", room:"108" },
+        { cognome: "FURLAN", nome: "Alessandro", classe: "1P", room:"111" },
+        { cognome: "GIOVANNELLI P.", nome: "Pietro", classe: "1P", room:"106" },
+        { cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P", room:"105" },
+        { cognome: "LAI", nome: "Stefano", classe: "1P", room:"106" },
+        { cognome: "LAZIER", nome: "Francesco", classe: "1P", room:"106" },
+        { cognome: "PAONESSA", nome: "Leonardo", classe: "1P", room:"107" },
+        { cognome: "VINCENT", nome: "Thomas", classe: "1P", room:"103" },
+        { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", room:"212" },
+        { cognome: "SILVANI", nome: "Amelie", classe: "1P", room:"204" },
+                <!-- Classe 2A -->
+        { cognome: "BARAVALLE", nome: "Andrea", classe: "2A", room:"102" },
+        { cognome: "BERTOT", nome: "Manuele", classe: "2A", room:"102" },
+        { cognome: "BUZZI", nome: "Alessandro", classe: "2A", room:"102" },
+        { cognome: "CASTELLANO", nome: "Martina", classe: "2A", room:"204" },
+        { cognome: "DA FRE", nome: "Gaia", classe: "2A", room:"207" },
+        { cognome: "DE GASPER", nome: "Lara", classe: "2A", room:"207" },
+        { cognome: "GARCIA", nome: "Luis Alberto", classe: "2A", room:"118" },
+        { cognome: "HERESAZ", nome: "Alyce", classe: "2A", room:"211" },
+        { cognome: "PENNARD", nome: "Serena", classe: "2A", room:"211" },
+        { cognome: "SAITTA", nome: "Asia", classe: "2A", room:"207" },
+                <!-- Classe 2B -->
+        { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", room:"109" },
+        { cognome: "DELLAQUILA", nome: "Gabriele", classe: "2B", room:"107" },
+        { cognome: "DUNAND", nome: "Audrey", classe: "2B", room:"218" },
+        { cognome: "GHILARDINI", nome: "Leonardo", classe: "2B", room:"114" },
+        { cognome: "MAINO", nome: "Giada", classe: "2B", room:"218" },
+        { cognome: "MISERENDINO", nome: "Ludovica", classe: "2B", room:"204" },
+        { cognome: "MOUNIM", nome: "Yahya", classe: "2B", room:"109" },
+        { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", room:"101" },
+        { cognome: "TACCONE", nome: "Nicholas", classe: "2B", room:"109" },
+                <!-- Classe 2P -->
+        { cognome: "BERRIAD", nome: "Thierry", classe: "2P", room:"121" },
+        { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P", room:"114" },
+        { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P", room:"114" },
+        { cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P", room:"121" },
+        { cognome: "CLERIN", nome: "Pietro", classe: "2P", room:"110" },
+        { cognome: "DONZEL", nome: "Elodie", classe: "2P", room:"213" },
+        { cognome: "GENS", nome: "Aaron", classe: "2P", room:"101" },
+        { cognome: "HERRERA", nome: "Alexander", classe: "2P", room:"115" },
+        { cognome: "MONTERO", nome: "Karen", classe: "2P", room:"209" },
+        { cognome: "PERRIN", nome: "Annie", classe: "2P", room:"213" },
+        { cognome: "STEVENIN", nome: "Joelle", classe: "2P", room:"208" },
+        { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P", room:"209" },
+        { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P", room:"209" },
+                <!-- Classe 3P -->
+        { cognome: "CONSOL", nome: "Gaia", classe: "3P", room:"208" },
+        { cognome: "COSTANZA", nome: "Marcello", classe: "3P", room:"124" },
+        { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", room:"111" },
+        { cognome: "LLESHI", nome: "Gabriele", classe: "3P", room:"115" },
+        { cognome: "MARRERO", nome: "Lewis", classe: "3P", room:"115" },
+        { cognome: "RONCO", nome: "Angelica", classe: "3P", room:"208" },
+                <!-- Classe 3A -->
+        { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", room:"101" },
+        { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", room:"118" },
+        { cognome: "MARANGELO", nome: "Giulio", classe: "3A", room:"118" },
+        { cognome: "PEAQUIN", nome: "Linda", classe: "3A", room:"214" },
+        { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", room:"121" },
+                <!-- Classe 3B -->
+        { cognome: "BLANCHET M.", nome: "Magalie", classe: "3B", room:"214" },
+        { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", room:"214" },
+        { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", room:"110" },
+        { cognome: "DUBLANC", nome: "Nicole", classe: "3B", room:"202" },
+        { cognome: "GRANATA", nome: "Gabriele", classe: "3B", room:"110" },
+        { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", room:"116" },
+        { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", room:"214" },
+                <!-- Classe 3C -->
+        { cognome: "CELESIA M.", nome: "Marta", classe: "3C", room:"215" },
+        { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", room:"202" },
+        { cognome: "CUMINO", nome: "Lucia", classe: "3C", room:"205" },
+        { cognome: "EPICOCO", nome: "Angelica", classe: "3C", room:"205" },
+        { cognome: "MERLET", nome: "Cedric", classe: "3C", room:"113" },
+        { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", room:"202" },
+        { cognome: "TARTIN", nome: "Zoe", classe: "3C", room:"215" },
+                <!-- Classe 4A -->
+        { cognome: "CHIADO", nome: "Diego", classe: "4A", room:"123" },
+        { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", room:"216" },
+        { cognome: "CONTA", nome: "Giovanni", classe: "4A", room:"125" },
+        { cognome: "CROCE", nome: "Giacomo", classe: "4A", room:"117" },
+        { cognome: "DANNA", nome: "Gioele", classe: "4A", room:"119" },
+        { cognome: "DI TRIA", nome: "Alice", classe: "4A", room:"220" },
+        { cognome: "MANCUSO", nome: "Gaia", classe: "4A", room:"219" },
+        { cognome: "MARCIANO", nome: "Alberto", classe: "4A", room:"116" },
+        { cognome: "MENALDINO", nome: "Moreno", classe: "4A", room:"113" },
+        { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A", room:"123" },
+        { cognome: "OBERTO", nome: "Debora", classe: "4A", room:"210" },
+        { cognome: "TAPPELLA", nome: "Luca", classe: "4A", room:"116" },
+        { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
+        { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },
+                       
+                <!-- TEBANO 2* DINNER -->
+        { cognome: "TEBANO", nome: "Serena", classe: "3P", room:"212" },
+                <!-- Classe 4B -->
+        { cognome: "CHESSA", nome: "Samuele", classe: "4B", room:"111" },
+        { cognome: "FAVRE", nome: "Emilie", classe: "4B", room:"217" },
+        { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B", room:"113" },
+        { cognome: "GORREX", nome: "Valerie", classe: "4B", room:"212" },
+        { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B", room:"117" },
+        { cognome: "MEYNET", nome: "Riccardo", classe: "4B", room:"123" },
+        { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", room:"217" },
+        { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", room:"210" },
+        { cognome: "SERIO", nome: "Federica", classe: "4B", room:"217" },
+                <!-- Classe 5A -->
+        { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
+        { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
+        { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "G2", room:"117" },
+        { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "G2", room:"113" },
+        { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "G1", room:"201" },
+        { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "G2", room:"220" },
+        { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "G2", room:"124" },
+        { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
+        { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
+        { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
+                <!-- Classe 5B -->
+        { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
+        { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
+        { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", room:"219" },
+        { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "G2", room:"215" },
+        { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "G1", room:"216" },
+        { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", room:"221" },
+        { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", room:"124" },
+        { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
+    ];
+
 
   let assentiGlobali = [];
   let clickCount = 0;
   let clickTimer = null;
 
   // 2. SINCRONIZZAZIONE IN TEMPO REALE
-  // Ogni volta che il se cambia, la griglia si aggiorna su TUTTI i tablet
+  // Ogni volta che il database cambia, la griglia si aggiorna su TUTTI i tablet
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     assentiGlobali = data || [];
@@ -112,5 +268,7 @@
       grid.appendChild(box);
     });
   }
-</script>
 
+    </script>
+</body>
+</html>
