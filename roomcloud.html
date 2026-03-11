@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-        <title>Rooming List 2025/26</title>
+        <title>Rooming 2025/26 CLOUD</title>
         <style>
             :root {
                 --bg-page: #f4f7f9;
@@ -13,150 +13,41 @@
                 --touch-feedback: #e8f0fe;
             }
             body {
-                font-family:
-                    "Segoe UI",
-                    system-ui,
-                    -apple-system,
-                    sans-serif;
-                margin: 0;
-                padding: 15px;
-                font-size: 11px;
-                line-height: 1.2;
+                font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+                margin: 0; padding: 15px; font-size: 11px; line-height: 1.2;
                 background-color: var(--bg-page);
                 -webkit-tap-highlight-color: transparent;
             }
             .header-container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-bottom: 3px solid var(--bg-header);
-                margin-bottom: 15px;
-                padding: 10px;
-                background: white;
-                border-radius: 8px;
+                display: flex; align-items: center; justify-content: center;
+                border-bottom: 3px solid var(--bg-header); margin-bottom: 15px;
+                padding: 10px; background: white; border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             }
-            h1 {
-                margin: 0;
-                font-size: 18px;
-                color: var(--accent-color);
-                letter-spacing: 1px;
-            }
-            .grid-container {
-                display: grid;
-                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-                gap: 8px;
-            }
-            .section-title {
-                grid-column: 1 / -1;
-                background: var(--bg-header);
-                color: white;
-                padding: 8px;
-                text-align: center;
-                font-weight: bold;
-                border-radius: 4px;
-                margin-top: 10px;
-                font-size: 13px;
-            }
-            .room-box {
-                border: 1px solid #c0c0c0;
-                display: flex;
-                background: white;
-                border-radius: 5px;
-                overflow: hidden;
-                box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-            }
-            .room-info {
-                width: 40px;
-                background: #e2e8f0;
-                border-right: 1px solid #c0c0c0;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-weight: bold;
-                font-size: 14px;
-            }
-            .occupants-list {
-                flex-grow: 1;
-            }
-            .row-student {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 8px 10px;
-                border-bottom: 1px solid #eee;
-                transition: background 0.2s;
-                cursor: pointer;
-            }
-
+            h1 { margin: 0; font-size: 18px; color: var(--accent-color); letter-spacing: 1px; }
+            .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
+            .room-box { border: 1px solid #c0c0c0; display: flex; background: white; border-radius: 5px; overflow: hidden; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); }
+            .room-info { width: 40px; background: #e2e8f0; border-right: 1px solid #c0c0c0; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; }
+            .occupants-list { flex-grow: 1; }
+            .row-student { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; border-bottom: 1px solid #eee; transition: background 0.2s; cursor: pointer; }
             
-            .row-student.assente {
-                background: yellow !important;
-                color: #5d4037;
-                border-left: 5px solid #ffe500;
-            } /* Giallo per assenza */
-            .row-student.confermato {
-                background: #ffcdd2 !important;
-                color: #b71c1c;
-                font-weight: bold;
-                 text-decoration: line-through;
-                border-left: 5px solid #ff0000;
-            } /* Rosso per conferma */
-            .row-student.nota {
-                background: #e8f5e9;
-                color: #2e7d32;
-                cursor: default;
-                justify-content: center;
-                font-weight: bold;
-                border-bottom: 2px solid #c8e6c9;
-            } /* Verde per NOTE */
-
-            .student-name {
-                flex: 1;
-                font-size: 11.5px;
-            }
-            .student-details {
-                font-size: 9.5px;
-                color: #666;
-                font-weight: bold;
-            }
-            .no-print {
-                display: flex;
-                justify-content: center;
-                gap: 15px;
-                margin-bottom: 15px;
-            }
-            .btn {
-                padding: 12px 30px;
-                background: var(--bg-header);
-                color: white;
-                border: none;
-                border-radius: 8px;
-                font-weight: bold;
-                font-size: 14px;
-                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-                cursor: pointer;
-            }
+            .row-student.assente { background: #fff9c4 !important; color: #5d4037; border-left: 5px solid #ffe500; }
+            .row-student.confermato { background: #ffcdd2 !important; color: #b71c1c; font-weight: bold; text-decoration: line-through; border-left: 5px solid #ff0000; }
+            .row-student.nota { background: #e8f5e9; color: #2e7d32; cursor: default; justify-content: center; font-weight: bold; border-bottom: 2px solid #c8e6c9; }
             
+            .student-name { flex: 1; font-size: 11.5px; }
+            .student-details { font-size: 9.5px; color: #666; font-weight: bold; }
+            .no-print { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
+            .btn { padding: 12px 30px; background: var(--bg-header); color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); cursor: pointer; }
+
             @media print {
-        .no-print { display: none !important; }
-        body { background: white !important; padding: 5px !important; }
-        .grid-container { 
-            display: grid !important; 
-            grid-template-columns: repeat(3, 1fr) !important; 
-            gap: 5px !important; 
-        }
-        .room-box { 
-            page-break-inside: avoid !important; 
-            border: 1px solid #ccc !important;
-            box-shadow: none !important;
-        }
-        .row-student { padding: 4px 6px !important; border-bottom: 1px solid #ddd !important; }
-        h1 { font-size: 16px !important; }
-    }
-            
-         
-            
+                .no-print { display: none !important; }
+                body { background: white !important; padding: 5px !important; }
+                .grid-container { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 5px !important; }
+                .room-box { page-break-inside: avoid !important; border: 1px solid #ccc !important; box-shadow: none !important; }
+                .row-student { padding: 4px 6px !important; border-bottom: 1px solid #ddd !important; }
+                h1 { font-size: 16px !important; }
+            }
         </style>
     </head>
     <body>
@@ -164,38 +55,24 @@
             <button class="btn" onclick="window.print()">STAMPA PDF</button>
             <button class="btn" style="background: #95a5a6" onclick="window.resetAssenze()">RESET LISTA</button>
         </div>
-
-        <div class="header-container">
-            <h1>Rooming List 2025/26</h1>
-        </div>
-
+        <div class="header-container"><h1>Rooming 2025/26 CLOUD☁️</h1></div>
         <div class="grid-container" id="mainGrid"></div>
 
         <script type="module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-            import {
-                getDatabase,
-                ref,
-                onValue,
-                set
-            } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+            import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
             const firebaseConfig = {
                 apiKey: "AIzaSyAXFqZUNLWXtmA8y6OUY-_T2G7pmEgHabg",
-                authDomain: "rooms-2ff73.firebaseapp.com",
                 databaseURL: "https://rooms-2ff73-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "rooms-2ff73",
-                storageBucket: "rooms-2ff73.firebasestorage.app",
-                messagingSenderId: "955413485941",
-                appId: "1:955413485941:web:e878ea05b066dd78bd9b3c"
+                projectId: "rooms-2ff73"
             };
 
             const app = initializeApp(firebaseConfig);
             const db = getDatabase(app);
             const dbRef = ref(db, "assenze");
 
-            
-          // DATI STUDENTI
+                    // DATI STUDENTI
     const studenti = [
                 // EXTRA
         { cognome: "NOTE", nome: "2 tap: Assente (Giallo) - 4 tap: Conferma (Rosso)", classe: "", room: "112" },
@@ -353,24 +230,25 @@
         { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
     ];
 
+            let assentiData = {}, clicks = 0, timer = null, touchStartX = 0;
 
-            let assentiData = {};
-            let clicks = 0;
-            let timer = null;
+            onValue(dbRef, (snapshot) => { assentiData = snapshot.val() || {}; generaGriglia(); });
 
-            onValue(dbRef, (snapshot) => {
-                assentiData = snapshot.val() || {};
-                generaGriglia();
-            });
-
-            window.handleTouch = function (id) {
+            window.handleTap = function(id) {
                 clicks++;
                 clearTimeout(timer);
                 timer = setTimeout(() => {
                     if (clicks === 2) toggleStato(id, "assente");
                     if (clicks === 4) toggleStato(id, "confermato");
                     clicks = 0;
-                }, 600);
+                }, 400);
+            };
+
+            window.handleTS = (e) => { touchStartX = e.changedTouches[0].screenX; };
+            window.handleTE = (e, id) => {
+                let diff = e.changedTouches[0].screenX - touchStartX;
+                if (diff > 50) toggleStato(id, "assente");
+                else if (diff < -50) toggleStato(id, "confermato");
             };
 
             function toggleStato(id, tipo) {
@@ -382,47 +260,30 @@
                 set(dbRef, data);
             }
 
-            window.resetAssenze = function () {
-                if (confirm("Vuoi resettare tutto?")) set(dbRef, {});
-            };
+            window.resetAssenze = () => { if (confirm("Resettare tutto?")) set(dbRef, {}); };
 
             function generaGriglia() {
-                const grid = document.getElementById("mainGrid");
-                grid.innerHTML = "";
+                const grid = document.getElementById("mainGrid"); grid.innerHTML = "";
                 const stanze = {};
-                studenti.forEach((s) => {
-                    if (!stanze[s.room]) stanze[s.room] = [];
-                    stanze[s.room].push(s);
+                studenti.forEach(s => { if (!stanze[s.room]) stanze[s.room] = []; stanze[s.room].push(s); });
+                Object.keys(stanze).sort((a,b) => a-b).forEach(num => {
+                    const box = document.createElement("div"); box.className = "room-box";
+                    let html = stanze[num].map(s => {
+                        const id = `${s.cognome}_${s.nome}_${num}`;
+                        const isNota = s.cognome === "NOTE";
+                        const st = assentiData[id] || {};
+                        const cls = isNota ? "nota" : (st.confermato ? "confermato" : (st.assente ? "assente" : ""));
+                        return `<div class="row-student ${cls}" 
+                            onclick="${isNota ? "" : "handleTap('" + id + "')"}"
+                            ontouchstart="handleTS(event)"
+                            ontouchend="${isNota ? "" : "handleTE(event, '" + id + "')"}">
+                            <span class="student-name"><b>${s.cognome}</b> ${s.nome}</span>
+                            <span class="student-details">${isNota ? "" : s.classe}</span>
+                        </div>`;
+                    }).join("");
+                    box.innerHTML = `<div class="room-info">${num}</div><div class="occupants-list">${html}</div>`;
+                    grid.appendChild(box);
                 });
-
-                Object.keys(stanze)
-                    .sort((a, b) => parseInt(a) - parseInt(b))
-                    .forEach((num) => {
-                        const box = document.createElement("div");
-                        box.className = "room-box";
-                        let occupantiHtml = stanze[num]
-                            .map((s) => {
-                                const id = `${s.cognome}_${s.nome}_${num}`;
-                                const isNota = s.cognome === "NOTE";
-                                const stato = assentiData[id] || {};
-                                const classe = isNota
-                                    ? "nota"
-                                    : stato.confermato
-                                      ? "confermato"
-                                      : stato.assente
-                                        ? "assente"
-                                        : "";
-
-                                return `
-                <div class="row-student ${classe}" onclick="${isNota ? "" : "handleTouch('" + id + "')"}">
-                    <span class="student-name"><b>${s.cognome}</b> ${s.nome}</span>
-                    <span class="student-details">${isNota ? "" : s.classe}</span>
-                </div>`;
-                            })
-                            .join("");
-                        box.innerHTML = `<div class="room-info">${num}</div><div class="occupants-list">${occupantiHtml}</div>`;
-                        grid.appendChild(box);
-                    });
             }
         </script>
     </body>
