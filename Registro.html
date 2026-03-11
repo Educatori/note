@@ -10,7 +10,8 @@
   storageBucket: "rooms-2ff73.firebasestorage.app",
   messagingSenderId: "955413485941",
   appId: "1:955413485941:web:e878ea05b066dd78bd9b3c",
-  measurementId: "G-NSGBDTEJNQ"
+  measurementId: "G-NSGBDTEJNQ",
+    databaseURL: "https://rooms-2ff73-default-rtdb.europe-west1.firebasedatabase.app",
   };
 
   // Inizializzazione
@@ -32,7 +33,7 @@
   let clickTimer = null;
 
   // 2. SINCRONIZZAZIONE IN TEMPO REALE
-  // Ogni volta che il database cambia, la griglia si aggiorna su TUTTI i tablet
+  // Ogni volta che il se cambia, la griglia si aggiorna su TUTTI i tablet
   onValue(dbRef, (snapshot) => {
     const data = snapshot.val();
     assentiGlobali = data || [];
@@ -112,3 +113,4 @@
     });
   }
 </script>
+
