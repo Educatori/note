@@ -1,34 +1,166 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    </head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Rooming List Real-Time</title>
+
+    <style>
+        :root {
+            --bg-page: #f4f7f9;
+            --bg-header: #6083a5;
+            --bg-room: #ffffff;
+            --accent-color: #2c3e50;
+            --touch-feedback: #e8f0fe;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 15px;
+            font-size: 11px;
+            line-height: 1.2;
+            background-color: var(--bg-page);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .header-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 3px solid var(--bg-header);
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        h1 { margin: 0; font-size: 18px; color: var(--accent-color); letter-spacing: 1px; }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 8px;
+        }
+
+        .section-title {
+            grid-column: 1 / -1;
+            background: var(--bg-header);
+            color: white;
+            padding: 8px;
+            text-align: center;
+            font-weight: bold;
+            border-radius: 4px;
+            margin-top: 10px;
+            font-size: 13px;
+        }
+
+        .room-box {
+            border: 1px solid #c0c0c0;
+            display: flex;
+            background: white;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .room-info {
+            width: 40px;
+            background: #e2e8f0;
+            border-right: 1px solid #c0c0c0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .occupants-list { flex-grow: 1; }
+
+        .row-student {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+            cursor: pointer;
+        }
+
+        .row-student:active { background-color: var(--touch-feedback); }
+
+        .row-student.assente {
+            background: #dfe4e8;
+            text-decoration: line-through;
+            color: #7f8c8d;
+            opacity: 0.7;
+        }
+
+        .student-name { flex: 1; font-size: 11.5px; }
+        .student-details { font-size: 9.5px; color: #666; font-weight: bold; }
+
+        .no-print {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: var(--bg-header);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 13px;
+            cursor: pointer;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; padding: 0; }
+            .grid-container { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
 <body>
-    <script type="module">
 
+<div class="no-print">
+    <button class="btn" onclick="window.print()">STAMPA PDF</button>
+    <button class="btn" style="background:#95a5a6" onclick="window.resetAssenze()">RESET LISTA</button>
+</div>
 
+<div class="header-container">
+    <h1>Rooming List 2025/26 CLOUD☁️</h1>
+</div>
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+<div class="grid-container" id="mainGrid">
+    <div style="text-align:center; padding:20px; grid-column: 1/-1;">Connessione al database in corso...</div>
+</div>
 
-  // 1. INCOLLA QUI I TUOI DATI DI CONFIGURAZIONE FIREBASE
-  const firebaseConfig = {
-    apiKey: "AIzaSyAXFqZUNLWXtmA8y6OUY-_T2G7pmEgHabg",
-  authDomain: "rooms-2ff73.firebaseapp.com",
-  projectId: "rooms-2ff73",
-  storageBucket: "rooms-2ff73.firebasestorage.app",
-  messagingSenderId: "955413485941",
-  appId: "1:955413485941:web:e878ea05b066dd78bd9b3c",
-  measurementId: "G-NSGBDTEJNQ",
-  databaseURL: "https://rooms-2ff73-default-rtdb.europe-west1.firebasedatabase.app",
-  };
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-  // Inizializzazione
-  const app = initializeApp(firebaseConfig);
-  const db = getDatabase(app);
-  const dbRef = ref(db, 'assenze');
+    // CONFIGURAZIONE FIREBASE
+    const firebaseConfig = {
+        apiKey: "AIzaSyAXFqZUNLWXtmA8y6OUY-_T2G7pmEgHabg",
+        authDomain: "rooms-2ff73.firebaseapp.com",
+        databaseURL: "https://rooms-2ff73-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "rooms-2ff73",
+        storageBucket: "rooms-2ff73.firebasestorage.app",
+        messagingSenderId: "955413485941",
+        appId: "1:955413485941:web:e878ea05b066dd78bd9b3c"
+    };
 
-  // I tuoi dati statici (rimangono invariati)
-  const studenti = [
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const dbRef = ref(db, 'assenze');
+
+    // DATI STUDENTI
+    const studenti = [
                 <!-- EXTRA -->
         { cognome: "EDUCATORI", nome: "", classe: "", room:"112" },
         { cognome: ".--", nome: " ", classe: "Foresteria", room:"125" },
@@ -184,91 +316,92 @@
     ];
 
 
-  let assentiGlobali = [];
-  let clickCount = 0;
-  let clickTimer = null;
+    let assentiGlobali = [];
+    let clickCount = 0;
+    let clickTimer = null;
 
-  // 2. SINCRONIZZAZIONE IN TEMPO REALE
-  // Ogni volta che il database cambia, la griglia si aggiorna su TUTTI i tablet
-  onValue(dbRef, (snapshot) => {
-    const data = snapshot.val();
-    assentiGlobali = data || [];
-    generaGriglia();
-  });
-
-  // 3. LOGICA doppio CLICK E INVIO DATI
-  window.handleTouch = function(id) {
-    clickCount++;
-    if (clickTimer) clearTimeout(clickTimer);
-
-    if (clickCount === 2) {
-      toggleAssente(id);
-      clickCount = 0;
-    } else {
-      clickTimer = setTimeout(() => { clickCount = 0; }, 500);
-    }
-  }
-
-  function toggleAssente(id) {
-    let nuoveAssenze = [...assentiGlobali];
-    if (nuoveAssenze.includes(id)) {
-      nuoveAssenze = nuoveAssenze.filter(x => x !== id);
-    } else {
-      nuoveAssenze.push(id);
-    }
-    // Salvataggio su Firebase (non più localStorage!)
-    set(dbRef, nuoveAssenze);
-  }
-
-  window.resetAssenze = function() {
-    if(confirm("Vuoi resettare tutte le assenze per TUTTI i dispositivi?")) {
-      set(dbRef, []);
-    }
-  }
-
-  function generaGriglia() {
-    const grid = document.getElementById("mainGrid");
-    grid.innerHTML = "";
-    const stanze = {};
-
-    studenti.forEach(s => {
-      if (!stanze[s.room]) stanze[s.room] = [];
-      stanze[s.room].push(s);
+    // ASCOLTO CAMBIAMENTI DATABASE
+    onValue(dbRef, (snapshot) => {
+        const data = snapshot.val();
+        assentiGlobali = data || [];
+        generaGriglia();
     });
 
-    const numeriStanze = Object.keys(stanze).sort((a,b) => parseInt(a) - parseInt(b));
-    let piano = "";
+    // FUNZIONE DOPPIO CLICK (ESPONE handleTouch A WINDOW)
+    window.handleTouch = function(id) {
+        clickCount++;
+        if (clickTimer) clearTimeout(clickTimer);
 
-    numeriStanze.forEach(num => {
-      const r = parseInt(num);
-      if (r >= 100 && r < 200 && piano !== "M") {
-        grid.innerHTML += `<div class="section-title">PIANO 1 - MASCHILE</div>`;
-        piano = "M";
-      }
-      if (r >= 200 && piano !== "F") {
-        grid.innerHTML += `<div class="section-title">PIANO 2 - FEMMINILE</div>`;
-        piano = "F";
-      }
+        if (clickCount === 2) {
+            toggleAssente(id);
+            clickCount = 0;
+        } else {
+            clickTimer = setTimeout(() => { clickCount = 0; }, 500);
+        }
+    };
 
-      const box = document.createElement("div");
-      box.className = "room-box";
+    function toggleAssente(id) {
+        let nuoveAssenze = [...assentiGlobali];
+        if (nuoveAssenze.includes(id)) {
+            nuoveAssenze = nuoveAssenze.filter(x => x !== id);
+        } else {
+            nuoveAssenze.push(id);
+        }
+        set(dbRef, nuoveAssenze);
+    }
 
-      let occupantiHtml = stanze[num].map(s => {
-        const id = `${s.cognome}_${s.nome}_${num}`;
-        const isAssente = assentiGlobali.includes(id);
-        
-        return `
-          <div class="row-student ${isAssente ? 'assente' : ''}" onclick="handleTouch('${id}')">
-            <span class="student-name"><b>${s.cognome}</b> ${s.nome}</span>
-            <span class="student-details">${s.classe}${s.gruppo ? ' ['+s.gruppo+']' : ''}</span>
-          </div>`;
-      }).join("");
+    window.resetAssenze = function() {
+        if(confirm("Vuoi resettare tutte le assenze per TUTTI i dispositivi?")) {
+            set(dbRef, []);
+        }
+    };
 
-      box.innerHTML = `<div class="room-info">${num}</div><div class="occupants-list">${occupantiHtml}</div>`;
-      grid.appendChild(box);
-    });
-  }
+    function generaGriglia() {
+        const grid = document.getElementById("mainGrid");
+        grid.innerHTML = "";
+        const stanze = {};
 
-    </script>
+        studenti.forEach(s => {
+            if (!stanze[s.room]) stanze[s.room] = [];
+            stanze[s.room].push(s);
+        });
+
+        const numeriStanze = Object.keys(stanze).sort((a,b) => parseInt(a) - parseInt(b));
+        let piano = "";
+
+        numeriStanze.forEach(num => {
+            const r = parseInt(num);
+            if (r >= 100 && r < 200 && piano !== "M") {
+                grid.innerHTML += `<div class="section-title">PIANO 1 - MASCHILE</div>`;
+                piano = "M";
+            }
+            if (r >= 200 && piano !== "F") {
+                grid.innerHTML += `<div class="section-title">PIANO 2 - FEMMINILE</div>`;
+                piano = "F";
+            }
+
+            const box = document.createElement("div");
+            box.className = "room-box";
+
+            let occupantiHtml = stanze[num].map(s => {
+                const id = `${s.cognome}_${s.nome}_${num}`;
+                const isAssente = assentiGlobali.includes(id);
+                
+                return `
+                <div class="row-student ${isAssente ? 'assente' : ''}" onclick="handleTouch('${id}')">
+                    <span class="student-name"><b>${s.cognome}</b> ${s.nome}</span>
+                    <span class="student-details">${s.classe}${s.gruppo ? ' ['+s.gruppo+']' : ''}</span>
+                </div>`;
+            }).join("");
+
+            box.innerHTML = `
+                <div class="room-info">${num}</div>
+                <div class="occupants-list">${occupantiHtml}</div>
+            `;
+            grid.appendChild(box);
+        });
+    }
+</script>
+
 </body>
 </html>
