@@ -6,7 +6,7 @@
         <title>Rooming 2025/26 CLOUD v3</title>
         <style>
             :root {
-                --bg-page: #f4f7f9;
+                --bg-page: #ffffff;
                 --bg-header: #6083a5;
                 --accent-color: #2c3e50;
                 --color-assente-bg: #ffe500;
@@ -14,67 +14,209 @@
                 --color-occupato-bg: #2196f3; /* Blu per Foresteria */
             }
             body {
-                font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-                margin: 0; padding: 15px; font-size: 11px; line-height: 1.2;
+                font-family:
+                    "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                margin: 0;
+                padding: 15px;
+                font-size: 11px;
+                line-height: 1.2;
                 background-color: var(--bg-page);
-                user-select: none; -webkit-user-select: none;
+                user-select: none;
+                -webkit-user-select: none;
             }
             .header-container {
-                display: flex; flex-direction: column; align-items: center; 
-                border-bottom: 3px solid var(--bg-header); margin-bottom: 15px;
-                padding: 10px; background: white; border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                border-bottom: 3px solid var(--bg-header);
+                margin-bottom: 15px;
+                padding: 10px;
+                background: white;
+                border-radius: 8px;
                 box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
             }
-            h1 { margin: 0; font-size: 18px; color: var(--accent-color); }
-            #stats-foresteria { font-weight: bold; color: var(--color-occupato-bg); margin-top: 5px; font-size: 12px; }
 
-            .grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 8px; }
-            .room-box { border: 1px solid #c0c0c0; display: flex; background: white; border-radius: 5px; overflow: hidden; }
-            .room-info { width: 40px; background: #e2e8f0; border-right: 1px solid #c0c0c0; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 14px; flex-shrink: 0; }
-            
-            .occupants-list { flex-grow: 1; position: relative; overflow: hidden; background: #eee; }
+            /* Nascondi il timestamp a schermo */
+            .print-only {
+                display: none;
+            }
+
+            @media print {
+                /* Mostra il timestamp solo in stampa */
+                .print-only {
+                    display: block;
+                    text-align: right;
+                    font-weight: bold;
+                    margin-bottom: 10px;
+                    font-size: 10px;
+                 }    
+                    .room-box {
+                        page-break-inside: avoid;
+                        break-inside: avoid;
+                }
+                    
+             }
+            }
+
+            h1 {
+                margin: 0;
+                font-size: 16px;
+                color: var(--accent-color);
+            }
+            #stats-foresteria {
+                font-weight: bold;
+                color: var(--color-occupato-bg);
+                margin-top: 5px;
+                font-size: 12px;
+            }
+
+            .grid-container {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 8px;
+            }
+            .room-box {
+                border: 1px solid #c0c0c0;
+                display: flex;
+                background: white;
+                border-radius: 5px;
+                overflow: hidden;
+            }
+            .room-info {
+                width: 40px;
+                background: #e2e8f0;
+                border-right: 1px solid #c0c0c0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: bold;
+                font-size: 14px;
+                flex-shrink: 0;
+            }
+
+            .occupants-list {
+                flex-grow: 1;
+                position: relative;
+                overflow: hidden;
+                background: #eee;
+            }
 
             /* Riga Studente */
-            .row-student { 
-                display: flex; justify-content: space-between; align-items: center; 
-                padding: 10px; border-bottom: 1px solid #eee; 
-                cursor: grab; position: relative; z-index: 2;
-                transition: transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28), background 0.3s; 
-                background: white; touch-action: pan-y;
+            .row-student {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                border-bottom: 1px solid #eee;
+                cursor: grab;
+                position: relative;
+                z-index: 2;
+                transition:
+                    transform 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28),
+                    background 0.3s;
+                background: white;
+                touch-action: pan-y;
             }
-            .row-student.grabbing { cursor: grabbing; transition: none; }
+            .row-student.grabbing {
+                cursor: grabbing;
+                transition: none;
+            }
 
             /* Sfondi per lo Swipe */
             .student-swipe-background {
-                position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-                z-index: 1; display: flex; align-items: center; justify-content: space-between;
-                padding: 0 15px; box-sizing: border-box; font-weight: bold; opacity: 0;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 1;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 15px;
+                box-sizing: border-box;
+                font-weight: bold;
+                opacity: 0;
             }
-            .student-swipe-background.active { opacity: 1; }
+            .student-swipe-background.active {
+                opacity: 1;
+            }
 
             /* STATI */
-            .row-student.assente { background: #fff9c4 !important; border-left: 5px solid var(--color-assente-bg); }
-            .row-student.confermato { background: #ffcdd2 !important; text-decoration: line-through; border-left: 5px solid var(--color-confermato-bg); }
-            .row-student.occupato { background: #e3f2fd !important; color: #0d47a1; font-weight: bold; border-left: 5px solid var(--color-occupato-bg); }
-            .row-student.nota { background: #e8f5e9 !important; color: #2e7d32; cursor: default; justify-content: center; font-weight: bold; z-index: 3; }
+            .row-student.assente {
+                background: #fff9c4 !important;
+                border-left: 5px solid var(--color-assente-bg);
+            }
+            .row-student.confermato {
+                background: #ffcdd2 !important;
+                text-decoration: line-through;
+                border-left: 5px solid var(--color-confermato-bg);
+            }
+            .row-student.occupato {
+                background: #e3f2fd !important;
+                color: #0d47a1;
+                font-weight: bold;
+                border-left: 5px solid var(--color-occupato-bg);
+            }
+            .row-student.nota {
+                background: #e8f5e9 !important;
+                color: #2e7d32;
+                cursor: default;
+                justify-content: center;
+                font-weight: bold;
+                z-index: 3;
+            }
 
-            .student-name { flex: 1; font-size: 11.5px; pointer-events: none; }
-            .student-details { font-size: 9.5px; color: #666; font-weight: bold; pointer-events: none; }
-            
-            .no-print { display: flex; justify-content: center; gap: 15px; margin-bottom: 15px; }
-            .btn { padding: 12px 25px; background: var(--bg-header); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+            .student-name {
+                flex: 1;
+                font-size: 11.5px;
+                pointer-events: none;
+            }
+            .student-details {
+                font-size: 9.5px;
+                color: #666;
+                font-weight: bold;
+                pointer-events: none;
+            }
+
+            .no-print {
+                display: flex;
+                justify-content: center;
+                gap: 15px;
+                margin-bottom: 15px;
+            }
+            .btn {
+                padding: 12px 25px;
+                background: var(--bg-header);
+                color: white;
+                border: none;
+                border-radius: 8px;
+                font-weight: bold;
+                cursor: pointer;
+            }
 
             @media print {
-                .no-print { display: none !important; }
-                .grid-container { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; }
-                .row-student { transform: none !important; }
+                .no-print {
+                    display: none !important;
+                }
+                .grid-container {
+                    display: grid !important;
+                    grid-template-columns: repeat(3, 1fr) !important;
+                }
+                .row-student {
+                    transform: none !important;
+                }
             }
         </style>
     </head>
     <body>
+        <div class="print-only date-timestamp" id="printTimestamp"></div>
         <div class="no-print">
-            <button class="btn" onclick="window.print()">STAMPA PDF</button>
-            <button class="btn" style="background: #95a5a6" onclick="window.resetAssenze()">RESET LISTA</button>
+            <button class="btn" onclick="window.print()">STAMPA</button>
+            <button class="btn" style="background: #95a5a6" onclick="window.resetAssenze()">RESET</button>
         </div>
         <div class="header-container">
             <h1>Rooming 2025/26 CLOUD☁️</h1>
@@ -84,7 +226,12 @@
 
         <script type="module">
             import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-            import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+            import {
+                getDatabase,
+                ref,
+                onValue,
+                set
+            } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
             const firebaseConfig = {
                 apiKey: "AIzaSyAXFqZUNLWXtmA8y6OUY-_T2G7pmEgHabg",
@@ -97,19 +244,23 @@
             const dbRef = ref(db, "assenze");
 
             const studenti = [
+                
+                // EXTRA
                 { cognome: "NOTE", nome: "➡️Assente in giornata ⬅️Conferma alle 22 | Foresteria: ➡️Libero ⬅️Occupato", classe: "", room: "112" },
                 { cognome: "--- EDUCATORI ---", nome: "", classe: "", room:"112" },
                 { cognome: "Letto", nome: "1", classe: "Foresteria", room:"125" },
                 { cognome: "Letto", nome: "2", classe: "Foresteria", room:"125" }, 
                 { cognome: "Letto", nome: "3", classe: "Foresteria", room:"213" },
                 { cognome: "Letto", nome: "4", classe: "Foresteria", room:"216" },
-                { cognome: "Letto", nome: "5", classe: "Foresteria", room:"220" },       
+                { cognome: "Letto", nome: "5", classe: "Foresteria", room:"220" },     
+                // 1A
                 { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
                 { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
                 { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
                 { cognome: "OBETTI", nome: "Virginia", classe: "1A", room:"203" },
                 { cognome: "PETTORALI", nome: "Matilde", classe: "1A", room:"203" },
                 { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", room:"211" },
+                // 1B
                 { cognome: "BLANCHET N", nome: "Nadine", classe: "1B", room:"221" },
                 { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", room:"104" },
                 { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", room:"105" },
@@ -120,6 +271,7 @@
                 { cognome: "SALVI", nome: "Sophie", classe: "1B", room:"206" },
                 { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", room:"108" },
                 { cognome: "VILARDO", nome: "Gabriele", classe: "1B", room:"104" },
+                // 1P
                 { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", room:"107" },
                 { cognome: "CHABLOZ", nome: "Annette", classe: "1P", room:"213" },
                 { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", room:"108" },
@@ -132,6 +284,7 @@
                 { cognome: "VINCENT", nome: "Thomas", classe: "1P", room:"103" },
                 { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", room:"212" },
                 { cognome: "SILVANI", nome: "Amelie", classe: "1P", room:"204" },
+                // 2A
                 { cognome: "BARAVALLE", nome: "Andrea", classe: "2A", room:"102" },
                 { cognome: "BERTOT", nome: "Manuele", classe: "2A", room:"102" },
                 { cognome: "BUZZI", nome: "Alessandro", classe: "2A", room:"102" },
@@ -142,6 +295,7 @@
                 { cognome: "HERESAZ", nome: "Alyce", classe: "2A", room:"211" },
                 { cognome: "PENNARD", nome: "Serena", classe: "2A", room:"211" },
                 { cognome: "SAITTA", nome: "Asia", classe: "2A", room:"207" },
+                // 2B
                 { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", room:"109" },
                 { cognome: "DELLAQUILA", nome: "Gabriele", classe: "2B", room:"107" },
                 { cognome: "DUNAND", nome: "Audrey", classe: "2B", room:"218" },
@@ -151,6 +305,7 @@
                 { cognome: "MOUNIM", nome: "Yahya", classe: "2B", room:"109" },
                 { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", room:"101" },
                 { cognome: "TACCONE", nome: "Nicholas", classe: "2B", room:"109" },
+                // 2P
                 { cognome: "BERRIAD", nome: "Thierry", classe: "2P", room:"121" },
                 { cognome: "BERRUTI A", nome: "Andrea", classe: "2P", room:"114" },
                 { cognome: "BERRUTI S", nome: "Stefano", classe: "2P", room:"114" },
@@ -164,17 +319,20 @@
                 { cognome: "STEVENIN", nome: "Joelle", classe: "2P", room:"208" },
                 { cognome: "TORTORELLI C", nome: "Carlotta", classe: "2P", room:"209" },
                 { cognome: "TORTORELLI G", nome: "Greta", classe: "2P", room:"209" },
+                // 3P
                 { cognome: "CONSOL", nome: "Gaia", classe: "3P", room:"208" },
                 { cognome: "COSTANZA", nome: "Marcello", classe: "3P", room:"124" },
                 { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", room:"111" },
                 { cognome: "LLESHI", nome: "Gabriele", classe: "3P", room:"115" },
                 { cognome: "MARRERO", nome: "Lewis", classe: "3P", room:"115" },
                 { cognome: "RONCO", nome: "Angelica", classe: "3P", room:"208" },
+                // 3A
                 { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", room:"101" },
                 { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", room:"118" },
                 { cognome: "MARANGELO", nome: "Giulio", classe: "3A", room:"118" },
                 { cognome: "PEAQUIN", nome: "Linda", classe: "3A", room:"214" },
                 { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", room:"121" },
+                // 3B
                 { cognome: "BLANCHET M", nome: "Magalie", classe: "3B", room:"214" },
                 { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", room:"214" },
                 { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", room:"110" },
@@ -182,6 +340,7 @@
                 { cognome: "GRANATA", nome: "Gabriele", classe: "3B", room:"110" },
                 { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", room:"116" },
                 { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", room:"214" },
+                // 3C
                 { cognome: "CELESIA M", nome: "Marta", classe: "3C", room:"215" },
                 { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", room:"202" },
                 { cognome: "CUMINO", nome: "Lucia", classe: "3C", room:"205" },
@@ -189,6 +348,7 @@
                 { cognome: "MERLET", nome: "Cedric", classe: "3C", room:"113" },
                 { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", room:"202" },
                 { cognome: "TARTIN", nome: "Zoe", classe: "3C", room:"215" },
+                // 4A
                 { cognome: "CHIADO", nome: "Diego", classe: "4A", room:"123" },
                 { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", room:"216" },
                 { cognome: "CONTA", nome: "Giovanni", classe: "4A", room:"125" },
@@ -202,8 +362,10 @@
                 { cognome: "OBERTO", nome: "Debora", classe: "4A", room:"210" },
                 { cognome: "TAPPELLA", nome: "Luca", classe: "4A", room:"116" },
                 { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
-                { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },                               
+                { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },  
+                // SPECIALE
                 { cognome: "TEBANO", nome: "Serena", classe: "3P", room:"212" },
+                // 4B
                 { cognome: "CHESSA", nome: "Samuele", classe: "4B", room:"111" },
                 { cognome: "FAVRE", nome: "Emilie", classe: "4B", room:"217" },
                 { cognome: "GIOVANNELLI T", nome: "Tommaso", classe: "4B", room:"113" },
@@ -213,6 +375,7 @@
                 { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", room:"217" },
                 { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", room:"210" },
                 { cognome: "SERIO", nome: "Federica", classe: "4B", room:"217" },
+                // 5A
                 { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
                 { cognome: "CELESIA A", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
                 { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
@@ -225,6 +388,7 @@
                 { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
                 { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
                 { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
+                // 5B
                 { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
                 { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
                 { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", room:"219" },
@@ -237,26 +401,32 @@
 
             let assentiData = {};
 
-            onValue(dbRef, (snapshot) => { 
-                assentiData = snapshot.val() || {}; 
-                generaGriglia(); 
+            onValue(dbRef, (snapshot) => {
+                assentiData = snapshot.val() || {};
+                generaGriglia();
+                
+                
             });
 
             // --- GESTIONE SWIPE UNIVERSALE ---
-            let startX = 0, currentTranslate = 0, isGrabbing = false, currentRow = null;
+            let startX = 0,
+                currentTranslate = 0,
+                isGrabbing = false,
+                currentRow = null;
             const threshold = 60;
 
             window.gestisciStart = (e) => {
                 const row = e.currentTarget;
-                if (row.classList.contains('nota')) return;
-                isGrabbing = true; currentRow = row;
+                if (row.classList.contains("nota")) return;
+                isGrabbing = true;
+                currentRow = row;
                 startX = e.clientX || e.touches?.[0]?.clientX || e.screenX;
-                row.classList.add('grabbing');
-                const bg = row.parentNode.querySelector('.student-swipe-background');
-                if(bg) bg.classList.add('active');
+                row.classList.add("grabbing");
+                const bg = row.parentNode.querySelector(".student-swipe-background");
+                if (bg) bg.classList.add("active");
 
-                document.addEventListener('pointermove', window.gestisciMove);
-                document.addEventListener('pointerup', window.gestisciEnd);
+                document.addEventListener("pointermove", window.gestisciMove);
+                document.addEventListener("pointerup", window.gestisciEnd);
             };
 
             window.gestisciMove = (e) => {
@@ -265,28 +435,32 @@
                 currentTranslate = currentX - startX;
                 currentRow.style.transform = `translateX(${currentTranslate}px)`;
 
-                const bg = currentRow.parentNode.querySelector('.student-swipe-background');
-                const labelLeft = bg.querySelector('.swipe-label-left');
-                const labelRight = bg.querySelector('.swipe-label-right');
-                const isForesteria = currentRow.getAttribute('data-classe') === "Foresteria";
+                const bg = currentRow.parentNode.querySelector(".student-swipe-background");
+                const labelLeft = bg.querySelector(".swipe-label-left");
+                const labelRight = bg.querySelector(".swipe-label-right");
+                const isForesteria = currentRow.getAttribute("data-classe") === "Foresteria";
 
                 if (currentTranslate > 0) {
                     labelLeft.style.opacity = Math.min(currentTranslate / threshold, 1);
                     labelRight.style.opacity = 0;
                     labelLeft.textContent = isForesteria ? "➡️ LIBERO" : "➡️ ASSENTE";
-                    bg.style.background = isForesteria ? "linear-gradient(90deg, #4caf50 0%, white 100%)" : "linear-gradient(90deg, var(--color-assente-bg) 0%, white 100%)";
+                    bg.style.background = isForesteria
+                        ? "linear-gradient(90deg, #4caf50 0%, white 100%)"
+                        : "linear-gradient(90deg, var(--color-assente-bg) 0%, white 100%)";
                 } else {
                     labelLeft.style.opacity = 0;
                     labelRight.style.opacity = Math.min(Math.abs(currentTranslate) / threshold, 1);
                     labelRight.textContent = isForesteria ? "OCCUPATO ⬅️" : "CONFERMA ⬅️";
-                    bg.style.background = isForesteria ? "linear-gradient(270deg, var(--color-occupato-bg) 0%, white 100%)" : "linear-gradient(270deg, var(--color-confermato-bg) 0%, white 100%)";
+                    bg.style.background = isForesteria
+                        ? "linear-gradient(270deg, var(--color-occupato-bg) 0%, white 100%)"
+                        : "linear-gradient(270deg, var(--color-confermato-bg) 0%, white 100%)";
                 }
             };
 
             window.gestisciEnd = () => {
                 if (!isGrabbing || !currentRow) return;
-                const id = currentRow.getAttribute('data-id');
-                const isForesteria = currentRow.getAttribute('data-classe') === "Foresteria";
+                const id = currentRow.getAttribute("data-id");
+                const isForesteria = currentRow.getAttribute("data-classe") === "Foresteria";
 
                 if (Math.abs(currentTranslate) > threshold) {
                     if (isForesteria) {
@@ -295,14 +469,16 @@
                         toggleStato(id, currentTranslate > 0 ? "assente" : "confermato");
                     }
                 }
-                currentRow.style.transform = '';
-                currentRow.classList.remove('grabbing');
-                const bg = currentRow.parentNode.querySelector('.student-swipe-background');
-                if(bg) bg.classList.remove('active');
-                
-                document.removeEventListener('pointermove', window.gestisciMove);
-                document.removeEventListener('pointerup', window.gestisciEnd);
-                isGrabbing = false; currentRow = null; currentTranslate = 0;
+                currentRow.style.transform = "";
+                currentRow.classList.remove("grabbing");
+                const bg = currentRow.parentNode.querySelector(".student-swipe-background");
+                if (bg) bg.classList.remove("active");
+
+                document.removeEventListener("pointermove", window.gestisciMove);
+                document.removeEventListener("pointerup", window.gestisciEnd);
+                isGrabbing = false;
+                currentRow = null;
+                currentTranslate = 0;
             };
 
             function toggleStato(id, tipo) {
@@ -311,42 +487,75 @@
 
                 if (tipo === "libera") data[id].occupato = false;
                 else if (tipo === "occupato") data[id].occupato = true;
-                else if (tipo === "assente") { data[id].assente = !data[id].assente; data[id].confermato = false; }
-                else if (tipo === "confermato") { data[id].confermato = !data[id].confermato; data[id].assente = false; }
+                else if (tipo === "assente") {
+                    data[id].assente = !data[id].assente;
+                    data[id].confermato = false;
+                } else if (tipo === "confermato") {
+                    data[id].confermato = !data[id].confermato;
+                    data[id].assente = false;
+                }
 
                 if (!data[id].assente && !data[id].confermato && !data[id].occupato) delete data[id];
                 set(dbRef, data);
             }
 
-            window.resetAssenze = () => { if (confirm("Resettare tutto?")) set(dbRef, {}); };
+            window.resetAssenze = () => {
+                if (confirm("Resettare tutto?")) set(dbRef, {});
+            };
 
             function generaGriglia() {
-                const grid = document.getElementById("mainGrid"); grid.innerHTML = "";
+                const grid = document.getElementById("mainGrid");
+                grid.innerHTML = "";
                 const stanze = {};
                 let postiForesteriaLiberi = 0;
                 let totaleForesteria = 0;
+                
+                // Inserisci questo dentro la funzione generaGriglia()
+const oraAttuale = new Date().toLocaleString('it-IT', { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric', 
+    hour: '2-digit', 
+    minute: '2-digit' 
+});
+document.getElementById('printTimestamp').textContent = "Report generato il: " + oraAttuale;
+                
 
-                studenti.forEach(s => { 
-                    if (!stanze[s.room]) stanze[s.room] = []; 
-                    stanze[s.room].push(s); 
-                    if(s.classe === "Foresteria") {
+                studenti.forEach((s) => {
+                    if (!stanze[s.room]) stanze[s.room] = [];
+                    stanze[s.room].push(s);
+                    if (s.classe === "Foresteria") {
                         totaleForesteria++;
                         const id = `${s.cognome}_${s.nome}_${s.room}`;
-                        if(!assentiData[id]?.occupato) postiForesteriaLiberi++;
+                        if (!assentiData[id]?.occupato) postiForesteriaLiberi++;
                     }
                 });
 
-                document.getElementById('stats-foresteria').textContent = `Posti Foresteria Liberi: ${postiForesteriaLiberi} su ${totaleForesteria}`;
+                document.getElementById("stats-foresteria").textContent =
+                    `Posti Foresteria Liberi: ${postiForesteriaLiberi} su ${totaleForesteria}`;
 
-                Object.keys(stanze).sort((a,b) => a-b).forEach(num => {
-                    const box = document.createElement("div"); box.className = "room-box";
-                    let html = stanze[num].map(s => {
-                        const id = `${s.cognome}_${s.nome}_${num}`;
-                        const isNota = s.cognome === "NOTE";
-                        const st = assentiData[id] || {};
-                        const cls = isNota ? "nota" : (st.occupato ? "occupato" : (st.confermato ? "confermato" : (st.assente ? "assente" : "")));
-                        
-                        return `<div style="position:relative;">
+                Object.keys(stanze)
+                    .sort((a, b) => a - b)
+                    .forEach((num) => {
+                        const box = document.createElement("div");
+                        box.className = "room-box";
+                        let html = stanze[num]
+                            .map((s) => {
+                                const id = `${s.cognome}_${s.nome}_${num}`;
+                                const isNota = s.cognome === "NOTE";
+                                const st = assentiData[id] || {};
+                                const cls = isNota
+                                    ? "nota"
+                                    : st.occupato
+                                      ? "occupato"
+                                      : st.confermato
+                                        ? "confermato"
+                                        : st.assente
+                                          ? "assente"
+                                          : "";
+
+                                return `<div style="position:relative;">
                             <div class="student-swipe-background">
                                 <span class="swipe-label-left"></span>
                                 <span class="swipe-label-right"></span>
@@ -356,10 +565,11 @@
                                 <span class="student-details">${isNota ? "" : s.classe}</span>
                             </div>
                         </div>`;
-                    }).join("");
-                    box.innerHTML = `<div class="room-info">${num}</div><div class="occupants-list">${html}</div>`;
-                    grid.appendChild(box);
-                });
+                            })
+                            .join("");
+                        box.innerHTML = `<div class="room-info">${num}</div><div class="occupants-list">${html}</div>`;
+                        grid.appendChild(box);
+                    });
             }
         </script>
     </body>
