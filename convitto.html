@@ -1,6 +1,7 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -99,6 +100,21 @@
         .btn-cambiati { background: var(--cambiati); opacity: 0.6; }
         .btn.active { opacity: 0.9; transform: scale(1.1); }
 
+        .btn-dinner-no {
+    background:#aa8181;
+    color:white;
+    border:none;
+    border-radius:12px;
+    padding:2px 6px;
+    font-size:0.7em;
+    cursor:pointer;
+}
+
+.btn-dinner-no.active {
+    background:#ff0000;
+}
+        
+        
         .filter-tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-bottom: 15px; }
         .tag { padding: 6px 14px; background: #dfe6e9; border-radius: 50px; cursor: pointer; font-size: 0.85em; font-weight: 600; }
         .tag.active { background: var(--primary); color: #fff; }
@@ -192,7 +208,7 @@
             <button class="btn btn-permessi" id="btn-perm" onclick="togglePermessi()">PP senza rientro</button>
             -->
            
-            <button id="btnGiovedi" class="btn" style="display:none; background:var(--highlight); color:black;" onclick="toggleTurnoGiovedi()">GIOVEDI</button>
+            <button id="btnGiovedi" class="btn" style="display:none; background:var(--highlight); color:#000000;" onclick="toggleTurnoGiovedi()">GIOVEDI</button>
            
             <button class="btn" style="background:#689e4b; width:45%; padding: 8px; border-radius: 20px;" onclick="generaPopUpStampa()">📝 RIEPILOGO</button>
         </div>  
@@ -247,6 +263,22 @@
             panel.style.right = "0px";
         }
     }
+    
+    
+    function toggleDinnerNo(btn) {
+
+    const card = btn.closest(".student-row");
+
+    if (card.dataset.dinnerno === "1") {
+        card.dataset.dinnerno = "0";
+        btn.classList.remove("active");
+    } else {
+        card.dataset.dinnerno = "1";
+        btn.classList.add("active");
+    }
+
+}
+    
 
     function popolaEditorPP() {
         const container = document.getElementById('ppEditorList');
@@ -276,14 +308,14 @@
     }
 
     const studenti=[ 
-                <!-- Classe 1A -->
+        // 1A
         { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
         { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
         { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
         { cognome: "OBETTI", nome: "Virginia", classe: "1A", room:"203" },
         { cognome: "PETTORALI", nome: "Matilde", classe: "1A", room:"203" },
         { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", room:"211" },
-                <!-- Classe 1B -->
+        // 1B
         { cognome: "BLANCHET N.", nome: "Nadine", classe: "1B", room:"221" },
         { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", room:"104" },
         { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", room:"105" },
@@ -294,7 +326,7 @@
         { cognome: "SALVI", nome: "Sophie", classe: "1B", room:"206" },
         { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", room:"108" },
         { cognome: "VILARDO", nome: "Gabriele", classe: "1B", room:"104" },
-                <!-- Classe 1P -->
+        // 1P
         { cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", room:"107" },
         { cognome: "CHABLOZ", nome: "Annette", classe: "1P", room:"213" },
         { cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", room:"108" },
@@ -307,7 +339,7 @@
         { cognome: "VINCENT", nome: "Thomas", classe: "1P", room:"103" },
         { cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", room:"212" },
         { cognome: "SILVANI", nome: "Amelie", classe: "1P", room:"204" },
-                <!-- Classe 2A -->
+        // 2A
         { cognome: "BARAVALLE", nome: "Andrea", classe: "2A", room:"102" },
         { cognome: "BERTOT", nome: "Manuele", classe: "2A", room:"102" },
         { cognome: "BUZZI", nome: "Alessandro", classe: "2A", room:"102" },
@@ -318,7 +350,7 @@
         { cognome: "HERESAZ", nome: "Alyce", classe: "2A", room:"211" },
         { cognome: "PENNARD", nome: "Serena", classe: "2A", room:"211" },
         { cognome: "SAITTA", nome: "Asia", classe: "2A", room:"207" },
-                <!-- Classe 2B -->
+        // 2B
         { cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", room:"109" },
         { cognome: "DELLAQUILA", nome: "Gabriele", classe: "2B", room:"107" },
         { cognome: "DUNAND", nome: "Audrey", classe: "2B", room:"218" },
@@ -328,7 +360,7 @@
         { cognome: "MOUNIM", nome: "Yahya", classe: "2B", room:"109" },
         { cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", room:"101" },
         { cognome: "TACCONE", nome: "Nicholas", classe: "2B", room:"109" },
-                <!-- Classe 2P -->
+        // 2P
         { cognome: "BERRIAD", nome: "Thierry", classe: "2P", room:"121" },
         { cognome: "BERRUTI A.", nome: "Andrea", classe: "2P", room:"114" },
         { cognome: "BERRUTI S.", nome: "Stefano", classe: "2P", room:"114" },
@@ -342,20 +374,20 @@
         { cognome: "STEVENIN", nome: "Joelle", classe: "2P", room:"208" },
         { cognome: "TORTORELLI C.", nome: "Carlotta", classe: "2P", room:"209" },
         { cognome: "TORTORELLI G.", nome: "Greta", classe: "2P", room:"209" },
-                <!-- Classe 3P -->
+        // 3P
         { cognome: "CONSOL", nome: "Gaia", classe: "3P", room:"208" },
         { cognome: "COSTANZA", nome: "Marcello", classe: "3P", room:"124" },
         { cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", room:"111" },
         { cognome: "LLESHI", nome: "Gabriele", classe: "3P", room:"115" },
         { cognome: "MARRERO", nome: "Lewis", classe: "3P", room:"115" },
         { cognome: "RONCO", nome: "Angelica", classe: "3P", room:"208" },
-                <!-- Classe 3A -->
+        // 3A
         { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", room:"101" },
         { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", room:"118" },
         { cognome: "MARANGELO", nome: "Giulio", classe: "3A", room:"118" },
         { cognome: "PEAQUIN", nome: "Linda", classe: "3A", room:"214" },
         { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", room:"121" },
-                <!-- Classe 3B -->
+        // 3B
         { cognome: "BLANCHET M.", nome: "Magalie", classe: "3B", room:"214" },
         { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", room:"214" },
         { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", room:"110" },
@@ -363,7 +395,7 @@
         { cognome: "GRANATA", nome: "Gabriele", classe: "3B", room:"110" },
         { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", room:"116" },
         { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", room:"214" },
-                <!-- Classe 3C -->
+        // 3C
         { cognome: "CELESIA M.", nome: "Marta", classe: "3C", room:"215" },
         { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", room:"202" },
         { cognome: "CUMINO", nome: "Lucia", classe: "3C", room:"205" },
@@ -371,7 +403,7 @@
         { cognome: "MERLET", nome: "Cedric", classe: "3C", room:"113" },
         { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", room:"202" },
         { cognome: "TARTIN", nome: "Zoe", classe: "3C", room:"215" },
-                <!-- Classe 4A -->
+        // 4A
         { cognome: "CHIADO", nome: "Diego", classe: "4A", room:"123" },
         { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", room:"216" },
         { cognome: "CONTA", nome: "Giovanni", classe: "4A", room:"125" },
@@ -387,9 +419,9 @@
         { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
         { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },
                        
-                <!-- TEBANO 2* DINNER -->
+        // TEBANO 2* DINNER
         { cognome: "TEBANO", nome: "Serena", classe: "3P", room:"212" },
-                <!-- Classe 4B -->
+        // 4B
         { cognome: "CHESSA", nome: "Samuele", classe: "4B", room:"111" },
         { cognome: "FAVRE", nome: "Emilie", classe: "4B", room:"217" },
         { cognome: "GIOVANNELLI T.", nome: "Tommaso", classe: "4B", room:"113" },
@@ -399,7 +431,7 @@
         { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", room:"217" },
         { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", room:"210" },
         { cognome: "SERIO", nome: "Federica", classe: "4B", room:"217" },
-                <!-- Classe 5A -->
+        // 5A
         { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
         { cognome: "CELESIA A.", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
         { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
@@ -412,7 +444,7 @@
         { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
         { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
         { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
-                <!-- Classe 5B -->
+        // 5B
         { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
         { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
         { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", room:"219" },
@@ -533,7 +565,7 @@ function gestisciSaltoStanze(input) {
         const lista = document.getElementById('listaStudenti');
         studenti.forEach(s => {
             let r = document.createElement('div');
-            r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome;
+            r.className = 'student-row'; r.dataset.classe = s.classe; r.dataset.cognome = s.cognome; r.dataset.dinnerno = "0";
             r.dataset.room = s.room || ""; r.dataset.gruppo = s.gruppo || ""; 
             const badgeGruppo = s.gruppo ? `<span class="badge-gruppo">${s.gruppo}</span>` : "";
             r.innerHTML = `
@@ -545,7 +577,15 @@ function gestisciSaltoStanze(input) {
                     <input type="text" placeholder="ESCE" class="in-u">
                     <input type="text" placeholder="ENTRA" class="in-i">
                 </div>
-                <div class="row-actions"><span class="classe-badge">${s.classe}</span></div>`;
+               <div class="row-actions">
+<span class="classe-badge">${s.classe}</span>
+
+<button class="btn-dinner-no"
+onclick="toggleDinnerNo(this)">
+dinner NO
+</button>
+
+</div>`;
             lista.appendChild(r);
         });
         assenzeAutomatiche(g); aggiornaContatori();
@@ -636,7 +676,9 @@ function gestisciSaltoStanze(input) {
             }
             if (!camere[room]) camere[room] = [];
             camere[room].push({
-                classe: r.dataset.classe, cognome: cognome,
+    classe: r.dataset.classe,
+    cognome: cognome,
+    dinnerno: r.dataset.dinnerno,
                 presente: !r.classList.contains('assente'),
                 oraU: r.querySelector('.in-u').value, oraI: r.querySelector('.in-i').value,
                 ppOut: ppOut, ppIn: ppIn, gruppo: r.dataset.gruppo
@@ -665,6 +707,7 @@ function gestisciSaltoStanze(input) {
                     th { background: #f2f2f2; font-weight: bold; }
                     .room-header { background: #eee; font-weight: bold; width: 45px; }
                     .col-cognome { text-align: center; width: 130px; padding-left: 5px; text-transform: uppercase; }
+                    .col-pp { background:#f9f9f9;}
                     .page-break { page-break-after: always; }
                     .no-print { display: block; text-align: center; margin: 20px; }
                     @media print { .no-print { display: none; } }
@@ -676,9 +719,13 @@ function gestisciSaltoStanze(input) {
                 <table>
                     <thead>
                         <tr>
-                            <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
-                            <th>Presente</th><th>Assente</th><th>Uscita</th><th>Ingresso</th>
-                            <th>PP uscita</th><th>PP ingresso</th><th>Notte SI</th><th>Notte NO</th>
+             <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
+            <th>Presente</th><th>Assente</th><th>Uscita</th>
+            <th>Ingresso</th><th>PP uscita</th>
+<th>PP ingresso</th>
+<th class="col-pp">Dinner NO</th>
+<th>Notte SI</th>
+<th>Notte NO</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -700,20 +747,26 @@ function gestisciSaltoStanze(input) {
             <td ${borderClass}>${!s.presente ? 'X' : ''}</td>
             <td ${borderClass}>${s.oraU}</td>
             <td ${borderClass}>${s.oraI}</td>
-            <td ${borderClass} style="background:#f9f9f9"><b>${s.ppOut}</b></td>
-            <td ${borderClass} style="background:#f9f9f9"><b>${s.ppIn}</b></td>
+            <td ${borderClass} class="col-pp"><b>${s.ppOut}</b></td>
+            <td ${borderClass} class="col-pp"><b>${s.ppIn}</b></td>
+            <td ${borderClass} class="col-pp">${s.dinnerno === "1" ? "X" : ""}</td>
+
             <td ${borderClass}></td>
             <td ${borderClass}></td>
         </tr>`;
-                                }).join('');
+      }).join('');
 
-                            if (room === "125") {
-                                html += `</tbody></table><div class="page-break"></div>
-                                         <h2>FEMMINILE - piano 2° - ${dataStampa}</h2>
-                                         <table><thead><tr>
-                                            <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
-                                            <th>Presente</th><th>Assente</th><th>Uscita</th><th>Ingresso</th>
-                                            <th>PP uscita</th><th>PP ingresso</th><th>Notte SI</th><th>Notte NO</th>
+     if (room === "125") {
+    html += `</tbody></table><div class="page-break"></div>
+    <h2>FEMMINILE - piano 2° - ${dataStampa}</h2>
+    <table><thead><tr>
+    <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
+    <th>Presente</th><th>Assente</th><th>Uscita</th>
+    <th>Ingresso</th><th>PP uscita</th>
+<th>PP ingresso</th>
+<th style="background:#f9f9f9">Dinner NO</th>
+<th>Notte SI</th>
+<th>Notte NO</th>
                                          </tr></thead><tbody>`;
                             }
                             return html;
