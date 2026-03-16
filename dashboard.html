@@ -8,10 +8,11 @@
         :root { --p: #24ab41; 
                 --s: #2ecc71; 
                 --d: #e74c3c; 
+                --e: #3c84e7;
                 --bg: #f0f2f5;
                 --permessi: #e67e22;
                 --highlight: #f1c40f; 
-                --cambiati: #3498db; }
+                --cambiati: #f2ee2e; }
         
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
         .container { max-width: 1200px; margin: auto; }
@@ -44,12 +45,12 @@
 }
         
         
-        .student-row.highlight-lab {
+     .student-row.highlight-lab {
     border-bottom-color: #e67e22 !important; 
-    background: #fff9e6 !important; /* Un giallo tenue per lo sfondo per non coprire i testi */
-    transform: scale(1.03); /* Leggermente ridotto rispetto a 1.08 per non sovrapporsi troppo alle card vicine */
+    background: rgba(255, 225, 130, 0.52) !important; /* Un giallo tenue per lo sfondo per non coprire i testi */
+    transform: scale(1.0); /* Leggermente ridotto rispetto a 1.08 per non sovrapporsi troppo alle card vicine */
     z-index: 5;
-    box-shadow: 0 8px 15px rgba(241, 196, 15, 0.4);
+    box-shadow: 0 8px 15px #ffd01573;
     position: relative;
 }
 
@@ -124,8 +125,10 @@
             background: white; border-radius: 18px; padding: 15px; 
             border-bottom: 5px solid var(--s); transition: 0.2s;
         }
+        
+         .student-row.dinner-no { border-bottom-color: var(--e); background: #eeffff; }
         .student-row.assente { border-bottom-color: var(--d); background: #fff5f5; }
-        .student-row.dinner-no { background: #ecfbfa; }
+       
 
         .st-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; font-size: 1.2em; }
         .room-badge { background: #eee; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7em; }
@@ -176,7 +179,7 @@
     
     <button class="btn-print" style="background:#744f92ff;" onclick="generaPopUpStampaConvitto()">CONVITTO</button>
     <button class="btn-print" style="background:#5d7d8cff;" onclick="generaPopUpStampaDinner()">DINNER</button>
-        <button onclick="togglePanel()" style="position:fixed; bottom:150px; leftt:20px; z-index:100; width:70px; height:70px; 
+        <button onclick="togglePanel()" style="position:fixed; bottom:200px; leftt:20px; z-index:100; width:70px; height:70px; 
                                                border-radius:50%; background:var(--permessi); color:white; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer; font-weight:bold;">Permessi</button>
 
 <div id="sidePanel" style="position:fixed; top:0; right:-350px; width:300px; height:100%; background:white; z-index:1000; transition:0.3s; padding:20px; overflow-y:auto; box-shadow: -5px 0 15px rgba(0,0,0,0.1);">
@@ -415,7 +418,7 @@
     "QUERIO GIANETTO":  { 1: { out: "17:00", in: "19:30" }, 2: { out: "17:00", in: "19:30" }, 3: { out: "17:00", in: "19:30" }, 4: { out: "17:00", in: "19:30" }},   
     "SAITTA": { 1: { out: "19:20", in: "20:40" }, 3: { out: "15:45", in: "18:45" }},   
     "SALVI":  { 1: { out: "17:00", in: "18:30" },  3: { out: "17:00", in: "18:30" }},
-    "SCHIRRU":  { 1: { out: "16:40", in: "18:30" },   2: { out: "16:40", in: "18:30" },  3: { out: "16:40", in: "18:30" }},
+    "SCHIRRU":  { 1: { out: "16:40", in: "18:45" },   3: { out: "16:40", in: "18:45" },  4: { out: "16:40", in: "18:45" }},
     "SORRENTI":  { 1: { out: "18:00", in: "19:00" }, 2: { out: "18:00", in: "19:00" }, 3: { out: "18:00", in: "19:00" }, 4: { out: "18:00", in: "19:00" }},
     "TAPPELLA":   { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" },  3: { out: "17:00", in: "19:00" },  4: { out: "16:00", in: "18:00" }},  
     "TESSARIN":   { 1: { out: "16:40", in: "NO rientro" },  3: { out: "16:40", in: "NO rientro" }},  
@@ -514,9 +517,9 @@ function isStudenteInLabOggi(classe, gruppo, dataOggetto) {
 function isPPNoDinnerOggi(cognome, giornoSettimana) {
     const mappaPP = {
         1: ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','QUERIO GIANETTO'],
-        2: ['CHEN','COMMOD','CASALICCHIO','CLERIN','LAZIER','LUNARDI','GASPARD','PAONESSA','QUERIO GIANETTO'],
-        3: ['BERRUTI S','DAGOSTINO','GIOVANNELLI P','CASALICCHIO','PIGNATELLI','CHESSA','QUERIO GIANETTO'],
-        4: ['BERRUTI A','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA','QUERIO GIANETTO']
+        2: ['CHEN','COMMOD','CASALICCHIO','CLERIN','LAZIER','LUNARDI','GASPARD','PAONESSA','QUERIO GIANETTO', 'BOMBONATO', 'SCHIRRU', 'VILARDO'],
+        3: ['BERRUTI S','DAGOSTINO','GIOVANNELLI P','CASALICCHIO','PIGNATELLI','CHESSA','QUERIO GIANETTO', 'BOMBONATO', 'SCHIRRU', 'VILARDO'],
+        4: ['BERRUTI A','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA','QUERIO GIANETTO', 'BOMBONATO', 'SCHIRRU', 'VILARDO']
     };
     return mappaPP[giornoSettimana] && mappaPP[giornoSettimana].includes(cognome.toUpperCase());
 }
@@ -761,10 +764,10 @@ function controllaDinnerAutomatico(riga) {
    // Override fisso per TEBANO (sempre al turno 2, ogni giorno)
     if (cgn === 'TEBANO') return 2;
        
-    if (giornoSettimana === 1 && ['BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
+    if (giornoSettimana === 1 && ['SCHIRRU', 'BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
     // if (giornoSettimana === 2 && ['COGNOME1', 'COGNOME2'].includes(cgn)) return 1 o 2;  
-    if (giornoSettimana === 3 && ['SAITTA', 'BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
-    if (giornoSettimana === 4 && ['BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
+    if (giornoSettimana === 3 && ['SAITTA', 'SCHIRRU', 'BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
+    if (giornoSettimana === 4 && ['SCHIRRU', 'BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
    
   
 
