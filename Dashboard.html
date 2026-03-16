@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Convitto e Dinner</title>
+    <style>
+        :root { --p: #24ab41; 
+                --s: #2ecc71; 
+                --d: #e74c3c; 
+                --bg: #f0f2f5;
+                --permessi: #e67e22;
+                --highlight: #f1c40f; 
+                --cambiati: #3498db; }
+        
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
+        .container { max-width: 1200px; margin: auto; }
+        
+        .permesso-item {
+    font-size: 0.85em;
+    padding: 5px 0;
+    border-bottom: 1px dashed #eee;
+    color: #333;
+        }
+        
+        .btn-switch { 
+    background: #f1f2f6; 
+    border: none; 
+    border-radius: 50%; 
+    width: 32px; 
+    height: 32px; 
+    cursor: pointer; 
+    font-size: 1.1em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s;
+}
+
+.btn-switch.modificato { 
+    background: var(--cambiati) !important; 
+    color: #ffffff; 
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
+}
+        
+        
+        .student-row.highlight-lab {
+    border-bottom-color: #e67e22 !important; 
+    background: #fff9e6 !important; /* Un giallo tenue per lo sfondo per non coprire i testi */
+    transform: scale(1.03); /* Leggermente ridotto rispetto a 1.08 per non sovrapporsi troppo alle card vicine */
+    z-index: 5;
+    box-shadow: 0 8px 15px rgba(241, 196, 15, 0.4);
+    position: relative;
+}
+
+.lab-badge {
+    color: #d30000;
+    font-weight: bold;
+    font-size: 0.9em;
+    margin-left: 10px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+        
+        
+        header { 
+            background: var(--p); color: white; padding: 15px 30px; border-radius: 20px; 
+            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
+        }
+
+        .toolbar { 
+            background: white; padding: 15px; border-radius: 20px; display: flex; gap: 10px; 
+            margin-bottom: 20px; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        
+        #search { flex: 1; padding: 12px; border: 2px solid #eee; border-radius: 12px; outline: none; }
+        #search:focus { border-color: var(--p); }
+
+        .scroll-btns { flex: 0; padding: 4px ; border: 2px solid #eee; border-radius: 12px; outline: none; }
+        .btn-nav { background: #eee; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
+        .btn-nav:hover { background: #ddd; }
+
+        
+        #roomInput {  padding: 8px ; border: 0px solid #eee; border-radius: 12px; outline: none; text-align: center; transition: all 0.3s; font-weight: normal;}
+        
+        
+        #listaStudenti { 
+    display: grid; 
+    /* Crea quante più colonne possibile */
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
+    gap: 12px; 
+    width: 100%;
+        }
+        .content-right { flex-grow: 1; width: 100%; }
+
+        .main-layout { display: flex; gap: 10px; align-items: flex-start; width: 100%; }
+        
+        
+       
+        .days-sidebar-container { display: flex; gap: 2px; flex-shrink: 0; }
+
+        .day-box {
+            background: #ffffff; width: 10px; padding: 15px 5px; text-align: center;
+            border-radius: 15px; font-size: 0.75em; color: #444; border: 2px solid transparent;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: help; display: flex;
+            flex-direction: column; justify-content: flex-start; align-items: center; transition: 0.3s;
+        }
+
+        .day-box b { writing-mode: horizontal-tb; transform: none; display: block; line-height: 1.2; word-break: break-word; }
+        .day-box.active-day { border-color: var(--primary); background: #e4ebff; color: var(--primary); font-weight: bold; }
+        
+        .content-right { flex-grow: 1; display: flex; flex-direction: column; gap: 15px; }
+        
+        
+        
+    
+
+        .student-row { 
+            background: white; border-radius: 18px; padding: 15px; 
+            border-bottom: 5px solid var(--s); transition: 0.2s;
+        }
+        .student-row.assente { border-bottom-color: var(--d); background: #fff5f5; }
+        .student-row.dinner-no { background: #ecfbfa; }
+
+        .st-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; font-size: 1.2em; }
+        .room-badge { background: #eee; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7em; }
+        
+        
+        .inputs { display: flex; gap: 5px; margin: 10px 0; }
+        .inputs input { width: 50%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.8em; }
+
+        .btns { display: flex; gap: 5px; }
+        .btns button { flex: 1; padding: 8px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.75em; font-weight: bold; }
+        .btn-ass { background: #9375aca8; color: #721c24; }
+        .active-ass { background: var(--d) !important; color: yellow; }
+        .btn-din { background: #a9ccdcae; color: #854804; }
+        .active-din { background: #12c3ff; !important; color: yellow; }
+
+        .btn-print { background: var(--p); color: white; padding: 12px 20px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div>
+            <h2 style="margin:0">Convitto e Dinner integrato</h2>
+            <div id="todayDate" style="font-size: 0.9em; opacity: 0.8;"></div>
+        </div>
+        <div id="digitalClock" style="font-size: 1.5em; font-weight: bold;"></div>
+    </header>
+
+    <div class="toolbar">
+    <div class="scroll-btns">
+        
+       
+        
+        <input type="number" id="roomInput" placeholder="rooms ↕" min="101" max="221" 
+               onfocus="this.oldValue = this.value;" 
+               oninput="gestisciSaltoStanze(this); validaERicerca();">
+    </div>
+    
+        
+        
+        
+        
+        
+    <input type="text" id="search" placeholder="Cerca..." onkeyup="applicaFiltri()">
+    
+    <button onclick="resetFiltri()" style="background:#ff0000; color:white; border:none; border-radius:12px; padding:10px 15px; cursor:pointer; font-weight:bold;">X</button>
+    
+    <button class="btn-print" style="background:#744f92ff;" onclick="generaPopUpStampaConvitto()">CONVITTO</button>
+    <button class="btn-print" style="background:#5d7d8cff;" onclick="generaPopUpStampaDinner()">DINNER</button>
+        <button onclick="togglePanel()" style="position:fixed; bottom:150px; leftt:20px; z-index:100; width:70px; height:70px; 
+                                               border-radius:50%; background:var(--permessi); color:white; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer; font-weight:bold;">Permessi</button>
+
+<div id="sidePanel" style="position:fixed; top:0; right:-350px; width:300px; height:100%; background:white; z-index:1000; transition:0.3s; padding:20px; overflow-y:auto; box-shadow: -5px 0 15px rgba(0,0,0,0.1);">
+    <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
+        <h3 style="margin:0; font-size:1.1em;">Lista Permessi Permantenti (al 10 Marzo)</h3>
+        <button onclick="togglePanel()" style="border:none; background:none; font-size:1.5em; cursor:pointer;">&times;</button>
+    </div>
+    <div id="listaPermessiContent">
+        </div>
+</div>
+        
+</div>
+    
+     <div class="main-layout">
+        <div class="days-sidebar-container" id="daysHeader">
+     <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Menaldino, Chessa dinner dopo i turni"><b>Lunedì - <br>2P</b></div>
+     <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin turno ore 18 / Querio, Paonessa, Lazier, Gaspard, Lunardi dinner dopo i turni"><b>Martedì - <br>5A<br>/<br>5B</b></div>
+     <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S, D'Agostino, Giovannelli P, No dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Chessa dinner dopo i turni"><b>Mercoledì - <br>2B</b></div>
+     <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A, Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Menaldino, Chessa dinner dopo i turni"><b>Giovedì - <br>2A</b></div>
+                    </div>
+        <div class="content-right">
+
+    <div id="listaStudenti"></div>
+</div>
+
+
+
+         
+         
+<script>
+  
+    
+       const studenti=[ 
+        // 1A
+{ cognome: "COMMOD", nome: "Gaia", classe: "1A", gruppo: "", room:"218" },
+{ cognome: "GASPARD", nome: "Thierry", classe: "1A", gruppo: "", room:"105" },
+{ cognome: "JANS", nome: "Giada", classe: "1A", gruppo: "", room:"203" },
+{ cognome: "OBETTI", nome: "Virginia", classe: "1A", gruppo: "", room:"203" },
+{ cognome: "PETTORALI", nome: "Matilde", classe: "1A", gruppo: "", room:"203" },
+{ cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", gruppo: "", room:"211" },
+        // 1B
+{ cognome: "BLANCHET N", nome: "Nadine", classe: "1B", gruppo: "", room:"221" },
+{ cognome: "BOMBONATO", nome: "Francesco", classe: "1B", gruppo: "", room:"104" },
+{ cognome: "DATTRINO", nome: "Nicolas", classe: "1B", gruppo: "", room:"105" },
+{ cognome: "GIOVANDO", nome: "Caterina", classe: "1B", gruppo: "", room:"206" },
+{ cognome: "LUNARDI", nome: "Filippo", classe: "1B", gruppo: "", room:"108" },
+{ cognome: "POUJOL", nome: "Chiara", classe: "1B", gruppo: "", room:"206" },
+{ cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B", gruppo: "", room:"104" },
+{ cognome: "SALVI", nome: "Sophie", classe: "1B", gruppo: "", room:"206" },
+{ cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", gruppo: "", room:"108" },
+{ cognome: "VILARDO", nome: "Gabriele", classe: "1B", gruppo: "", room:"104" },
+        // 1P
+{ cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", gruppo: "", room:"107" },
+{ cognome: "CHABLOZ", nome: "Annette", classe: "1P", gruppo: "", room:"213" },
+{ cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", gruppo: "", room:"108" },
+{ cognome: "FURLAN", nome: "Alessandro", classe: "1P", gruppo: "", room:"111" },
+{ cognome: "GIOVANNELLI P", nome: "Pietro", classe: "1P", gruppo: "", room:"106" },
+{ cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P", gruppo: "", room:"105" },
+{ cognome: "LAI", nome: "Stefano", classe: "1P", gruppo: "", room:"106" },
+{ cognome: "LAZIER", nome: "Francesco", classe: "1P", gruppo: "", room:"106" },
+{ cognome: "PAONESSA", nome: "Leonardo", classe: "1P", gruppo: "", room:"107" },
+{ cognome: "VINCENT", nome: "Thomas", classe: "1P", gruppo: "", room:"103" },
+{ cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", gruppo: "", room:"212" },
+{ cognome: "SILVANI", nome: "Amelie", classe: "1P", gruppo: "", room:"204" },
+    // 2A
+{ cognome: "BARAVALLE", nome: "Andrea", classe: "2A", gruppo: "", room:"102" },
+{ cognome: "BERTOT", nome: "Manuele", classe: "2A", gruppo: "", room:"102" },
+{ cognome: "BUZZI", nome: "Alessandro", classe: "2A", gruppo: "", room:"102" },
+{ cognome: "CASTELLANO", nome: "Martina", classe: "2A", gruppo: "", room:"204" },
+{ cognome: "DA FRE", nome: "Gaia", classe: "2A", gruppo: "", room:"207" },
+{ cognome: "DE GASPER", nome: "Lara", classe: "2A", gruppo: "", room:"207" },
+{ cognome: "GARCIA", nome: "Luis Alberto", classe: "2A", gruppo: "", room:"118" },
+{ cognome: "HERESAZ", nome: "Alyce", classe: "2A", gruppo: "", room:"211" },
+{ cognome: "PENNARD", nome: "Serena", classe: "2A", gruppo: "", room:"211" },
+{ cognome: "SAITTA", nome: "Asia", classe: "2A", gruppo: "", room:"207" },
+        // 2B
+{ cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", gruppo: "", room:"109" },
+{ cognome: "DELLAQUILA", nome: "Gabriele", classe: "2B", gruppo: "", room:"107" },
+{ cognome: "DUNAND", nome: "Audrey", classe: "2B", gruppo: "", room:"218" },
+{ cognome: "GHILARDINI", nome: "Leonardo", classe: "2B", gruppo: "", room:"114" },
+{ cognome: "MAINO", nome: "Giada", classe: "2B", gruppo: "", room:"218" },
+{ cognome: "MISERENDINO", nome: "Ludovica", classe: "2B", gruppo: "", room:"204" },
+{ cognome: "MOUNIM", nome: "Yahya", classe: "2B", gruppo: "", room:"109" },
+{ cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", gruppo: "", room:"101" },
+{ cognome: "TACCONE", nome: "Nicholas", classe: "2B", gruppo: "", room:"109" },
+        // 2P
+{ cognome: "BERRIAD", nome: "Thierry", classe: "2P", gruppo: "", room:"121" },
+{ cognome: "BERRUTI A", nome: "Andrea", classe: "2P", gruppo: "", room:"114" },
+{ cognome: "BERRUTI S", nome: "Stefano", classe: "2P", gruppo: "", room:"114" },
+{ cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P", gruppo: "", room:"121" },
+{ cognome: "CLERIN", nome: "Pietro", classe: "2P", gruppo: "", room:"110" },
+{ cognome: "DONZEL", nome: "Elodie", classe: "2P", gruppo: "", room:"213" },
+{ cognome: "GENS", nome: "Aaron", classe: "2P", gruppo: "", room:"101" },
+{ cognome: "HERRERA", nome: "Alexander", classe: "2P", gruppo: "", room:"115" },
+{ cognome: "MONTERO", nome: "Karen", classe: "2P", gruppo: "", room:"209" },
+{ cognome: "PERRIN", nome: "Annie", classe: "2P", gruppo: "", room:"213" },
+{ cognome: "STEVENIN", nome: "Joelle", classe: "2P", gruppo: "", room:"208" },
+{ cognome: "TORTORELLI C", nome: "Carlotta", classe: "2P", gruppo: "", room:"209" },
+{ cognome: "TORTORELLI G", nome: "Greta", classe: "2P", gruppo: "", room:"209" },
+    // 3P
+{ cognome: "CONSOL", nome: "Gaia", classe: "3P", gruppo: "", room:"208" },
+{ cognome: "COSTANZA", nome: "Marcello", classe: "3P", gruppo: "", room:"124" },
+{ cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", gruppo: "", room:"111" },
+{ cognome: "LLESHI", nome: "Gabriele", classe: "3P", gruppo: "", room:"115" },
+{ cognome: "MARRERO", nome: "Lewis", classe: "3P", gruppo: "", room:"115" },
+{ cognome: "RONCO", nome: "Angelica", classe: "3P", gruppo: "", room:"208" },
+        // 3A
+{ cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", gruppo: "", room:"101" },
+{ cognome: "FLORIAN", nome: "Gabriele", classe: "3A", gruppo: "", room:"118" },
+{ cognome: "MARANGELO", nome: "Giulio", classe: "3A", gruppo: "", room:"118" },
+{ cognome: "PEAQUIN", nome: "Linda", classe: "3A", gruppo: "", room:"214" },
+{ cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", gruppo: "", room:"121" },
+        // 3B
+{ cognome: "BLANCHET M", nome: "Magalie", classe: "3B", gruppo: "", room:"214" },
+{ cognome: "BOGGIA", nome: "Vittoria", classe: "3B", gruppo: "", room:"214" },
+{ cognome: "CIRINA", nome: "Lorenzo", classe: "3B", gruppo: "", room:"110" },
+{ cognome: "DUBLANC", nome: "Nicole", classe: "3B", gruppo: "", room:"202" },
+{ cognome: "GRANATA", nome: "Gabriele", classe: "3B", gruppo: "", room:"110" },
+{ cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", gruppo: "", room:"116" },
+{ cognome: "TRIOLO", nome: "Eleonora", classe: "3B", gruppo: "", room:"214" },
+        // 3C
+{ cognome: "CELESIA M", nome: "Marta", classe: "3C", gruppo: "", room:"215" },
+{ cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", gruppo: "", room:"202" },
+{ cognome: "CUMINO", nome: "Lucia", classe: "3C", gruppo: "", room:"205" },
+{ cognome: "EPICOCO", nome: "Angelica", classe: "3C", gruppo: "", room:"205" },
+{ cognome: "MERLET", nome: "Cedric", classe: "3C", gruppo: "", room:"113" },
+{ cognome: "PALMISANO", nome: "Clarissa", classe: "3C", gruppo: "", room:"202" },
+{ cognome: "TARTIN", nome: "Zoe", classe: "3C", gruppo: "", room:"215" },
+        // 4A
+{ cognome: "CHIADO", nome: "Diego", classe: "4A", gruppo: "", room:"123" },
+{ cognome: "COMIOTTO", nome: "Lucia", classe: "4A", gruppo: "", room:"216" },
+{ cognome: "CONTA", nome: "Giovanni", classe: "4A", gruppo: "", room:"125" },
+{ cognome: "CROCE", nome: "Giacomo", classe: "4A", gruppo: "", room:"117" },
+{ cognome: "DANNA", nome: "Gioele", classe: "4A", gruppo: "", room:"119" },
+{ cognome: "DI TRIA", nome: "Alice", classe: "4A", gruppo: "", room:"220" },
+{ cognome: "MANCUSO", nome: "Gaia", classe: "4A", gruppo: "", room:"219" },
+{ cognome: "MARCIANO", nome: "Alberto", classe: "4A", gruppo: "", room:"116" },
+{ cognome: "MENALDINO", nome: "Moreno", classe: "4A", gruppo: "", room:"113" },
+{ cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A", gruppo: "", room:"123" },
+{ cognome: "OBERTO", nome: "Debora", classe: "4A", gruppo: "", room:"210" },
+{ cognome: "TAPPELLA", nome: "Luca", classe: "4A", gruppo: "", room:"116" },
+{ cognome: "TESSARIN", nome: "Sharon", classe: "4A", gruppo: "", room:"205" },
+{ cognome: "VIOT", nome: "Cecilia", classe: "4A", gruppo: "", room:"210" },
+
+// TEBANO 2* DINNER
+{ cognome: "TEBANO", nome: "Serena", classe: "3P", gruppo: "", room:"212" },
+
+        // 4B
+{ cognome: "CHESSA", nome: "Samuele", classe: "4B", gruppo: "", room:"111" },
+{ cognome: "FAVRE", nome: "Emilie", classe: "4B", gruppo: "", room:"217" },
+{ cognome: "GIOVANNELLI T", nome: "Tommaso", classe: "4B", gruppo: "", room:"113" },
+{ cognome: "GORREX", nome: "Valerie", classe: "4B", gruppo: "", room:"212" },
+{ cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B", gruppo: "", room:"117" },
+{ cognome: "MEYNET", nome: "Riccardo", classe: "4B", gruppo: "", room:"123" },
+{ cognome: "NICOLASI", nome: "Ginevra", classe: "4B", gruppo: "", room:"217" },
+{ cognome: "SAVELLA", nome: "Ilaria", classe: "4B", gruppo: "", room:"210" },
+{ cognome: "SERIO", nome: "Federica", classe: "4B", gruppo: "", room:"217" },
+        // 5A
+{ cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
+{ cognome: "CELESIA A", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
+{ cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
+{ cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "G2", room:"117" },
+{ cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "G2", room:"113" },
+{ cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "G1", room:"201" },
+{ cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "G1", room:"201" },
+{ cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "G2", room:"220" },
+{ cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "G2", room:"124" },
+{ cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
+{ cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
+{ cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
+        // 5B
+{ cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
+{ cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
+{ cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G1", room:"219" },
+{ cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "G2", room:"215" },
+{ cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "G1", room:"216" },
+{ cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", room:"221" },
+{ cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", room:"124" },
+{ cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
+    ];
+    
+     const TURNI_BASE={ 1:['1A','1B','1P','2A','2B','2P','3P'], 2:['3A','3B','3C','4A','4B','5A','5B'] };
+   
+    const ASSENTI_CLASSI={ 1:['2P'], 2:['5A','5B'], 3:['2B'], 4:['2A'] };
+    const ASSENTI_PERMESSO={ 
+        1:['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA', 'QUERIO GIANETTO'], 
+        2:['CHEN','COMMOD','CASALICCHIO','CLERIN','LAZIER', 'LUNARDI', 'GASPARD', 'PAONESSA', 'QUERIO GIANETTO'], 
+        3:['BERRUTI S','DAGOSTINO','GIOVANNELLI P','CASALICCHIO','SAITTA','PIGNATELLI','CHESSA', 'QUERIO GIANETTO'], 
+        4:['BERRUTI A','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA', 'QUERIO GIANETTO'] 
+        
+    };
+    
+    const CALENDARIO_GRUPPI = { 
+         
+        "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
+        "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
+        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" 
+    };
+    
+    
+   
+    
+ // Configurazione orari PP predefiniti (Giorno: 1=Lun, 2=Mar, 3=Mer, 4=Gio)
+    const ORARI_PP = {
+        
+    "BERRUTI A": { 4: { out: "13:30", in: "NO rientro" }},     
+    "BERRUTI S": { 3: { out: "14:00", in: "NO rientro" }},
+    "BOMBONATO": { 1: { out: "17:00", in: "18:45" }, 3: { out: "17:00", in: "18:45" }, 4: { out: "17:00", in: "18:45" }},    
+    "BUZZI": { 1: { out: "16:40", in: "18:00" }, 2: { out: "15:50", in: "18:00" }, 3: { out: "14:00", in: "16:30" }},
+    "CASALICCHIO": { 1: { out: "18:00", in: "21:30" }, 2: { out: "18:00", in: "21:30" }, 3: { out: "18:00", in: "21:30" }, 4: { out: "18:00", in: "21:30" }},
+    "CATTARINUSSI": { 2: { out: "15:00", in: "16:30" }, 3: { out: "15:15", in: "16:45" }, 4: { out: "17:30", in: "19:00" }},
+    "CHEN": { 2: { out: "16:30", in: "NO rientro" }, 4: { out: "16:30", in: "NO rientro" } },
+    "CHESSA": { 1: { out: "17:00", in: "21:30" }, 3: { out: "17:00", in: "21:30" }, 4: { out: "17:00", in: "21:30" }}, 
+    "CHIADO": { 1: { out: "16:30", in: "18:45" }, 2: { out: "16:30", in: "18:45" }, 3: { out: "16:30", in: "18:45" }, 4: { out: "16:30", in: "18:45" }},
+    "CLERIN": { 2: { out: "18:00", in: "21:30" }, 4: { out: "18:00", in: "21:30" }}, 
+    "COMIOTTO": { 1: { out: "20:00", in: "21:30" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "17:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" }},
+    "COMMOD": { 1: { out: "16:40", in: "21:30" }},  
+    "DAGOSTINO": { 3: { out: "16:00", in: "21:30" }},
+    "DATTRINO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }}, 
+    "DI TRIA": { 1: { out: "16:40", in: "19:00" },  2: { out: "15:50", in: "19:00" }, 3: { out: "16:40", in: "19:00" }}, 
+    "DUBLANC": { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" }, 4: { out: "15:00", in: "17:00" }},
+    "EPICOCO": { 2: { out: "17:40", in: "20:00" },  3: { out: "17:40", in: "20:00" }, 4: { out:  "17:40", in: "20:00" }},
+    "FLORIAN":  { 1: { out: "16:50", in: "19:00" }, 2: { out: "15:00", in: "18:00" }, 4: { out: "16:50", in: "19:00" }},
+    "GASPARD":  { 2: { out: "17:15", in: "20:00" },  4: { out: "17:15", in: "20:00" }},  
+    "GIOVANNELLI P": { 3: { out: "17:30", in: "21:30" }},
+    "LAZIER": { 2: { out: "17:00", in: "20:00" }},
+    "LUNARDI":  { 2: { out: "17:00", in: "20:00" },  4: { out: "17:00", in: "20:00" }},     
+    "MARANGELO": { 1: { out: "17:00", in: "19:00" },  2: { out: "14:45", in: "17:00" },  4: { out: "16:00", in: "19:00" }},   
+    "MENALDINO":  { 1: { out: "18:00", in: "20:15" },   4: { out: "18:00", in: "20:15" } },     
+    "MERLET":  { 1: { out: "16:00", in: "18:00" }, 2: { out: "16:00", in: "18:00" }, 3: { out: "16:00", in: "18:00" }, 4: { out: "16:00", in: "18:00" }},  
+    "OBERT": { 1: { out: "16:00", in: "19:15" }, 2: { out: "16:00", in: "19:15" }, 3: { out: "16:00", in: "19:15" }, 4: { out: "16:00", in: "19:15" }},
+    "OBERTO":  { 1: { out: "16:00", in: "19:00" }, 2: { out: "16:00", in: "19:00" }, 3: { out: "16:00", in: "19:00" }, 4: { out: "16:00", in: "19:00" }},   
+    "PAONESSA": { 1: { out: "16:30", in: "19:00" }, 2: { out: "16:30", in: "21:30" }, 3: { out: "16:30", in: "19:00" }, 4: { out: "16:30", in: "19:00" }},    
+    "PETRIS":  { 1: { out: "15:40", in: "19:00" }, 3: { out: "15:40", in: "19:00" }, 4: { out: "15:40", in: "19:00" }},  
+    "PIGNATELLI":  { 1: { out: "17:00", in: "20:00" }, 3: { out: "17:00", in: "20:00" } }, 
+    "QUERIO GIANETTO":  { 1: { out: "17:00", in: "19:30" }, 2: { out: "17:00", in: "19:30" }, 3: { out: "17:00", in: "19:30" }, 4: { out: "17:00", in: "19:30" }},   
+    "SAITTA": { 1: { out: "19:20", in: "20:40" }, 3: { out: "15:45", in: "18:45" }},   
+    "SALVI":  { 1: { out: "17:00", in: "18:30" },  3: { out: "17:00", in: "18:30" }},
+    "SCHIRRU":  { 1: { out: "16:40", in: "18:30" },   2: { out: "16:40", in: "18:30" },  3: { out: "16:40", in: "18:30" }},
+    "SORRENTI":  { 1: { out: "18:00", in: "19:00" }, 2: { out: "18:00", in: "19:00" }, 3: { out: "18:00", in: "19:00" }, 4: { out: "18:00", in: "19:00" }},
+    "TAPPELLA":   { 1: { out: "17:00", in: "19:00" },  2: { out: "16:00", in: "18:00" },  3: { out: "17:00", in: "19:00" },  4: { out: "16:00", in: "18:00" }},  
+    "TESSARIN":   { 1: { out: "16:40", in: "NO rientro" },  3: { out: "16:40", in: "NO rientro" }},  
+    "VILARDO":  { 1: { out: "17:00", in: "18:30" }, 3: { out: "17:00", in: "18:30" }, 4: { out: "17:00", in: "18:30"  }},
+    
+// AGGIUNGERE QUI ALTRI PP (Giorno: 1=Lun, 2=Mar, 3=Mer, 4=Gio) 
+        
+    };
+
+    function toggleSwitchTurno(btn) {
+    const r = btn.closest('.student-row');
+    const cognome = r.dataset.cognome;
+    
+    btn.classList.toggle('modificato');
+    
+    if (btn.classList.contains('modificato')) {
+        // Registriamo il cambio nell'oggetto globale che già usavi
+        cambiTurnoManuali[cognome] = true;
+        btn.innerText = "⇄"; // Emoji per turno cambiato
+    } else {
+        delete cambiTurnoManuali[cognome];
+        btn.innerText = "⇄"; // Emoji base
+    }
+}
+    
+    
+    function togglePanel() {
+    const panel = document.getElementById('sidePanel');
+    if (panel.style.right === "0px") {
+        panel.style.right = "-350px";
+    } else {
+        // Popoliamo la lista prima di aprire
+        popolaListaPermessi();
+        panel.style.right = "0px";
+    }
+}
+
+function popolaListaPermessi() {
+    const container = document.getElementById('listaPermessiContent');
+    const giorniSettimana = ["", "Lunedì", "Martedì", "Mercoledì", "Giovedì", "Venerdì"];
+    
+    // Prendiamo i cognomi da ORARI_PP e ordiniamoli
+    const studentiPP = Object.keys(ORARI_PP).sort();
+    
+    if (studentiPP.length === 0) {
+        container.innerHTML = "<p style='color:gray; font-size:0.8em;'>Nessun orario PP configurato.</p>";
+        return;
+    }
+
+    container.innerHTML = studentiPP.map(cognome => {
+        const orari = ORARI_PP[cognome];
+        // Creiamo la riga per ogni giorno configurato per quello studente
+        let dettagliOrari = Object.keys(orari).map(giorno => {
+            const info = orari[giorno];
+            return `
+                <div style="font-size: 0.8em; color: #555; margin-left: 10px; padding: 2px 0;">
+                    <span style="color: var(--p); font-weight: 600;">${giorniSettimana[giorno].substring(0, 2)}:</span> 
+                    ${info.out} > ${info.in}
+                </div>
+            `;
+        }).join('');
+
+        return `
+            <div style="margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid #f0f0f0;">
+                <div style="font-weight: bold; text-transform: uppercase; color: #333; font-size: 0.9em;">
+                    ${cognome}
+                </div>
+                ${dettagliOrari}
+            </div>
+        `;
+    }).join('');
+}
+    
+    
+    let cambiTurnoManuali = {};
+
+   // Funzione di utilità per sapere se uno studente è in LAB oggi
+function isStudenteInLabOggi(classe, gruppo, dataOggetto) {
+    const dataKey = dataOggetto.toLocaleDateString('it-IT', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    const giornoSettimana = dataOggetto.getDay();
+    const gruppoInLabCalendario = CALENDARIO_GRUPPI[dataKey]; // "gr1" o "gr2"
+
+    // Classi con LAB fisso per intero
+    const classiLabFisso = { 1: ["2P"], 3: ["2B"], 4: ["2A"] };
+    if (classiLabFisso[giornoSettimana] && classiLabFisso[giornoSettimana].includes(classe)) return true;
+
+    // Gestione 5A e 5B basata su G1/G2
+    if ((classe === "5A" || classe === "5B") && gruppoInLabCalendario) {
+        if (gruppoInLabCalendario === "gr1" && gruppo === "G1") return true;
+        if (gruppoInLabCalendario === "gr2" && gruppo === "G2") return true;
+    }
+    return false;
+}
+
+// Funzione per sapere se un PP non mangia oggi
+function isPPNoDinnerOggi(cognome, giornoSettimana) {
+    const mappaPP = {
+        1: ['TESSARIN','CASALICCHIO','PIGNATELLI','MENALDINO','CHESSA','QUERIO GIANETTO'],
+        2: ['CHEN','COMMOD','CASALICCHIO','CLERIN','LAZIER','LUNARDI','GASPARD','PAONESSA','QUERIO GIANETTO'],
+        3: ['BERRUTI S','DAGOSTINO','GIOVANNELLI P','CASALICCHIO','PIGNATELLI','CHESSA','QUERIO GIANETTO'],
+        4: ['BERRUTI A','CHEN','CASALICCHIO','CLERIN','MENALDINO','CHESSA','QUERIO GIANETTO']
+    };
+    return mappaPP[giornoSettimana] && mappaPP[giornoSettimana].includes(cognome.toUpperCase());
+}
+
+// --- UPDATE DASHBOARD ---
+function init() {
+    const d = new Date(); // Per simulare: new Date(2026, 0, 31); gennaio
+    const giornoOggi = d.getDay(); // Per simulare: d.getDay(0); domenica
+    
+    document.getElementById('todayDate').innerText = d.toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    updateClock();
+
+    const lista = document.getElementById('listaStudenti');
+    lista.innerHTML = "";
+
+    studenti.sort((a,b) => a.room.localeCompare(b.room, undefined, {numeric:true})).forEach(s => {
+        const r = document.createElement('div');
+        r.className = 'student-row';
+        
+        // APPLICA HIGHLIGHT SOLO SE IN LAB SECONDO CALENDARIO/GRUPPO
+        const isLab = isStudenteInLabOggi(s.classe, s.gruppo, d);
+        if (isLab) r.classList.add('highlight-lab');
+
+        r.dataset.cognome = s.cognome;
+        r.dataset.nomeCompleto = s.cognome + " " + s.nome;
+        r.dataset.classe = s.classe;
+        r.dataset.room = s.room;
+        r.dataset.gruppo = s.gruppo || "";
+        r.dataset.dinnerno = "0";
+
+        r.innerHTML = `
+            <div class="st-header">
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <span class="room-badge">room ${s.room}</span>
+                    <button class="btn-switch" onclick="toggleSwitchTurno(this)">⇄</button>
+                </div>
+                <span style="font-size:0.75em; color:#666; font-weight:bold;">
+                    ${s.classe} ${s.gruppo || ''} ${isLab ? '<span class="lab-badge">LAB</span>' : ''} 
+                </span>
+            </div>
+            <b style="font-size:1.1em">${s.cognome}</b> ${s.nome}
+            <div class="inputs"><input type="text" placeholder="ESCE" class="in-u"><input type="text" placeholder="ENTRA" class="in-i" oninput="controllaDinnerAutomatico(this.closest('.student-row'))"></div>
+            <div class="btns">
+                <button class="btn-ass" onclick="toggleAssenza(this)">ASSENTE</button>
+                <button class="btn-din" onclick="toggleDinnerNo(this)">NON CENA</button>
+            </div>`;
+        lista.appendChild(r);
+    });
+}
+    
+       
+
+    function gestisciSaltoStanze(el) {
+    let val = parseInt(el.value);
+    let old = parseInt(el.oldValue) || 0;
+
+    // Salto in avanti: da 126 a 201
+    if (val > 125 && val < 201 && val > old) {
+        el.value = 201;
+    } 
+    // Salto all'indietro: da 200 a 125
+    else if (val > 125 && val < 201 && val < old) {
+        el.value = 125;
+    }
+    el.oldValue = el.value;
+}
+
+function validaERicerca() {
+    const rVal = document.getElementById('roomInput').value;
+    const searchInput = document.getElementById('search');
+    
+    // Se scrivo nel box camera, pulisco la ricerca testuale per non andare in conflitto
+    if (rVal !== "") {
+        searchInput.value = ""; 
+        const cards = document.querySelectorAll('.student-row');
+        cards.forEach(card => {
+            // Mostra solo le card che corrispondono esattamente alla stanza
+            card.style.display = (card.dataset.room === rVal) ? 'block' : 'none';
+        });
+    } else {
+        applicaFiltri(); // Se svuoto il box camera, torna al filtro generale
+    }
+}
+    
+    function resetFiltri() {
+    // Svuota i campi input
+    document.getElementById('roomInput').value = "";
+    document.getElementById('search').value = "";
+    
+    // Mostra di nuovo tutte le card
+    document.querySelectorAll('.student-row').forEach(r => {
+        r.style.display = 'block';
+    });
+    
+    // Riporta il focus sulla ricerca testuale per comodità
+    document.getElementById('search').focus();
+}
+
+function gestisciSaltoStanze(el) {
+    let val = parseInt(el.value);
+    let old = parseInt(el.oldValue) || 0;
+
+    // Salto in avanti: se passi da 125 a 126, vai a 201
+    if (val > 125 && val < 201 && val > old) {
+        el.value = 201;
+    } 
+    // Salto all'indietro: se scendi sotto 201, torni a 125
+    else if (val > 125 && val < 201 && val < old) {
+        el.value = 125;
+    }
+    el.oldValue = el.value;
+}
+
+function validaERicerca() {
+    const rVal = document.getElementById('roomInput').value;
+    if (rVal !== "") {
+        document.getElementById('search').value = ""; // Pulisce l'altro filtro
+        document.querySelectorAll('.student-row').forEach(card => {
+            card.style.display = (card.dataset.room === rVal) ? 'block' : 'none';
+        });
+    } else {
+        applicaFiltri();
+    }
+}
+
+// Assicurati che applicaFiltri sia questa per non sovrapporsi
+function applicaFiltri() {
+    const s = document.getElementById('search').value.toLowerCase();
+    const rVal = document.getElementById('roomInput').value;
+    
+    // Se sto usando la ricerca testuale, ignoro il numero camera
+    document.querySelectorAll('.student-row').forEach(r => {
+        const testo = (r.dataset.cognome + " " + r.dataset.nomeCompleto + " " + r.dataset.classe + " " + r.dataset.room).toLowerCase();
+        r.style.display = testo.includes(s) ? 'block' : 'none';
+    });
+}
+    
+    function updateClock() { document.getElementById('digitalClock').innerText = new Date().toLocaleTimeString('it-IT'); }
+
+    
+    
+function normalizzaOrario(valore) {
+    valore = valore.trim().toLowerCase();
+
+    valore = valore.replace(".", ":").replace(",", ":");
+
+    if (/^\d{4}$/.test(valore)) {
+        valore = valore.slice(0, 2) + ":" + valore.slice(2);
+    }
+
+    return valore;
+}
+
+
+function controllaDinnerAutomatico(riga) {
+    const classe = riga.dataset.classe;
+    const cognome = riga.dataset.cognome;
+    const giornoSettimana = new Date().getDay();
+
+    let entra = riga.querySelector('.in-i').value.trim().toLowerCase();
+    entra = normalizzaOrario(entra);
+
+    let ppIn = "";
+    if (ORARI_PP[cognome] && ORARI_PP[cognome][giornoSettimana]) {
+        ppIn = ORARI_PP[cognome][giornoSettimana].in.toLowerCase();
+        ppIn = normalizzaOrario(ppIn);
+    }
+
+    const primoTurno = ["1A","1B","1P","2A","2B","2P","3P"];
+    const secondoTurno = ["3A","3B","3C","4A","4B","5A","5B"];
+
+    let limite = "";
+
+    if (primoTurno.includes(classe)) limite = "18:30";
+    else if (secondoTurno.includes(classe)) limite = "19:15";
+
+    const assente = riga.classList.contains('assente');
+
+    const noRientroInput =
+        entra === "no" ||
+        entra === "non" ||
+        entra === "nor" ||
+        entra === "no rientro";
+
+    const noRientroPP =
+        ppIn === "no" ||
+        entra === "non" ||
+        ppIn === "nor" ||
+        ppIn === "no rientro";
+
+    const tardiInput =
+        entra.includes(":") && entra > limite;
+
+    const tardiPP =
+        ppIn.includes(":") && ppIn > limite;
+
+    if (assente || noRientroInput || noRientroPP || tardiInput || tardiPP) {
+        riga.dataset.dinnerno = "1";
+        riga.classList.add('dinner-no');
+    } else {
+        riga.dataset.dinnerno = "0";
+        riga.classList.remove('dinner-no');
+    }
+}
+    
+    
+    
+    
+    function toggleAssenza(btn) {
+    const r = btn.closest('.student-row');
+    r.classList.toggle('assente');
+    btn.classList.toggle('active-ass');
+
+    controllaDinnerAutomatico(r);
+}
+
+    function toggleDinnerNo(btn) {
+        const r = btn.closest('.student-row');
+        r.dataset.dinnerno = r.dataset.dinnerno === "1" ? "0" : "1";
+        r.classList.toggle('dinner-no');
+        btn.classList.toggle('active-din');
+    }
+
+    function applicaFiltri() {
+        const s = document.getElementById('search').value.toLowerCase();
+        document.querySelectorAll('.student-row').forEach(r => {
+            const testo = (r.dataset.cognome + " " + 
+                           r.dataset.nome + " " + 
+                           r.dataset.nomeCompleto + " " + 
+                           r.dataset.classe + " " +
+                           r.dataset.gruppo + " " +
+                           r.dataset.room).toLowerCase();
+            r.style.display = testo.includes(s) ? 'block' : 'none';
+        });
+    }
+
+   function turnoStudente(classe, cognome) {
+    const oggi = new Date();
+    const giornoSettimana = oggi.getDay(); // 0=Domenica, 1=Lunedì, 2=Martedì, ecc.
+    const cgn = cognome.toUpperCase();
+   
+   // Override fisso per TEBANO (sempre al turno 2, ogni giorno)
+    if (cgn === 'TEBANO') return 2;
+       
+    if (giornoSettimana === 1 && ['BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
+    // if (giornoSettimana === 2 && ['COGNOME1', 'COGNOME2'].includes(cgn)) return 1 o 2;  
+    if (giornoSettimana === 3 && ['SAITTA', 'BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
+    if (giornoSettimana === 4 && ['BOMBONATO', 'PAONESSA'].includes(cgn)) return 2;
+   
+  
+
+// if (giornoSettimana === 2 && ['COGNOME1', 'COGNOME2'].includes(cgn)) return 2;
+// --- FINE AREA OVERRIDE ---
+
+    // Logica standard basata sulla classe
+    const turno1 = ["1A", "1B", "1P", "2A", "2B", "2P", "3P"];
+    return turno1.includes(classe) ? 1 : 2;
+}
+
+    // --- FUNZIONE STAMPA DINNER ---
+function generaPopUpStampaDinner() {
+    let a1=0, p1=0, a2=0, p2=0, n1=[], n2=[], switch1=[], switch2=[];
+    const oggi = new Date();
+    const giornoSett = oggi.getDay();
+    const oraEsatta = oggi.toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+    const dataOggi = oggi.toLocaleDateString('it-IT');
+
+    // Funzione interna per il turno base (senza override)
+    const getTurnoBase = (classe) => {
+        return ["1A", "1B", "1P", "2A", "2B", "2P", "3P"].includes(classe) ? 1 : 2;
+    };
+
+    document.querySelectorAll('.student-row').forEach(r => {
+        const cognome = r.dataset.cognome;
+        const classe = r.dataset.classe;
+        const gruppo = r.dataset.gruppo;
+        const nomeCompleto = r.dataset.nomeCompleto;
+        
+        // 1. Calcoliamo il turno che lo studente DOVREBBE avere per classe
+        let turnoOriginale = getTurnoBase(classe);
+        
+        // 2. Calcoliamo il turno EFFETTIVO (con i tuoi override per Bombonato/Paonessa/Tebano)
+        let turnoEffettivo = turnoStudente(classe, cognome);
+
+        // 3. Gestione manuale del tasto ⇄ (Switch manuale)
+        // Verifichiamo se l'oggetto esiste per evitare errori
+        if (typeof cambiTurnoManuali !== 'undefined' && cambiTurnoManuali[cognome]) {
+            turnoEffettivo = (turnoEffettivo === 1) ? 2 : 1;
+        }
+
+        // 4. Logica Cambi Turno per la stampa
+        if (turnoEffettivo !== turnoOriginale) {
+            const nota = (turnoEffettivo === 1) ? " (da 2° a 1°)" : " (da 1° a 2°)";
+            if(turnoEffettivo === 1) switch1.push(nomeCompleto + nota);
+            else switch2.push(nomeCompleto + nota);
+        }
+
+        // 5. Controllo esclusioni (Assenze, Lab, PP)
+        const isLab = isStudenteInLabOggi(classe, gruppo, oggi);
+        const isPPNoCena = isPPNoDinnerOggi(cognome, giornoSett);
+        const isAssenteManuale = r.classList.contains('assente');
+        const isNoDinnerManuale = r.dataset.dinnerno === "1";
+        const escluso = isLab || isPPNoCena || isAssenteManuale || isNoDinnerManuale;
+
+        // 6. Conteggio finale
+        if (turnoEffettivo === 1) {
+            if (escluso) { a1++; n1.push(nomeCompleto + (isLab ? " (LAB)" : "")); } 
+            else { p1++; }
+        } else {
+            if (escluso) { a2++; n2.push(nomeCompleto + (isLab ? " (LAB)" : "")); } 
+            else { p2++; }
+        }
+    });
+
+   
+
+    const dataStampa = document.getElementById('todayDate').innerText;
+    const testiPermessi = {
+        1: "LAB 2IeFP - PERMESSI: Tessarin NO dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Menaldino, Chessa dinner dopo i turni",
+        2: "LAB 5A-5B - PERMESSI: Chen, Commod NO dinner / Casalicchio, Clerin turno ore 18 / Querio, Lazier, Lunardi, Paonessa, Gaspard dinner dopo i turni",
+        3: "LAB 2B - PERMESSI: Berruti S, D'Agostino, Giovannelli P NO dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Chessa dinner dopo i turni",
+        4: "LAB 2A - PERMESSI: Berruti A, Chen NO dinner / Casalicchio, Clerin turno ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Menaldino, Chessa dinner dopo i turni"
+    };
+    const notaGiornoCorrente = testiPermessi[giornoSett] || "";
+
+    const popup = window.open('', '_blank', 'width=900,height=800');
+    popup.document.write(`
+        <html><head><title>Riepilogo Dinner</title><style>
+            body { font-family: sans-serif; padding: 40px; position: relative; }
+            h2 { text-align: center; text-transform: uppercase; margin-top: 20px; }
+            .timestamp { position: absolute; top: 10px; right: 20px; font-size: 0.8em; color: #666; }
+            .date { text-align: center; font-size: 1.2em; margin-bottom: 20px;}
+            .editable-notes { width: 100%; border: 1px dashed #ccc; font-size: 1.1em; font-weight: bold; text-align: center; text-transform: uppercase; padding: 10px; margin-bottom: 20px;}
+            .section { margin-bottom: 30px; border-left: 6px solid #333; padding-left: 20px; }
+            .stats-row { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+            input { font-size: 1.5em; font-weight: bold; width: 60px; border: none; border-bottom: 2px solid #000; text-align: center; background: transparent; }
+            .nomi { font-size: 0.85em; color: #444; font-style: italic; margin-top: 10px; line-height: 1.4; }
+            .cambi { font-size: 0.85em; color: #444; font-style: italic; margin-top: 10px; line-height: 1.4; }
+            .no-print { margin-top: 30px; display: flex; justify-content: center; }
+            @media print { .no-print { display: none; } .editable-notes { border: none; } }
+        </style></head><body>
+            <div class="timestamp">aggiornamento ${dataOggi} ore ${oraEsatta}</div>
+            <h2>Riepilogo Dinner</h2>
+            <div class="date">${dataStampa}</div>
+            
+        <div class="no-print"><button onclick="window.print()" style="padding:15px 50px; 
+            background:#27ae60; color:white; font-weight:bold; border-radius:80px;
+            border:none; cursor:pointer; font-size:0.9em;">STAMPARE IN FORMATO A4</button></div>
+            
+            <textarea class="editable-notes" rows="2">${notaGiornoCorrente}</textarea>
+            
+            <div class="section">
+                <h3>1° DINNER ore 18:30 (Classi: 1A, 1B, 1P, 2A, 2B, 2P, 3P)</h3>
+                <div class="stats-row">
+                    <span>Assenti: <input type="number" value="${a1}"></span>
+                    <span>Presenti: <input type="number" value="${p1}"></span>
+                    <span>+ EDU: <input type="number" value="2"></span>
+                    + <input type="text" id="altroDettaglioLab2" placeholder="..." style="width: 250px; font-size: 1.0em;">
+                    </div>
+                
+                <div class="nomi"><b>Esclusi per assenza, permesso, laboratorio:</b> ${n1.length ? n1.join(', ') : 'Nessuno'}</div>
+                    <div class="cambi"><b>Cambi Turno:</b> ${switch1.length ? switch1.join(', ') : 'Nessuno'}</div>
+                
+            </div>
+
+            <div class="section">
+                <h3>2° DINNER ore 19:15 (Classi: 3A, 3B, 3C, 4A, 4B, 5A, 5B)</h3>
+                <div class="stats-row">
+                    <span>Assenti: <input type="number" value="${a2}"></span>
+                    <span>Presenti: <input type="number" value="${p2}"></span>
+                   <span>+ EDU: <input type="number" value="2"></span>
+                    + <input type="text" id="altroDettaglioLab2" placeholder="..." style="width: 250px; font-size: 1.0em;">
+                    </div>
+                <div class="nomi"><b>Esclusi per assenza, permesso, laboratorio:</b> ${n2.length ? n2.join(', ') : 'Nessuno'}</div>
+                <div class="cambi"><b>Cambi Turno:</b> ${switch2.length ? switch2.join(', ') : 'Nessuno'}</div>
+            </div>
+    
+    </body></html>
+    `);
+    popup.document.close();
+}
+
+    // --- FUNZIONE STAMPA CONVITTO ---
+   function generaPopUpStampaConvitto() {
+    const dataStampa = document.getElementById('todayDate').innerText;
+    const oraStampa = new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' });
+    const dataOggiStampa = new Date().toLocaleDateString('it-IT');
+    const giornoSettimana = new Date().getDay();
+    const camere = {};
+
+    document.querySelectorAll('.student-row').forEach(r => {
+        const room = r.dataset.room || "---";
+        const cognome = r.dataset.cognome;
+        let ppOut = "", ppIn = "";
+        if (ORARI_PP[cognome] && ORARI_PP[cognome][giornoSettimana]) {
+            ppOut = ORARI_PP[cognome][giornoSettimana].out;
+            ppIn = ORARI_PP[cognome][giornoSettimana].in;
+        }
+        if (!camere[room]) camere[room] = [];
+        camere[room].push({
+            classe: r.dataset.classe,
+            cognome: cognome,
+            dinnerno: r.dataset.dinnerno,
+            presente: !r.classList.contains('assente'),
+            oraU: r.querySelector('.in-u').value, 
+            oraI: r.querySelector('.in-i').value,
+            ppOut: ppOut, ppIn: ppIn, gruppo: r.dataset.gruppo
+        });
+    });
+
+    const camereOrdinate = Object.keys(camere).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+    const popup = window.open('', '_blank', 'width=1200,height=800');
+
+    popup.document.write(`
+        <html>
+        <head>
+            <title>Riepilogo Convitto - ${dataStampa}</title>
+            <style>
+                @page { size: A3 portrait; margin: 0.3cm; }
+                body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; color: #000; position: relative; min-height: 100%; }
+                h2 { text-align: center; text-transform: uppercase; font-size: 1.1em; margin: 6px 0; }
+                table { width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 10px; }
+                th, td { border: 1px solid #000; padding: 4px 2px; text-align: center; font-size: 0.62em; overflow: hidden; }
+                .border-bottom-bold { border-bottom: 2.5px solid #000 !important; }
+                .border-dashed { border-bottom: 1px dashed #999 !important; }
+                th { background: #f2f2f2; font-weight: bold; }
+                .room-header { background: #eee; font-weight: bold; width: 45px; }
+                .col-cognome { text-align: center; width: 130px; padding-left: 5px; text-transform: uppercase; }
+                .page-break { page-break-after: always; }
+                .no-print { display: block; text-align: center; margin: 20px; }
+                
+                /* Stile per la marca temporale in fondo */
+                .footer-timestamp { 
+                    text-align: right; 
+                    font-size: 0.75em; 
+                    margin-top: 15px; 
+                    padding-top: 5px; 
+                    border-top: 1px solid #eee;
+                    font-style: italic;
+                    color: #555;
+                }
+
+                @media print { .no-print { display: none; } }
+            </style>
+        </head>
+        <body>
+    <div class="no-print"><button onclick="window.print()" style="padding:15px 50px; 
+            background:#27ae60; color:white; font-weight:bold; border-radius:80px; 
+            border:none; cursor:pointer; font-size:0.9em;">STAMPARE IN FORMATO A3</button></div></button></div>
+            
+            
+            <h2>MASCHILE - piano 1° - ${dataStampa}</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
+                        <th>Presente</th><th>Assente</th><th>Uscita</th><th>Ingresso</th>
+                        <th>PP Uscita</th><th>PP Rientro</th><th>Dinner 1° e 2° NO</th><th>Notte SI</th><th>Notte NO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${camereOrdinate.map((room) => {
+                        let html = "";
+                        html += camere[room].map((s, idx) => {
+                            const isLastRow = idx === camere[room].length - 1;
+                            const borderClass = isLastRow ? 'class="border-bottom-bold"' : 'class="border-dashed"';
+
+                            return `
+                                <tr>
+                                    ${idx === 0 ? `<td rowspan="${camere[room].length}" class="room-header border-bottom-bold">${room}</td>` : ''}
+                                    <td ${borderClass}>${s.classe}</td>
+                                    <td ${borderClass} class="col-cognome"><b>${s.cognome}</b> ${s.gruppo ? '('+s.gruppo+')' : ''}</td>
+                                    <td ${borderClass}>${s.presente ? 'X' : ''}</td>
+                                    <td ${borderClass}>${!s.presente ? 'X' : ''}</td>
+                                    <td ${borderClass} style="background:#f9f9f9">${s.oraU}</td>
+                                    <td ${borderClass}>${s.oraI}</td>
+                                    <td ${borderClass} style="background:#f9f9f9"><b>${s.ppOut}</b></td>
+                                    <td ${borderClass}><b>${s.ppIn}</b></td>
+                                    <td ${borderClass} style="background:#f9f9f9">${s.dinnerno === "1" ? "X" : ""}</td>
+                                    <td ${borderClass}></td>
+                                    <td ${borderClass} style="background:#f9f9f9"></td>
+                                </tr>`;
+                        }).join('');
+
+                        // Salto pagina dopo la camera 125
+                        if (room === "125") {
+                            html += `</tbody></table><div class="page-break"></div>
+                            <h2>FEMMINILE - piano 2° - ${dataStampa}</h2>
+                            <table><thead><tr>
+                                <th>Room</th><th>Classe</th><th class="col-cognome">Cognome</th>
+                                <th>Presente</th><th>Assente</th><th>Uscita</th><th>Ingresso</th>
+                                <th>PP Uscita</th><th>PP Rientro</th><th>Dinner 1° e 2° NO</th><th>Notte SI</th><th>Notte NO</th>
+                            </tr></thead><tbody>`;
+                        }
+                        return html;
+                    }).join('')}
+                </tbody>
+            </table>
+            
+            <div class="footer-timestamp">
+                aggiornamento ${dataOggiStampa} ore ${oraStampa}
+            </div>
+        </body>
+        </html>`);
+    popup.document.close();
+}
+    window.onload = init;
+</script>
+    
+    </div>
+    </div>
+</body>
+</html>
