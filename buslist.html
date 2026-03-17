@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>BUS List 2025/26 - Orizzontale</title>
+    <style>
+        :root {
+            --bg-header: #1a3a5a;
+            --accent-color: #2c3e50;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            margin: 0; 
+            padding: 10px; 
+            font-size: 10px;
+            background-color: #fff;
+        }
+
+        .header-main {
+            text-align: center;
+            border-bottom: 2px solid var(--bg-header);
+            margin-bottom: 15px;
+            padding-bottom: 5px;
+        }
+
+        h1 { 
+            margin: 0; 
+            font-size: 18px; 
+            text-transform: uppercase; 
+            color: var(--accent-color);
+        }
+
+        /* Container per le 3 macro-colonne */
+        .grid-wrapper {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            column-gap: 20px;
+        }
+
+        /* Intestazione delle colonne all'interno di ogni macro-colonna */
+        .column-header {
+            display: flex;
+            background: var(--bg-header);
+            color: white;
+            font-weight: bold;
+            padding: 4px;
+            border-radius: 3px 3px 0 0;
+            text-transform: uppercase;
+            font-size: 8px;
+            margin-bottom: 2px;
+        }
+
+       /* Sfondi per la 5B */
+        .bg-5b-g1 { background-color: #f2f2f2 !important; } /* Grigio molto chiaro */
+        .bg-5b-g2 { background-color: #fdfdfd !important; } /* Grigio ancora più chiaro */
+        
+        .student-row { 
+            border: 0.5px solid #bbb; 
+            display: flex; 
+            align-items: center;
+            padding: 3px 5px;
+            margin-bottom: 1px;
+        }
+
+        /* Dimensionamento celle */
+        .cell-room { width: 30px; font-weight: bold; border-right: 1px solid #eee; }
+        .cell-name { flex-grow: 1; padding-left: 5px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .cell-class { width: 45px; text-align: center; font-size: 8.5px; }
+        .cell-check { width: 40px; text-align: center; font-weight: bold; }
+        .cell-notes { width: 60px; text-align: center; font-weight: bold; }
+
+        .check-box {
+            width: 12px;
+            height: 12px;
+            border: 1px solid #333;
+            margin: 0 auto;
+        }
+
+        .line-notes {
+            width: 90%;
+            border-bottom: 0.5px solid #999;
+            height: 12px;
+            margin: 0 auto;
+        }
+
+        .no-print { text-align: center; margin-bottom: 15px; }
+        .btn { 
+            padding: 10px 30px; 
+            background: var(--bg-header); 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            border-radius: 5px; 
+            font-weight: bold;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            @page { 
+                size: A4 landscape; 
+                margin: 0.8cm; 
+            }
+            body { padding: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button class="btn" onclick="window.print()">🖨️ STAMPA ORIZZONTALE</button>
+</div>
+
+<div class="header-main">
+    <h1>BUS MATTINO a.a. 2025/26</h1>
+</div>
+
+<div class="grid-wrapper" id="mainWrapper">
+    <div class="macro-column">
+        <div class="column-header">
+            <div class="cell-room">Room</div>
+            <div class="cell-name">Nome</div>
+            <div class="cell-class">Classe</div>
+            <div class="cell-check">Pres.</div>
+            <div class="cell-notes">Note</div>
+        </div>
+        <div id="col0"></div>
+    </div>
+    <div class="macro-column">
+        <div class="column-header">
+            <div class="cell-room">Rm</div>
+            <div class="cell-name">Studente</div>
+            <div class="cell-class">Cl/Gr</div>
+            <div class="cell-check">Pres.</div>
+            <div class="cell-notes">Note</div>
+        </div>
+        <div id="col1"></div>
+    </div>
+    <div class="macro-column">
+        <div class="column-header">
+            <div class="cell-room">Rm</div>
+            <div class="cell-name">Studente</div>
+            <div class="cell-class">Cl/Gr</div>
+            <div class="cell-check">Pres.</div>
+            <div class="cell-notes">Note</div>
+        </div>
+        <div id="col2"></div>
+    </div>
+</div>
+
+<script>
+const studentiRaw = [
+    { cognome: "COMMOD", nome: "Gaia", classe: "1A", room:"218" },
+    { cognome: "GASPARD", nome: "Thierry", classe: "1A", room:"105" },
+    { cognome: "JANS", nome: "Giada", classe: "1A", room:"203" },
+    { cognome: "OBETTI", nome: "Virginia", classe: "1A", room:"203" },
+    { cognome: "PETTORALI", nome: "Matilde", classe: "1A", room:"203" },
+    { cognome: "ZIGGIOTTO", nome: "Beatrice", classe: "1A", room:"211" },
+    { cognome: "BLANCHET N", nome: "Nadine", classe: "1B", room:"221" },
+    { cognome: "BOMBONATO", nome: "Francesco", classe: "1B", room:"104" },
+    { cognome: "DATTRINO", nome: "Nicolas", classe: "1B", room:"105" },
+    { cognome: "GIOVANDO", nome: "Caterina", classe: "1B", room:"206" },
+    { cognome: "LUNARDI", nome: "Filippo", classe: "1B", room:"108" },
+    { cognome: "POUJOL", nome: "Chiara", classe: "1B", room:"206" },
+    { cognome: "QUERIO GIANETTO", nome: "Giorgio", classe: "1B", room:"104" },
+    { cognome: "SALVI", nome: "Sophie", classe: "1B", room:"206" },
+    { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", room:"108" },
+    { cognome: "VILARDO", nome: "Gabriele", classe: "1B", room:"104" },
+    { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", room:"101" },
+    { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", room:"118" },
+    { cognome: "MARANGELO", nome: "Giulio", classe: "3A", room:"118" },
+    { cognome: "PEAQUIN", nome: "Linda", classe: "3A", room:"214" },
+    { cognome: "ZOPPO", nome: "Rodrigue", classe: "3A", room:"121" },
+    { cognome: "BLANCHET M", nome: "Magalie", classe: "3B", room:"214" },
+    { cognome: "BOGGIA", nome: "Vittoria", classe: "3B", room:"214" },
+    { cognome: "CIRINA", nome: "Lorenzo", classe: "3B", room:"110" },
+    { cognome: "DUBLANC", nome: "Nicole", classe: "3B", room:"202" },
+    { cognome: "GRANATA", nome: "Gabriele", classe: "3B", room:"110" },
+    { cognome: "PRUTEANU", nome: "Mihai Giuliano", classe: "3B", room:"116" },
+    { cognome: "TRIOLO", nome: "Eleonora", classe: "3B", room:"214" },
+    { cognome: "CELESIA M", nome: "Marta", classe: "3C", room:"215" },
+    { cognome: "COSTABLOZ", nome: "Giorgia", classe: "3C", room:"202" },
+    { cognome: "CUMINO", nome: "Lucia", classe: "3C", room:"205" },
+    { cognome: "EPICOCO", nome: "Angelica", classe: "3C", room:"205" },
+    { cognome: "MERLET", nome: "Cedric", classe: "3C", room:"113" },
+    { cognome: "PALMISANO", nome: "Clarissa", classe: "3C", room:"202" },
+    { cognome: "TARTIN", nome: "Zoe", classe: "3C", room:"215" },
+    { cognome: "CHIADO", nome: "Diego", classe: "4A", room:"123" },
+    { cognome: "COMIOTTO", nome: "Lucia", classe: "4A", room:"216" },
+    { cognome: "CONTA", nome: "Giovanni", classe: "4A", room:"125" },
+    { cognome: "CROCE", nome: "Giacomo", classe: "4A", room:"117" },
+    { cognome: "DANNA", nome: "Gioele", classe: "4A", room:"119" },
+    { cognome: "DI TRIA", nome: "Alice", classe: "4A", room:"220" },
+    { cognome: "MANCUSO", nome: "Gaia", classe: "4A", room:"219" },
+    { cognome: "MARCIANO", nome: "Alberto", classe: "4A", room:"116" },
+    { cognome: "MENALDINO", nome: "Moreno", classe: "4A", room:"113" },
+    { cognome: "NAVARRETTA", nome: "Alexis Denis Fabien", classe: "4A", room:"123" },
+    { cognome: "OBERTO", nome: "Debora", classe: "4A", room:"210" },
+    { cognome: "TAPPELLA", nome: "Luca", classe: "4A", room:"116" },
+    { cognome: "TESSARIN", nome: "Sharon", classe: "4A", room:"205" },
+    { cognome: "VIOT", nome: "Cecilia", classe: "4A", room:"210" },
+    { cognome: "CHESSA", nome: "Samuele", classe: "4B", room:"111" },
+    { cognome: "FAVRE", nome: "Emilie", classe: "4B", room:"217" },
+    { cognome: "GIOVANNELLI T", nome: "Tommaso", classe: "4B", room:"113" },
+    { cognome: "GORREX", nome: "Valerie", classe: "4B", room:"212" },
+    { cognome: "HACHEMAOUI", nome: "Slimane Raffaello", classe: "4B", room:"117" },
+    { cognome: "MEYNET", nome: "Riccardo", classe: "4B", room:"123" },
+    { cognome: "NICOLASI", nome: "Ginevra", classe: "4B", room:"217" },
+    { cognome: "SAVELLA", nome: "Ilaria", classe: "4B", room:"210" },
+    { cognome: "SERIO", nome: "Federica", classe: "4B", room:"217" },
+    { cognome: "CARRUOZZO", nome: "Amalia", classe: "5A", gruppo: "G1", room:"201" },
+    { cognome: "CELESIA A", nome: "Alessio", classe: "5A", gruppo: "G2", room:"120" },
+    { cognome: "DE GATTIS", nome: "Eleonora", classe: "5A", gruppo: "G2", room:"219" },
+    { cognome: "OBERT", nome: "Tommy", classe: "5A", gruppo: "G2", room:"117" },
+    { cognome: "PETRIS", nome: "Maurizio", classe: "5A", gruppo: "G2", room:"113" },
+    { cognome: "PICCOLI", nome: "Greta", classe: "5A", gruppo: "G1", room:"201" },
+    { cognome: "PIGNATELLI", nome: "Maria Vittoria", classe: "5A", gruppo: "G1", room:"201" },
+    { cognome: "RASO", nome: "Beatrice", classe: "5A", gruppo: "G2", room:"220" },
+    { cognome: "SALVADORI", nome: "Emile", classe: "5A", gruppo: "G2", room:"124" },
+    { cognome: "SORRENTI", nome: "Gabriele", classe: "5A", gruppo: "G1", room:"120" },
+    { cognome: "VALLOMY", nome: "Etienne", classe: "5A", gruppo: "G2", room:"124" },
+    { cognome: "VIGLIANO", nome: "Jacopo", classe: "5A", gruppo: "G1", room:"120" },
+    { cognome: "CHREIM", nome: "Khadijé", classe: "5B", gruppo: "G1", room:"221" },
+    { cognome: "CORVO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" },
+    { cognome: "COTTINO", nome: "Jacqueline", classe: "5B", gruppo: "G2", room:"219" },
+    { cognome: "KOUROUMA", nome: "Nora", classe: "5B", gruppo: "G2", room:"215" },
+    { cognome: "LINTY", nome: "Alys", classe: "5B", gruppo: "G1", room:"216" },
+    { cognome: "MARGUERETTAZ", nome: "Greta", classe: "5B", gruppo: "G2", room:"221" },
+    { cognome: "MILLERY", nome: "Mathieu", classe: "5B", gruppo: "G2", room:"124" },
+    { cognome: "RABAGLIO", nome: "Filippo", classe: "5B", gruppo: "G1", room:"119" }
+];
+
+function generaGriglia() {
+    const resto = studentiRaw.filter(s => s.classe !== "5B");
+    const classe5B = studentiRaw.filter(s => s.classe === "5B");
+
+    resto.sort((a, b) => a.cognome.localeCompare(b.cognome));
+    // Ordina la 5B per Gruppo e poi per Cognome
+    classe5B.sort((a, b) => (a.gruppo + a.cognome).localeCompare(b.gruppo + b.cognome));
+
+    const listaFinale = [...resto, ...classe5B];
+    const itemsPerCol = Math.ceil(listaFinale.length / 3);
+
+    listaFinale.forEach((s, index) => {
+        const colIndex = Math.floor(index / itemsPerCol);
+        const colTarget = document.getElementById('col' + colIndex);
+        
+        const infoClasse = `${s.classe}${s.gruppo ? ' '+s.gruppo : ''}`;
+        
+        // Determina la classe di sfondo extra
+        let bgClass = "";
+        if (s.classe === "5B") {
+            if (s.gruppo === "G1") bgClass = "bg-5b-g1";
+            if (s.gruppo === "G2") bgClass = "bg-5b-g2";
+        }
+
+        const row = document.createElement('div');
+        // Aggiungiamo bgClass alla lista delle classi del div
+        row.className = `student-row ${bgClass}`;
+        row.innerHTML = `
+            <div class="cell-room">${s.room}</div>
+            <div class="cell-name"><b>${s.cognome}</b> ${s.nome}</div>
+            <div class="cell-class">${infoClasse}</div>
+            <div class="cell-check"><div class="check-box"></div></div>
+            <div class="cell-notes"><div class="line-notes"></div></div>
+        `;
+        colTarget.appendChild(row);
+    });
+}
+
+window.onload = generaGriglia;
+</script>
+
+</body>
+</html>
