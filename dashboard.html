@@ -1,151 +1,93 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Convitto e Dinner</title>
-    <style>
-        :root { --p: #24ab41; 
-                --s: #2ecc71; 
-                --d: #e74c3c; 
-                --e: #3c84e7;
-                --bg: #f0f2f5;
-                --permessi: #e67e22;
-                --highlight: #f1c40f; 
-                --cambiati: #f2ee2e; }
-        
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; }
-        .container { max-width: 1200px; margin: auto; }
-        
-        .permesso-item {
-    font-size: 0.85em;
-    padding: 5px 0;
-    border-bottom: 1px dashed #eee;
-    color: #333;
-        }
-        
-        .btn-switch { 
-    background: #f1f2f6; 
-    border: none; 
-    border-radius: 50%; 
-    width: 32px; 
-    height: 32px; 
-    cursor: pointer; 
-    font-size: 1.1em;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: 0.3s;
-}
-
-.btn-switch.modificato { 
-    background: var(--cambiati) !important; 
-    color: #ffffff; 
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.5);
-}
-        
-        
-     .student-row.highlight-lab {
-    border-bottom-color: #e67e22 !important; 
-    background: rgba(255, 225, 130, 0.52) !important; /* Un giallo tenue per lo sfondo per non coprire i testi */
-    transform: scale(1.0); /* Leggermente ridotto rispetto a 1.08 per non sovrapporsi troppo alle card vicine */
-    z-index: 5;
-    // box-shadow: 0 8px 15px #ffd01573;
-    position: relative;
-}
-
-.lab-badge {
-    color: #d30000;
-    font-weight: bold;
-    font-size: 0.9em;
-    margin-left: 10px;
-    animation: pulse 3s infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 1; }
-    10% { opacity: 0.1; }
-    100% { opacity: 1; }
-}
-        
-        
-        header { 
-            background: var(--p); color: white; padding: 15px 30px; border-radius: 20px; 
-            display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;
-        }
-
-        .toolbar { 
-            background: white; padding: 15px; border-radius: 20px; display: flex; gap: 10px; 
-            margin-bottom: 20px; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05);
-        }
-        
-        #search { flex: 1; padding: 12px; border: 2px solid #eee; border-radius: 12px; outline: none; }
-        #search:focus { border-color: var(--p); }
-
-        .scroll-btns { flex: 0; padding: 4px ; border: 2px solid #eee; border-radius: 12px; outline: none; }
-        .btn-nav { background: #eee; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; font-weight: bold; }
-        .btn-nav:hover { background: #ddd; }
-
-        
-        #roomInput {  padding: 8px ; border: 0px solid #eee; border-radius: 12px; outline: none; text-align: center; transition: all 0.3s; font-weight: normal;}
-        
-        
-        #listaStudenti { 
-    display: grid; 
-    /* Crea quante più colonne possibile */
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); 
-    gap: 12px; 
-    width: 100%;
-        }
-        .content-right { flex-grow: 1; width: 100%; }
-
-        .main-layout { display: flex; gap: 10px; align-items: flex-start; width: 100%; }
-        
-        
-       
-        .days-sidebar-container { display: flex; gap: 2px; flex-shrink: 0; }
-
-        .day-box {
-            background: #ffffff; width: 10px; padding: 15px 5px; text-align: center;
-            border-radius: 15px; font-size: 0.75em; color: #444; border: 2px solid transparent;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: help; display: flex;
-            flex-direction: column; justify-content: flex-start; align-items: center; transition: 0.3s;
-        }
-
-        .day-box b { writing-mode: horizontal-tb; transform: none; display: block; line-height: 1.2; word-break: break-word; }
-        .day-box.active-day { border-color: var(--primary); background: #e4ebff; color: var(--primary); font-weight: bold; }
-        
-        .content-right { flex-grow: 1; display: flex; flex-direction: column; gap: 15px; }
-        
-        
-        
+    <title>Dashboard Convitto e Dinner colorsoft</title>
+  
     
-
-        .student-row { 
-            background: white; border-radius: 18px; padding: 15px; 
-            border-bottom: 5px solid var(--s); transition: 0.2s;
-        }
+   <style>
+    :root {
+        /* Palette Principale */
+        --p: #2c3e50;             /* Header e Testi principali */
+        --s: #27ae60;             /* Presente / OK (Verde Smeraldo) */
+        --d: #ed5a3a;             /* Assente (Arancio Bruciato) */
+        --e: #3498db;             /* Non Cena (Blu Cielo) */
+        --bg: #f4f7f6;            /* Sfondo generale */
+        --card-bg: #ffffff;       /* Sfondo card studente */
         
-         .student-row.dinner-no { border-bottom-color: var(--e); background: #eeffff; }
-        .student-row.assente { border-bottom-color: var(--d); background: #fff5f5; }
-       
-
-        .st-header { display: flex; justify-content: space-between; margin-bottom: 10px; font-weight: bold; font-size: 1.2em; }
-        .room-badge { background: #eee; padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7em; }
+        /* Accenti e Stati Speciali */
+        --permessi: #8e44ad;      /* Colore Viola per PP */
+        --highlight-lab: #fdf2d0; /* Giallo crema per evidenziare LAB */
+        --lab-text: #d35400;      /* Testo badge LAB */
+        --cambiati: #16a085;      /* Switch turno (Ottanio) */
+        --btn-inactive: #f1f2f6;  /* Bottoni non attivi */
         
-        
-        .inputs { display: flex; gap: 5px; margin: 10px 0; }
-        .inputs input { width: 50%; padding: 8px; border: 1px solid #ddd; border-radius: 8px; font-size: 0.8em; }
+        /* Colori Bottoni Toolbar */
+        --btn-color-1: #27ae60;   /* Verde per 18:30 */
+        --btn-color-2: #3498db;   /* Blu per 19:15 */
+        --btn-color-3: #8e44ad;   /* Viola per CONVITTO */
+        --btn-color-4: #5d7d8c;   /* Grigio per DINNER */
+        --btn-reset: #e74c3c;     /* Rosso per Reset */
 
-        .btns { display: flex; gap: 5px; }
-        .btns button { flex: 1; padding: 8px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.75em; font-weight: bold; }
-        .btn-ass { background: #9375aca8; color: #721c24; }
-        .active-ass { background: var(--d) !important; color: yellow; }
-        .btn-din { background: #a9ccdcae; color: #854804; }
-        .active-din { background: #12c3ff; !important; color: yellow; }
+        /* Testo e Bordi */
+        --text-dark: #2d3436;
+        --text-muted: #636e72;
+        --border-color: #eee;
+    }
 
-        .btn-print { background: var(--p); color: white; padding: 12px 20px; border: none; border-radius: 12px; cursor: pointer; font-weight: bold; }
-    </style>
+    body { font-family: 'Segoe UI', Tahoma, sans-serif; background: var(--bg); margin: 0; padding: 20px; color: var(--text-dark); }
+    .container { max-width: 1200px; margin: auto; }
+
+    /* Header & Toolbar */
+    header { background: var(--p); color: white; padding: 15px 30px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .toolbar { background: var(--card-bg); padding: 15px; border-radius: 20px; display: flex; gap: 10px; margin-bottom: 20px; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+    
+    #search, #roomInput { border: 2px solid var(--border-color); border-radius: 12px; outline: none; padding: 10px; transition: 0.3s; }
+    #search:focus, #roomInput:focus { border-color: var(--e); }
+    #search { flex: 1; }
+
+    /* Pulsanti Toolbar Generici */
+    .btn-toolbar { border: none; border-radius: 12px; cursor: pointer; font-weight: bold; color: white; padding: 10px 18px; transition: 0.2s; }
+    .btn-toolbar:hover { opacity: 0.9; transform: translateY(-1px); }
+
+    /* Card Studente */
+    #listaStudenti { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    .student-row { background: var(--card-bg); border-radius: 18px; padding: 15px; border-bottom: 5px solid var(--s); transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    
+    /* Stati Card */
+    .student-row.dinner-no { border-bottom-color: var(--e); background: #f0faff; }
+    .student-row.assente { border-bottom-color: var(--d); background: #fff9f4; }
+    .student-row.highlight-lab { background: var(--highlight-lab) !important; border-bottom-color: var(--d) !important; }
+
+    .st-header { display: flex; justify-content: space-between; margin-bottom: 10px; align-items: center; }
+    .room-badge { background: var(--btn-inactive); padding: 2px 8px; border-radius: 6px; font-weight: bold; font-size: 0.7em; }
+    .lab-badge { color: var(--lab-text); font-weight: bold; font-size: 0.8em; animation: pulse 3s infinite; }
+
+    /* Input e Bottoni interni alle Card */
+    .inputs { display: flex; gap: 5px; margin: 10px 0; }
+    .inputs input { width: 50%; padding: 8px; border: 1px solid var(--border-color); border-radius: 8px; font-size: 0.8em; }
+    
+    .btns { display: flex; gap: 5px; }
+    .btns button { flex: 1; padding: 8px; border: none; border-radius: 8px; cursor: pointer; font-size: 0.75em; font-weight: bold; background: var(--btn-inactive); color: var(--text-muted); transition: 0.2s; }
+    
+    .active-ass { background: var(--d) !important; color: white !important; }
+    .active-din { background: var(--e) !important; color: white !important; }
+
+    .btn-switch { background: var(--btn-inactive); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .btn-switch.modificato { background: var(--cambiati) !important; color: white; }
+
+    /* Sidebar Giorni */
+    .days-sidebar-container { display: flex; flex-direction: column; height: 90vh; position: fixed; top: 0; left: 0; gap: 10px; padding: 10px; z-index: 1000; }
+    .day-box { 
+background: var(--card-bg); width: 15px; padding: 15px 5px; text-align: center; border-radius: 15px; font-size: 1.0em; 
+color: var(--text-dark); display: flex; align-items: center; justify-content: center; writing-mode: horizontal-tb; 
+flex-grow: 10; max-height: 30%; transform: rotate(0deg); box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; opacity: 0.8; }
+   .day-box:hover { opacity: 1; }
+
+    @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+</style>
 </head>
 <body>
 
@@ -155,33 +97,30 @@
             <h2 style="margin:0">Convitto e Dinner integrato</h2>
             <div id="todayDate" style="font-size: 0.9em; opacity: 0.8;"></div>
         </div>
+        
+        
         <div id="digitalClock" style="font-size: 1.5em; font-weight: bold;"></div>
     </header>
 
-    <div class="toolbar">
+   <div class="toolbar">
     <div class="scroll-btns">
-        
-       
-        
         <input type="number" id="roomInput" placeholder="rooms ↕" min="101" max="221" 
                onfocus="this.oldValue = this.value;" 
                oninput="gestisciSaltoStanze(this); validaERicerca();">
     </div>
     
-        
-        
-        
-        
-        
     <input type="text" id="search" placeholder="Cerca..." onkeyup="applicaFiltri()">
     
-    <button onclick="resetFiltri()" style="background:#ff0000; color:white; border:none; border-radius:12px; padding:10px 15px; cursor:pointer; font-weight:bold;">X</button>
+    <button class="btn-toolbar" style="background: var(--btn-reset)" onclick="resetFiltri()">X</button>
     
-    <button class="btn-print" style="background:#744f92ff;" onclick="generaPopUpStampaConvitto()">CONVITTO</button>
-    <button class="btn-print" style="background:#5d7d8cff;" onclick="generaPopUpStampaDinner()">DINNER</button>
-        <button onclick="togglePanel()" style="position:fixed; bottom:200px; leftt:20px; z-index:100; width:70px; height:70px; 
-                                               border-radius:50%; background:var(--permessi); color:white; border:none; box-shadow:0 4px 10px rgba(0,0,0,0.3); cursor:pointer; font-weight:bold;">Permessi</button>
+    <button class="btn-toolbar" style="background: var(--btn-color-1)" onclick="setTurno(1)">18:30</button>
+    <button class="btn-toolbar" style="background: var(--btn-color-2)" onclick="setTurno(2)">19:15</button>
+    <button class="btn-toolbar" style="background: var(--btn-color-3)" onclick="generaPopUpStampaConvitto()">CONVITTO</button>
+    <button class="btn-toolbar" style="background: var(--btn-color-4)" onclick="generaPopUpStampaDinner()">DINNER</button>
+</div>
 
+       
+        
 <div id="sidePanel" style="position:fixed; top:0; right:-350px; width:300px; height:100%; background:white; z-index:1000; transition:0.3s; padding:20px; overflow-y:auto; box-shadow: -5px 0 15px rgba(0,0,0,0.1);">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
         <h3 style="margin:0; font-size:1.1em;">Lista Permessi Permantenti (al 10 Marzo)</h3>
@@ -195,10 +134,18 @@
     
      <div class="main-layout">
         <div class="days-sidebar-container" id="daysHeader">
-     <div class="day-box" id="day-1" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Menaldino, Chessa dinner dopo i turni"><b>Lunedì - <br>2P</b></div>
-     <div class="day-box" id="day-2" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin turno ore 18 / Querio, Paonessa, Lazier, Gaspard, Lunardi dinner dopo i turni"><b>Martedì - <br>5A<br>/<br>5B</b></div>
-     <div class="day-box" id="day-3" title="Mercoledì - PERMESSI: Berruti S, D'Agostino, Giovannelli P, No dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Chessa dinner dopo i turni"><b>Mercoledì - <br>2B</b></div>
-     <div class="day-box" id="day-4" title="Giovedì - PERMESSI: Berruti A, Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Menaldino, Chessa dinner dopo i turni"><b>Giovedì - <br>2A</b></div>
+     <div class="day-box" id="day-1" style="background-color:#db34979c" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Menaldino, Chessa dopo i turni"><b>LU - <br>2P</b></div>
+     <div class="day-box" id="day-2" style="background-color:#3456db9c" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin turno ore 18 / TENERE PER Querio, Paonessa, Lazier, Gaspard, Lunardi dopo i turni"><b>MA - <br>5<br>AB</b></div>
+     <div class="day-box" id="day-3" style="background-color:#34dba09c" title="Mercoledì - PERMESSI: Berruti S, D'Agostino, Giovannelli P, No dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Chessa dopo i turni"><b>ME - <br>2B</b></div>
+     <div class="day-box" id="day-4" style="background-color:#dbd1349c" title="Giovedì - PERMESSI: Berruti A, Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Menaldino, Chessa dopo i turni"><b>GI - <br>2A</b></div>
+     
+   <div class="day-box" 
+         id="PP" 
+         title="Clicca per aprire i PP" 
+         onclick="togglePanel()" 
+         style="cursor:pointer; background-color: var(--permessi); color: white;">
+         <b>P - <br> P </b>
+    </div>
                     </div>
         <div class="content-right">
 
@@ -374,9 +321,9 @@
     
     const CALENDARIO_GRUPPI = { 
          
-        "17/03/2026": "gr1", "19/03/2026": "gr1", "24/03/2026": "gr2", "26/03/2026": "gr2", "31/03/2026": "gr1", "02/04/2026": "gr1", "07/04/2026": "gr2", "09/04/2026": "gr2", 
+        "17/03/2026": "gr2", "19/03/2026": "gr2", "24/03/2026": "gr1", "26/03/2026": "gr1", "31/03/2026": "gr2",  "09/04/2026": "gr2", 
         "14/04/2026": "gr1", "16/04/2026": "gr1", "21/04/2026": "gr2", "23/04/2026": "gr2", "28/04/2026": "gr1", "30/04/2026": "gr1", "05/05/2026": "gr2", "07/05/2026": "gr2", 
-        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" 
+        "12/05/2026": "gr1", "14/05/2026": "gr1", "19/05/2026": "gr2", "21/05/2026": "gr2", "26/05/2026": "gr1", "28/05/2026": "gr1" , "04/06/2026": "gr2", "09/06/2026": "gr2"
     };
     
     
@@ -838,10 +785,10 @@ function generaPopUpStampaDinner() {
 
     const dataStampa = document.getElementById('todayDate').innerText;
     const testiPermessi = {
-        1: "LAB 2IeFP - PERMESSI: Tessarin NO dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Menaldino, Chessa dinner dopo i turni",
-        2: "LAB 5A-5B - PERMESSI: Chen, Commod NO dinner / Casalicchio, Clerin turno ore 18 / Querio, Lazier, Lunardi, Paonessa, Gaspard dinner dopo i turni",
-        3: "LAB 2B - PERMESSI: Berruti S, D'Agostino, Giovannelli P NO dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / Querio, Pignatelli, Chessa dinner dopo i turni",
-        4: "LAB 2A - PERMESSI: Berruti A, Chen NO dinner / Casalicchio, Clerin turno ore 18 / Bombonato, Paonessa turno ore 19:15 / Querio, Menaldino, Chessa dinner dopo i turni"
+        1: "LAB 2IeFP - PERMESSI: Tessarin NO dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Menaldino, Chessa dopo i turni",
+        2: "LAB 5A-5B - PERMESSI: Chen, Commod NO dinner / Casalicchio, Clerin turno ore 18 / TENERE PER Querio, Lazier, Lunardi, Paonessa, Gaspard dopo i turni",
+        3: "LAB 2B - PERMESSI: Berruti S, D'Agostino, Giovannelli P NO dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Chessa dopo i turni",
+        4: "LAB 2A - PERMESSI: Berruti A, Chen NO dinner / Casalicchio, Clerin turno ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Menaldino, Chessa dopo i turni"
     };
     const notaGiornoCorrente = testiPermessi[giornoSett] || "";
 
@@ -1026,6 +973,28 @@ function generaPopUpStampaDinner() {
         </html>`);
     popup.document.close();
 }
+    
+function setTurno(turno) {
+
+    const classiTurno = TURNI_BASE[turno]; 
+    // es: turno 1 → ['1A','1B','1P','2A','2B','2P','3P']
+
+    document.querySelectorAll('.student-row').forEach(r => {
+
+        const classe = r.dataset.classe;
+
+        if (classiTurno.includes(classe)) {
+            r.style.display = "block";
+        } else {
+            r.style.display = "none";
+        }
+
+    });
+
+}
+    
+    
+    
     window.onload = init;
 </script>
     
