@@ -12,21 +12,21 @@
         /* Palette Principale */
         --p: #2c3e50;             /* Header e Testi principali */
         --s: #27ae60;             /* Presente / OK (Verde Smeraldo) */
-        --d: #ed5a3a;             /* Assente (Arancio Bruciato) */
+        --d: #ed5a3a;             /* Assente (Arancio ) */
         --e: #3498db;             /* Non Cena (Blu Cielo) */
         --bg: #f4f7f6;            /* Sfondo generale */
         --card-bg: #ffffff;       /* Sfondo card studente */
         
         /* Accenti e Stati Speciali */
-        --permessi: #8e44ad;      /* Colore Viola per PP */
+        --permessi: #ff4b00;      /* Colore carico per PP */
         --highlight-lab: #fdf2d0; /* Giallo crema per evidenziare LAB */
         --lab-text: #d35400;      /* Testo badge LAB */
         --cambiati: #16a085;      /* Switch turno (Ottanio) */
         --btn-inactive: #f1f2f6;  /* Bottoni non attivi */
         
         /* Colori Bottoni Toolbar */
-        --btn-color-1: #27ae60;   /* Verde per 18:30 */
-        --btn-color-2: #3498db;   /* Blu per 19:15 */
+        --btn-color-1: #16d867;   /* Verde per 18:30 */
+        --btn-color-2: #65b7ed;   /* Blu per 19:15 */
         --btn-color-3: #8e44ad;   /* Viola per CONVITTO */
         --btn-color-4: #5d7d8c;   /* Grigio per DINNER */
         --btn-reset: #e74c3c;     /* Rosso per Reset */
@@ -53,7 +53,7 @@
     .btn-toolbar:hover { opacity: 0.9; transform: translateY(-1px); }
 
     /* Card Studente */
-    #listaStudenti { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+    #listaStudenti { display: grid; grid-template-columns: repeat(6, minmax(190px, 1fr)); gap: 15px; }
     .student-row { background: var(--card-bg); border-radius: 18px; padding: 15px; border-bottom: 5px solid var(--s); transition: 0.2s; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
     
     /* Stati Card */
@@ -78,12 +78,12 @@
     .btn-switch { background: var(--btn-inactive); border: none; border-radius: 50%; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .btn-switch.modificato { background: var(--cambiati) !important; color: white; }
 
-    /* Sidebar Giorni */
-    .days-sidebar-container { display: flex; flex-direction: column; height: 90vh; position: fixed; top: 0; left: 0; gap: 10px; padding: 10px; z-index: 1000; }
+    /* Sidebar Giorni viota, ora orizzontale*/
+    .days-sidebar-container { display: flex; flex-direction: column; height: 100vh; position: fixed; top: 0; left: 0; gap: 10px; padding: 0px; z-index: 1000; }
     .day-box { 
-background: var(--card-bg); width: 15px; padding: 15px 5px; text-align: center; border-radius: 15px; font-size: 1.0em; 
+background: var(--card-bg); width: 25px; padding: 5px 5px; text-align: center; border-radius: 15px; font-size: 0.8em; 
 color: var(--text-dark); display: flex; align-items: center; justify-content: center; writing-mode: horizontal-tb; 
-flex-grow: 10; max-height: 30%; transform: rotate(0deg); box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; opacity: 0.8; }
+flex-grow: 100; max-height: 30%; transform: rotate(00deg); box-shadow: 0 2px 4px rgba(0,0,0,0.05); cursor: pointer; opacity: 0.8; }
    .day-box:hover { opacity: 1; }
 
     @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
@@ -97,8 +97,7 @@ flex-grow: 10; max-height: 30%; transform: rotate(0deg); box-shadow: 0 2px 4px r
             <h2 style="margin:0">Convitto e Dinner integrato</h2>
             <div id="todayDate" style="font-size: 0.9em; opacity: 0.8;"></div>
         </div>
-        
-        
+     
         <div id="digitalClock" style="font-size: 1.5em; font-weight: bold;"></div>
     </header>
 
@@ -113,14 +112,25 @@ flex-grow: 10; max-height: 30%; transform: rotate(0deg); box-shadow: 0 2px 4px r
     
     <button class="btn-toolbar" style="background: var(--btn-reset)" onclick="resetFiltri()">X</button>
     
+    </div>
+ 
+    <div class="toolbar">
+  
+    <div class="day-box" id="PP" title="Clicca per aprire i Permessi" onclick="togglePanel()" style="cursor:pointer; background-color: var(--permessi); color: white;"><b>Permessi<br>Permanenti</b></div>
+                    
+    <div class="day-box" id="day-1" style="background-color:#db34979c" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Menaldino, Chessa dopo i turni"><b>Lunedì - 2P</b></div>
+    <div class="day-box" id="day-2" style="background-color:#3456db9c" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin turno ore 18 / TENERE PER Querio, Paonessa, Lazier, Gaspard, Lunardi dopo i turni"><b>Martedì - 5AB</b></div>
+    <div class="day-box" id="day-3" style="background-color:#34dba09c" title="Mercoledì - PERMESSI: Berruti S, D'Agostino, Giovannelli P, No dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Chessa dopo i turni"><b>Mercoledì - 2B</b></div>
+    <div class="day-box" id="day-4" style="background-color:#dbd1349c" title="Giovedì - PERMESSI: Berruti A, Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Menaldino, Chessa dopo i turni"><b>Giovedì - 2A</b></div>
+     
+        
     <button class="btn-toolbar" style="background: var(--btn-color-1)" onclick="setTurno(1)">18:30</button>
     <button class="btn-toolbar" style="background: var(--btn-color-2)" onclick="setTurno(2)">19:15</button>
-    <button class="btn-toolbar" style="background: var(--btn-color-3)" onclick="generaPopUpStampaConvitto()">CONVITTO</button>
-    <button class="btn-toolbar" style="background: var(--btn-color-4)" onclick="generaPopUpStampaDinner()">DINNER</button>
-</div>
+    <button class="btn-toolbar" style="background: var(--btn-color-3)" onclick="generaPopUpStampaConvitto()">STAMPA CONVITTO</button>
+    <button class="btn-toolbar" style="background: var(--btn-color-4)" onclick="generaPopUpStampaDinner()">STAMPA DINNER</button>
 
-       
-        
+    </div>
+    
 <div id="sidePanel" style="position:fixed; top:0; right:-350px; width:300px; height:100%; background:white; z-index:1000; transition:0.3s; padding:20px; overflow-y:auto; box-shadow: -5px 0 15px rgba(0,0,0,0.1);">
     <div style="display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid #eee; padding-bottom:10px; margin-bottom:15px;">
         <h3 style="margin:0; font-size:1.1em;">Lista Permessi Permantenti (al 10 Marzo)</h3>
@@ -134,31 +144,16 @@ flex-grow: 10; max-height: 30%; transform: rotate(0deg); box-shadow: 0 2px 4px r
     
      <div class="main-layout">
         <div class="days-sidebar-container" id="daysHeader">
-     <div class="day-box" id="day-1" style="background-color:#db34979c" title="Lunedì - PERMESSI: Tessarin No dinner / Casalicchio turno ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Menaldino, Chessa dopo i turni"><b>LU - <br>2P</b></div>
-     <div class="day-box" id="day-2" style="background-color:#3456db9c" title="Martedì - PERMESSI: Chen, Commod No dinner / Casalicchio, Clerin turno ore 18 / TENERE PER Querio, Paonessa, Lazier, Gaspard, Lunardi dopo i turni"><b>MA - <br>5<br>AB</b></div>
-     <div class="day-box" id="day-3" style="background-color:#34dba09c" title="Mercoledì - PERMESSI: Berruti S, D'Agostino, Giovannelli P, No dinner / Casalicchio dinner ore 18 / Saitta, Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Pignatelli, Chessa dopo i turni"><b>ME - <br>2B</b></div>
-     <div class="day-box" id="day-4" style="background-color:#dbd1349c" title="Giovedì - PERMESSI: Berruti A, Chen, No dinner / Casalicchio, Clerin dinner ore 18 / Bombonato, Paonessa turno ore 19:15 / TENERE PER Querio, Menaldino, Chessa dopo i turni"><b>GI - <br>2A</b></div>
-     
-   <div class="day-box" 
-         id="PP" 
-         title="Clicca per aprire i PP" 
-         onclick="togglePanel()" 
-         style="cursor:pointer; background-color: var(--permessi); color: white;">
-         <b>P - <br> P </b>
-    </div>
-                    </div>
+    
+    
+        </div>
         <div class="content-right">
 
     <div id="listaStudenti"></div>
 </div>
 
-
-
-         
-         
 <script>
   
-    
        const studenti=[ 
         // 1A
 { cognome: "COMMOD", nome: "Gaia", classe: "1A", gruppo: "", room:"218" },
@@ -999,6 +994,6 @@ function setTurno(turno) {
 </script>
     
     </div>
-    </div>
+    
 </body>
 </html>
