@@ -3,7 +3,7 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>BUS List 2025/26 - Orizzontale</title>
+    <title>BUS List - Orizzontale</title>
     <style>
         :root {
             --bg-header: #5a8fc4;
@@ -71,7 +71,7 @@
             font-weight: bold;
             padding: 4px;
             border-radius: 3px 3px 0 0;
-            text-transform: uppercase;
+            text-transform: none;
             font-size: 8px;
             margin-bottom: 2px;
         }
@@ -131,11 +131,11 @@
 <body>
 
 <div class="no-print">
-    <button class="btn" onclick="window.print()">🖨️ STAMPA ORIZZONTALE</button>
+    <button class="btn" onclick="window.print()">STAMPA</button>
 </div>
 
 <div class="header-main">
-    <h1>BUS MATTINO a.a. 2025/26</h1>
+    <h1>BUS MATTINO</h1>
 </div>
 
 <div class="grid-wrapper" id="mainWrapper">
@@ -144,27 +144,27 @@
             <div class="cell-room">Room</div>
             <div class="cell-name">Nome</div>
             <div class="cell-class">Classe</div>
-            <div class="cell-check">Pres.</div>
+            <div class="cell-check">Presenza</div>
             <div class="cell-notes">Note</div>
         </div>
         <div id="col0"></div>
     </div>
     <div class="macro-column">
         <div class="column-header">
-            <div class="cell-room">Rm</div>
+            <div class="cell-room">Room</div>
             <div class="cell-name">Studente</div>
-            <div class="cell-class">Cl/Gr</div>
-            <div class="cell-check">Pres.</div>
+            <div class="cell-class">Classe</div>
+            <div class="cell-check">Presenza</div>
             <div class="cell-notes">Note</div>
         </div>
         <div id="col1"></div>
     </div>
     <div class="macro-column">
         <div class="column-header">
-            <div class="cell-room">Rm</div>
+            <div class="cell-room">Room</div>
             <div class="cell-name">Studente</div>
-            <div class="cell-class">Cl/Gr</div>
-            <div class="cell-check">Pres.</div>
+            <div class="cell-class">Classe</div>
+            <div class="cell-check">Presenza</div>
             <div class="cell-notes">Note</div>
         </div>
         <div id="col2"></div>
@@ -192,60 +192,10 @@ const studentiRaw = [
 { cognome: "SCHIRRU", nome: "Didier Félicien Hervé", classe: "1B", gruppo: "", room:"108" },
 { cognome: "VILARDO", nome: "Gabriele", classe: "1B", gruppo: "", room:"104" },
 // 1P
-{ cognome: "BOUKHRIS", nome: "Chams Jacopo", classe: "1P", gruppo: "", room:"107" },
-{ cognome: "CHABLOZ", nome: "Annette", classe: "1P", gruppo: "", room:"213" },
-{ cognome: "DAGOSTINO", nome: "Domenico", classe: "1P", gruppo: "", room:"108" },
-{ cognome: "FURLAN", nome: "Alessandro", classe: "1P", gruppo: "", room:"111" },
-{ cognome: "GIOVANNELLI P", nome: "Pietro", classe: "1P", gruppo: "", room:"106" },
-{ cognome: "GUIZZETTI RINCON", nome: "Francisco Andres", classe: "1P", gruppo: "", room:"105" },
-{ cognome: "LAI", nome: "Stefano", classe: "1P", gruppo: "", room:"106" },
-{ cognome: "LAZIER", nome: "Francesco", classe: "1P", gruppo: "", room:"106" },
-{ cognome: "PAONESSA", nome: "Leonardo", classe: "1P", gruppo: "", room:"107" },
-{ cognome: "VINCENT", nome: "Thomas", classe: "1P", gruppo: "", room:"103" },
-{ cognome: "RUSCI DI LUCA", nome: "Greta", classe: "1P", gruppo: "", room:"212" },
-{ cognome: "SILVANI", nome: "Amelie", classe: "1P", gruppo: "", room:"204" },
 // 2A
-{ cognome: "BARAVALLE", nome: "Andrea", classe: "2A", gruppo: "", room:"102" },
-{ cognome: "BERTOT", nome: "Manuele", classe: "2A", gruppo: "", room:"102" },
-{ cognome: "BUZZI", nome: "Alessandro", classe: "2A", gruppo: "", room:"102" },
-{ cognome: "CASTELLANO", nome: "Martina", classe: "2A", gruppo: "", room:"204" },
-{ cognome: "DA FRE", nome: "Gaia", classe: "2A", gruppo: "", room:"207" },
-{ cognome: "DE GASPER", nome: "Lara", classe: "2A", gruppo: "", room:"207" },
-{ cognome: "GARCIA", nome: "Luis Alberto", classe: "2A", gruppo: "", room:"118" },
-{ cognome: "HERESAZ", nome: "Alyce", classe: "2A", gruppo: "", room:"211" },
-{ cognome: "PENNARD", nome: "Serena", classe: "2A", gruppo: "", room:"211" },
-{ cognome: "SAITTA", nome: "Asia", classe: "2A", gruppo: "", room:"207" },
 // 2B
-{ cognome: "CHEN", nome: "Michael Jianhao", classe: "2B", gruppo: "", room:"109" },
-{ cognome: "DELLAQUILA", nome: "Gabriele", classe: "2B", gruppo: "", room:"107" },
-{ cognome: "DUNAND", nome: "Audrey", classe: "2B", gruppo: "", room:"218" },
-{ cognome: "GHILARDINI", nome: "Leonardo", classe: "2B", gruppo: "", room:"114" },
-{ cognome: "MAINO", nome: "Giada", classe: "2B", gruppo: "", room:"218" },
-{ cognome: "MISERENDINO", nome: "Ludovica", classe: "2B", gruppo: "", room:"204" },
-{ cognome: "MOUNIM", nome: "Yahya", classe: "2B", gruppo: "", room:"109" },
-{ cognome: "PEZZOLI", nome: "Niccolò", classe: "2B", gruppo: "", room:"101" },
-{ cognome: "TACCONE", nome: "Nicholas", classe: "2B", gruppo: "", room:"109" },
 // 2P
-{ cognome: "BERRIAD", nome: "Thierry", classe: "2P", gruppo: "", room:"121" },
-{ cognome: "BERRUTI A", nome: "Andrea", classe: "2P", gruppo: "", room:"114" },
-{ cognome: "BERRUTI S", nome: "Stefano", classe: "2P", gruppo: "", room:"114" },
-{ cognome: "CASALICCHIO", nome: "Nahuel", classe: "2P", gruppo: "", room:"121" },
-{ cognome: "CLERIN", nome: "Pietro", classe: "2P", gruppo: "", room:"110" },
-{ cognome: "DONZEL", nome: "Elodie", classe: "2P", gruppo: "", room:"213" },
-{ cognome: "GENS", nome: "Aaron", classe: "2P", gruppo: "", room:"101" },
-{ cognome: "HERRERA", nome: "Alexander", classe: "2P", gruppo: "", room:"115" },
-{ cognome: "MONTERO", nome: "Karen", classe: "2P", gruppo: "", room:"209" },
-{ cognome: "PERRIN", nome: "Annie", classe: "2P", gruppo: "", room:"213" },
-{ cognome: "STEVENIN", nome: "Joelle", classe: "2P", gruppo: "", room:"208" },
-{ cognome: "TORTORELLI C", nome: "Carlotta", classe: "2P", gruppo: "", room:"209" },
-{ cognome: "TORTORELLI G", nome: "Greta", classe: "2P", gruppo: "", room:"209" },
 // 3P
-{ cognome: "CONSOL", nome: "Gaia", classe: "3P", gruppo: "", room:"208" },
-{ cognome: "COSTANZA", nome: "Marcello", classe: "3P", gruppo: "", room:"124" },
-{ cognome: "LAGOMARSINI", nome: "Michele", classe: "3P", gruppo: "", room:"111" },
-{ cognome: "LLESHI", nome: "Gabriele", classe: "3P", gruppo: "", room:"115" },
-{ cognome: "MARRERO", nome: "Lewis", classe: "3P", gruppo: "", room:"115" },
-{ cognome: "RONCO", nome: "Angelica", classe: "3P", gruppo: "", room:"208" },
 // 3A
 { cognome: "CATTARINUSSI", nome: "Samuele", classe: "3A", gruppo: "", room:"101" },
 { cognome: "FLORIAN", nome: "Gabriele", classe: "3A", gruppo: "", room:"118" },
@@ -284,7 +234,6 @@ const studentiRaw = [
 { cognome: "TESSARIN", nome: "Sharon", classe: "4A", gruppo: "", room:"205" },
 { cognome: "VIOT", nome: "Cecilia", classe: "4A", gruppo: "", room:"210" },
 // TEBANO 2* DINNER
-{ cognome: "TEBANO", nome: "Serena", classe: "3P", gruppo: "", room:"212" },
 // 4B
 { cognome: "CHESSA", nome: "Samuele", classe: "4B", gruppo: "", room:"111" },
 { cognome: "FAVRE", nome: "Emilie", classe: "4B", gruppo: "", room:"217" },
