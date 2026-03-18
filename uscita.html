@@ -10,6 +10,35 @@
             --row-alt: #f9f9f9;
         }
 
+        @media print {
+    .print-bar { 
+        display: none !important; 
+    }
+    
+    body { 
+        padding: 0; 
+        margin: 0;
+    }
+
+    @page { 
+        size: A4 portrait; 
+        margin: 1cm; 
+    }
+}
+        
+          /* Barra superiore per il tasto stampa più ordinata */
+        .print-bar {
+            display: flex;
+            justify-content: center; /* Centra il tasto orizzontalmente */
+            margin-bottom: 15px;
+            flex-shrink: 0;
+            
+    }   
+        
+        
+        
+        
+        
        /* RESET - Permette lo scroll a video */
         html, body { 
             margin: 0; 
@@ -76,6 +105,16 @@
             justify-content: space-between; /* Distribuisce le righe */
         }
 
+        /* Barra superiore per il tasto stampa più ordinata */
+        .print-bar {
+            display: flex;
+            justify-content: center; /* Centra il tasto orizzontalmente */
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        
+         }
+        
+        
         .student-row { 
             border-bottom: 0.1px solid #ddd; 
             display: flex; 
@@ -109,7 +148,7 @@
 </head>
 <body>
 
-<div class="no-print">
+<div class="print-bar">
     <button class="btn" onclick="window.print()">STAMPA</button>
 </div>
 
