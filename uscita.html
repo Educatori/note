@@ -92,6 +92,7 @@
 
         /* Celle */
         .cell-room { width: 30px; font-weight: bold; text-align: center;  border-right: 1px solid #eee; }
+        .cell-class { width: 30px; text-align: center; border-right: 1px solid #eee; font-size: 9px; flex-shrink: 0; }
         .cell-name { flex-grow: 1; padding-left: 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .cell-notes { width: 65px; border-left: 0.5px solid #eee; height: 100%; display: flex; align-items: flex-end; }
         .line-notes { width: 85%; border-bottom: 0.5px solid #bbb; margin: 0 auto 4px; }
@@ -120,6 +121,7 @@
     <div class="macro-column">
         <div class="column-header">
             <div class="cell-room">Room</div>
+            <div class="cell-class">Cl</div>
             <div class="cell-name">Nome</div>
             <div class="cell-notes">Uscita</div>
             <div class="cell-notes">Ingresso</div>
@@ -129,6 +131,7 @@
     <div class="macro-column">
         <div class="column-header">
             <div class="cell-room">Room</div>
+            <div class="cell-class">Cl</div>
             <div class="cell-name">Nome</div>
             <div class="cell-notes">Uscita</div>
             <div class="cell-notes">Ingresso</div>
@@ -293,7 +296,7 @@ function generaGriglia() {
 
     const itemsPerCol = Math.ceil(listaFinale.length / 2);
 
-    listaFinale.forEach((s, index) => {
+  listaFinale.forEach((s, index) => {
         const colIndex = Math.floor(index / itemsPerCol);
         const colTarget = document.getElementById('col' + colIndex);
 
@@ -301,6 +304,7 @@ function generaGriglia() {
         row.className = `student-row`;
         row.innerHTML = `
             <div class="cell-room">${s.room}</div>
+            <div class="cell-class">${s.classe}</div>
             <div class="cell-name" onclick="this.parentElement.classList.toggle('row-crossed')">
                 <b>${s.cognome}</b> ${s.nome}
             </div>
